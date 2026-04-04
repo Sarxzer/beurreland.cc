@@ -1,0 +1,427 @@
+@import url("https://fonts.cdnfonts.com/css/ds-digital");
+
+:root {
+    --beurre-yellow: #ffffcc;
+    --beurre-light: #fff8a6;
+    --beurre-light-secondary: #fbeda0;
+    --beurre-dark: #c58d2b;
+    --beurre-text: #2f1d00;
+    --beurre-text-light: #b14c00;
+    --beurre-text-secondary: #6d3900;
+    --beurre-shadow: #f6d57b;
+    --beurre-topbar-start: #ffef72;
+    --beurre-topbar-end: #f6c745;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    background-color: var(--beurre-yellow);
+    background-image:
+        linear-gradient(45deg, rgba(255, 255, 255, 0.35) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(255, 255, 255, 0.35) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.35) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.35) 75%);
+    background-size: 24px 24px;
+    background-position:
+        0 0,
+        0 12px,
+        12px -12px,
+        -12px 0px;
+    font-family: Verdana, Arial, sans-serif;
+    color: var(--beurre-text);
+    font-size: 14px;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.page {
+    width: 760px;
+    margin: 0 auto;
+    background: var(--beurre-light);
+    border-left: 4px ridge var(--beurre-light);
+    border-right: 4px ridge var(--beurre-light);
+    box-shadow: 0 0 0 3px var(--beurre-dark);
+}
+
+/* side bar on the left of the page */
+
+.sidebar {
+    position: absolute;
+    top: 20px;
+    left: calc(50% - 600px);
+    margin: 0;
+    background: var(--beurre-light-secondary);
+    border: 3px double var(--beurre-dark);
+    padding: 20px;
+    width: 200px;
+    box-sizing: border-box;
+    float: none;
+}
+
+.sidebar h1 {
+    margin-top: 0;
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+    font-size: 24px;
+    color: var(--beurre-text-light);
+    text-shadow:
+        2px 2px 0 #fff,
+        4px 4px 0 var(--beurre-shadow);
+}
+
+.navlinks {
+    text-align: center;
+    margin-top: 12px;
+    /* background-color: var(--beurre-dark); */
+}
+
+.navlinks a {
+    display: block;
+    width: 120px;
+    padding: 6px 12px;
+    color: var(--beurre-text);
+    text-decoration: none;
+    text-align: left;
+    border-radius: 4px;
+}
+
+.navlinks a::before {
+    content: "» ";
+    color: var(--beurre-dark);
+    display: inline-block;
+    transform-origin: 50% 50%;
+    margin-right: 4px;
+}
+
+.navlinks a:hover::before {
+    animation: spinScale 0.5s linear infinite;
+}
+
+
+.topbar {
+    background: linear-gradient(
+        to bottom,
+        var(--beurre-topbar-start),
+        var(--beurre-topbar-end)
+    );
+    color: #5a2500;
+    text-align: center;
+    padding: 8px;
+    border-bottom: 3px solid var(--beurre-dark);
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 13px;
+}
+
+.banner {
+    text-align: center;
+    background: var(--beurre-light-secondary);
+    border-bottom: 3px double var(--beurre-dark);
+    padding: 18px 10px 10px;
+}
+
+.banner h1 {
+    margin: 0;
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+    font-size: 42px;
+    color: var(--beurre-text-light);
+    text-shadow:
+        2px 2px 0 #fff,
+        4px 4px 0 var(--beurre-shadow);
+}
+
+.subtitle {
+    font-size: 16px;
+    color: var(--beurre-text-secondary);
+    margin-top: 6px;
+    font-style: italic;
+}
+
+
+.image {
+    display: block;
+    margin: 20px;
+    max-width: 100%;
+}
+
+.image img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    border: 2px solid var(--beurre-dark);
+}
+
+.image caption {
+    text-align: center;
+    font-size: 12px;
+    color: var(--beurre-text-secondary);
+    margin-top: 4px;
+}
+
+.image figcaption {
+    text-align: center;
+    font-size: 12px;
+    color: var(--beurre-text-secondary);
+    margin-top: 4px;
+}
+
+a.big-center-link {
+    display: block;
+    width: fit-content;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: var(--beurre-light-secondary);
+    color: var(--beurre-text);
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 4px;
+    border: 2px solid var(--beurre-dark);
+    box-shadow: inset 0 0 5px var(--beurre-shadow);
+}
+
+.wip {
+    padding: 20px;
+    text-align: center;
+    border: 3px dashed var(--beurre-dark);
+    background-image:
+        linear-gradient(20deg, rgba(255, 255, 255, 0.5) 15%, transparent 25%),
+        linear-gradient(-20deg, rgba(255, 255, 255, 0.5) 15%, transparent 25%),
+        linear-gradient(20deg, transparent 75%, rgba(255, 255, 255, 0.5) 50%),
+        linear-gradient(-20deg, transparent 75%, rgba(255, 255, 255, 0.5) 50%);
+    background-size: 16px 16px;
+    background-position:
+        0 0,
+        0 8px,
+        8px -8px,
+        -8px 0px;
+}
+
+.wip h2 {
+    color: var(--beurre-text-light);
+    font-size: 22px;
+    text-shadow:
+        1px 1px 0 #fff,
+        2px 2px 0 var(--beurre-shadow);
+    animation: blink-red 1s steps(1) infinite;
+}
+
+/* Counter */
+
+.counter-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.counter-container h3 {
+    margin: 0;
+    font-size: 14px;
+    color: var(--beurre-text-secondary);
+    margin-bottom: 6px;
+}
+
+.counter {
+    display: inline-flex;
+    justify-content: center;
+    margin-top: 5px;
+    border: solid 2px var(--beurre-dark);
+    padding: 5px 5px;
+    background-image: linear-gradient(
+        to bottom,
+        var(--beurre-light),
+        var(--beurre-light-secondary)
+    );
+    border-radius: 4px;
+    box-shadow: inset 0 0 5px var(--beurre-shadow);
+}
+
+.counter .digit {
+    text-align: center;
+    width: 20px;
+    height: 30px;
+    margin: 0 1px;
+    background: var(--beurre-dark);
+    color: #fff;
+    font-size: 20px;
+    line-height: 30px;
+    font-family: "DS-Digital", monospace;
+    border-radius: 2px;
+    box-shadow: inset 0 0 5px var(--beurre-shadow);
+}
+
+/* Footer */
+
+.footer {
+    text-align: center;
+    background: #f5cf5f;
+    border-top: 3px double #9b5700;
+    padding: 14px 8px 24px;
+    font-size: 12px;
+    color: #5a2e00;
+}
+
+.footer a {
+    color: #8a1f00;
+    font-weight: bold;
+}
+
+/* random shit */
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    /* Add dots under the hoverable text */
+    cursor: help;
+}
+
+/* Tooltip text */
+.tooltiptext {
+    visibility: hidden;
+    /* Hidden by default */
+    width: 130px;
+    background-color: var(--beurre-light);
+    color: var(--beurre-text-light);
+    text-align: center;
+    padding: 1px 0;
+    border-radius: 6px;
+    border: var(--beurre-dark) solid 1px;
+    position: absolute;
+    z-index: 1;
+
+    /* distance from the text */
+    top: calc(100% + -4px);
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Show the tooltip text on hover */
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.small {
+    font-size: 12px;
+}
+
+.blink {
+    animation: blink 1s steps(1) infinite;
+    font-weight: bold;
+}
+
+.wave {
+    display: inline-block;
+    animation: wave 1s ease-in-out infinite;
+}
+
+/* Animation */
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+@keyframes blink-red {
+    50% {
+        color: #ff0000;
+    }
+}
+
+@keyframes wave {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+@keyframes spinScale {
+    0% {
+        transform: scale(1.2) rotate(0deg);
+    }
+    100% {
+        transform: scale(1.2) rotate(360deg);
+    }
+}
+
+/* Responsive design for smaller screens */
+
+@media (max-width: 820px) {
+    body {
+        font-size: 15px;
+        overflow-x: hidden;
+    }
+
+    /* Sidebar becomes a retro "module" above content on phone */
+    .sidebar {
+        position: static;
+        float: none;
+        width: calc(100% - 24px);
+        max-width: 420px;
+        margin: 12px auto 10px;
+        padding: 14px;
+    }
+
+    .page {
+        width: calc(100% - 12px);
+        margin: 0 auto 12px;
+        border-left: 2px ridge var(--beurre-light);
+        border-right: 2px ridge var(--beurre-light);
+        box-shadow: 0 0 0 2px var(--beurre-dark);
+    }
+
+    .banner h1 {
+        font-size: clamp(28px, 9vw, 42px);
+    }
+
+    .subtitle {
+        font-size: 14px;
+        padding: 0 8px;
+    }
+
+    .wip h2 {
+        font-size: 18px;
+    }
+
+    .counter .digit {
+        width: 18px;
+        height: 28px;
+        line-height: 28px;
+        font-size: 18px;
+    }
+
+    .topbar marquee {
+        font-size: 12px;
+    }
+
+    .footer {
+        font-size: 11px;
+        padding: 10px 6px 18px;
+    }
+
+    /* Hover tooltips are awkward on touch */
+    .tooltiptext {
+        display: none;
+    }
+}

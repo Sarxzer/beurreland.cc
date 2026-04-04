@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://beurreland.cc/sitemap.xml
