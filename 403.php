@@ -1,11 +1,11 @@
-<?php http_response_code(404); ?>
+<?php http_response_code(403); ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Pas de beurre</title>
+    <title>403 - Accès refusé</title>
 
     <link rel="stylesheet" href="/src/css/style.css">
 
@@ -18,13 +18,13 @@
 <body>
     <div class="page">
         <div class="banner">
-            <h1>404 - Pas de <span class="tooltip">beuere <p class="tooltiptext">Désolé, le dieu du beurre est dyslexique</p></span></h1>
-            <div class="subtitle">Désolé, mais le dieu du beurre n'a pas crée cette page.</div>
+            <h1>403 - Beurre refusé</h1>
+            <div class="subtitle">Désolé petit hackeur, seul le dieu du beurre peut accéder à cette page.</div>
         </div>
 
         <figure class="image">
-            <img src="./src/img/davide-jambon-beuere.gif" alt="Beurre pas de bol" width="600">
-            <figcaption>Beurre pas de bol</figcaption>
+            <img src="/src/img/frescri-hacker.png" alt="Beurre hacker" width="100">
+            <figcaption>Beurre hacker</figcaption>
         </figure>
 
         <a href="/" class="big-center-link wave-auto">Retour à la page d'accueil</a>

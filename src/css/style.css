@@ -101,7 +101,6 @@ a {
     animation: spinScale 0.5s linear infinite;
 }
 
-
 .topbar {
     background: linear-gradient(
         to bottom,
@@ -125,6 +124,7 @@ a {
     padding: 18px 10px 10px;
 }
 
+
 .banner h1 {
     margin: 0;
     font-family: "Trebuchet MS", Verdana, sans-serif;
@@ -141,7 +141,6 @@ a {
     margin-top: 6px;
     font-style: italic;
 }
-
 
 .image {
     display: block;
@@ -283,15 +282,19 @@ a.big-center-link {
 
 /* Tooltip text */
 .tooltiptext {
+    all: unset;
     visibility: hidden;
     /* Hidden by default */
     width: 130px;
-    background-color: var(--beurre-light);
+    background-color: var(--beurre-dark);
     color: var(--beurre-text-light);
     text-align: center;
+    font-size: 12px !important;
+    color: var(--beurre-text) !important;
+    text-shadow: none !important;
     padding: 1px 0;
     border-radius: 6px;
-    border: var(--beurre-dark) solid 1px;
+    border: var(--beurre-text-secondary) solid 1px;
     position: absolute;
     z-index: 1;
 
@@ -354,7 +357,6 @@ a.big-center-link {
         transform: rotate(360deg);
     }
 }
-
 
 @keyframes spinScale {
     0% {
