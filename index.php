@@ -44,11 +44,11 @@
         </div>
 
         <div class="navlinks">
-            <a href="#">Accueil</a>
-            <a href="#">Le Culte</a>
-            <a href="#">Le Jambon-Beurre</a>
-            <a href="#">Le Beurre</a>
-            <a href="#">Contact</a>
+            <a href="/">Accueil</a>
+            <a href="/404.php">Page 404</a>
+            <a href="/403.php">Page 403</a>
+            <a href="/500.php">Page 500</a>
+            <a href="/contact.php">Contact</a>
             <a href="/scrogneugneu">Scrognéugneu</a>
         </div>
     </div>
