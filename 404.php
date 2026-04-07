@@ -1,4 +1,6 @@
 <?php http_response_code(404); ?>
+<?php $current_file = __FILE__; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,25 +25,13 @@
         </div>
 
         <figure class="image">
-            <img src="./src/img/davide-jambon-beuere.gif" alt="Beurre pas de bol" width="600">
+            <img src="/src/img/davide-jambon-beuere.gif" alt="Beurre pas de bol" width="600">
             <figcaption>Beurre pas de bol</figcaption>
         </figure>
 
         <a href="/" class="big-center-link wave-auto">Retour à la page d'accueil</a>
 
-        <footer class="footer">
-            <p><strong>© 2026 Dieu du Beurre</strong> - Tous beurres réservés</p>
-            <p><strong>© 2026 Sarxzer</strong> - Tous beurres réservés</p>
-            <p><strong>Contact officiel :</strong> <a href="mailto:frescri@beurreland.cc">frescri@beurreland.cc</a></p>
-            <p><strong>Webmaster :</strong> <a href="mailto:sarxzer@sarxzer.xyz">sarxzer@sarxzer.xyz</a></p>
-            <p class="small">
-                Dernière mise à jour :
-                <?= date("d/m/Y à H:i", filemtime(__FILE__)) ?> • Culte sacré en construction permanente • Hébergé avec
-                amour,
-                beurre et par un des serviteur du culte, <span class="tooltip">Sarxzer<span
-                        class="tooltiptext">Webmaster du culte</span></span>.
-            </p>
-        </footer>
+        <?php include "footer.php"; ?>
     </div>
 
 

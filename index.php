@@ -1,3 +1,4 @@
+<?php $current_file = __FILE__; ?>
 <!doctype html>
 <html lang="en">
 
@@ -78,16 +79,7 @@
             Ainsi naquit ce concept étrange, inattendu et pourtant parfait dans sa simplicité. Le jambon vercuvin et le beurre, chacun remarquable à sa manière, furent réunis par l’imagination et la curiosité de Frescri, devenant le symbole d’un délire partagé et d’une rencontre fortuite qui prit une importance disproportionnée dans la vie de ceux qui y participaient. Voilà comment, à travers la coïncidence et la créativité d’un chasseur de l’arche et d’un simple jambon, cette étrange association vit le jour et s’imposa comme un petit miracle de l’absurde, une histoire que l’on raconte encore aujourd’hui.
             <span class="tooltiptext">Ne juger pas, chat-gpt l'a écrit, j'avais la flemme <br>     ~Webmaster</span>
         </span>
-        <footer class="footer">
-            <p><strong>© 2026 Dieu du Beurre</strong> - Tous beurres réservés</p>
-            <p><strong>© 2026 Sarxzer</strong> - Tous beurres réservés</p>
-            <p><strong>Contact officiel :</strong> <a href="mailto:frescri@beurreland.cc">frescri@beurreland.cc</a></p>
-            <p><strong>Webmaster :</strong> <a href="mailto:sarxzer@sarxzer.xyz">sarxzer@sarxzer.xyz</a></p>
-            <p class="small">
-                Dernière mise à jour : <?= date("d/m/Y à H:i", filemtime(__FILE__)) ?> • Culte sacré en construction permanente • Hébergé avec amour,
-                beurre et par un des serviteur du culte, <span class="tooltip">Sarxzer<span class="tooltiptext">Webmaster du culte</span></span>.
-            </p>
-        </footer>
+        <?php include "footer.php"; ?>
 
     </div>
 

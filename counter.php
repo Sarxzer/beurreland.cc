@@ -14,6 +14,6 @@ if ($_GET["view"]) {
     echo $counter;
     file_put_contents($file, (string)$counter);
 } else {
-    echo "Invalid request";
+    include '500.php';
 }
 ?>
