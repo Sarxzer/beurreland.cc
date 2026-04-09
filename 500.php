@@ -36,25 +36,7 @@
 
 
 
-    <script>
-        document.querySelectorAll(".wave-auto").forEach((link) => {
-            const text = link.textContent;
-            link.textContent = "";
-            [...text].forEach((char, i) => {
-                const span = document.createElement("span");
-                span.classList.add("wave");
-                span.textContent = char === " " ? "\u00A0" : char;
-                span.style.animationDelay = `${i * 0.05}s`;
-                link.appendChild(span);
-            });
-        });
-
-        const params = new URLSearchParams(window.location.search);
-
-        if (params.get("beurre") === "beurre") {
-            snow(50, 50, 75, 15, 5);
-        }
-    </script>
+    <script src="/src/js/script.js"></script>
 </body>
 
 </html>
