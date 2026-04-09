@@ -1,13 +1,13 @@
 function snow(ammount, minSize=10, maxSize=25, minSpeed=15, maxSpeed=5) { // ammount, minSize, maxSize, minSpeed, maxSpeed
   document.body.innerHTML += '<div id="snow"></div>' // Add snow to body
 
-  const flakes = ["<img src='/src/img/jambon-beurre.png' style='width: 200px; height: 200px;' />"] // Snowflakes
+  const flakes = ["<img class='snowflake-image' src='/src/img/jambon-beurre.png' style='width: 200px; height: 200px;' />"] // Snowflakes
   for (let i = 0; i < ammount; i++) { // Create snowflakes
       car = flakes[Math.floor(Math.random() * flakes.length)]; // Random snowflake
       document.getElementById('snow').innerHTML += `<div class="snowflake">${car}</div>`; // Add snowflake to snow
   }
   const snowflakes = document.querySelectorAll(".snowflake"); // Select all snowflakes
-  const snowflakesImage = document.querySelectorAll(".snowflake img"); // Select all snowflakes images
+  const snowflakesImage = document.querySelectorAll(".snowflake-image"); // Select all snowflakes images
   snowflakes.forEach((flake) => { // For each snowflake
     const driftDuration = Math.random() * (maxSpeed - minSpeed) + minSpeed; // Time from 5s to 15s
     const driftDelay = Math.random() * 5; // Wait time from 0s to 5s
@@ -26,12 +26,18 @@ function snow(ammount, minSize=10, maxSize=25, minSpeed=15, maxSpeed=5) { // amm
     flake.style.color = `#${color}${color}ff`; // Set color (blueish)
     flake.style.left = `${startingX}px`; // Set horizontal position
     flake.style.fontSize = `${size}px`; // Set size
-    snowflakesImage.forEach((img) => {
-        img.style.height = `${size}px`; // Set height (for image)
-        img.style.width = `${size}px`; // Set width (for image)
-    });
+
     flake.style.zIndex = zIndex; // Set zIndex (for overlapping and underlapping)
     flake.style.animation = `snowfall-speed${speed} ${driftDuration}s linear infinite`; // Set animation speed and duration
     flake.style.animationDelay = `-${driftDelay}s`; // Set animation delay (for random start)
+  });
+
+  snowflakesImage.forEach((img) => { // For each snowflake image
+    const size = Math.random() * (maxSize - minSize) + minSize; // Size from 5px to 15px
+    img.style.userSelect = 'none'; // Disable selection
+    img.style.cursor = 'default'; // Default cursor
+    img.style.pointerEvents = 'none'; // Disable pointer events
+    img.style.height = `${size}px`; // Set height
+    img.style.width = `auto`; // Set width
   });
 }
