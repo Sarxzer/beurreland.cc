@@ -13,7 +13,6 @@ document.querySelectorAll(".wave-auto").forEach((link) => {
 const params = new URLSearchParams(window.location.search);
 
 if (params.get("jambon") === "beurre") {
-    console.log("Easter egg activated: snow with jambon-beurre flakes");
     snow(50, 50, 75, 15, 5);
 }
 
@@ -115,14 +114,10 @@ function activateEasterEgg() {
             "#842593",
         ); //new one is purple
 
-        document.querySelectorAll("footer").forEach((footer) => {
-            footer.style.transform = "rotate(180deg)";
-        });
-
         document.querySelectorAll(".snowflake-image").forEach((img) => {
             img.src = "/src/img/PurpleGuy.webp";
             img.style.width = Math.random() * (75 - 25) + 25 + "px"; // Size from 25px to 75px
-            img.style.height = "auto";
+            img.style.height = Math.random() * (75 - 25) + 25 + "px"; // Size from 25px to 75px
         });
 
         // change the title and favicon
@@ -131,7 +126,7 @@ function activateEasterEgg() {
         if (favicon) {
             favicon.href = "/src/img/Exotic_Butters.webp";
         }
-    }, 3750); // wait a forth of the duration of the animation (2.5s) before changing colors and the rest of the easter egg
+    }, 3750); // wait 3/4 of the animation duration before changing colors and the rest of the easter egg
 
     setTimeout(() => {
         document.body.style.animation = "";
@@ -175,10 +170,6 @@ function removeEasterEgg() {
             "#f6c745",
         );
 
-        document.querySelectorAll("footer").forEach((footer) => {
-            footer.style.transform = "rotate(0deg)";
-        });
-
         document.querySelectorAll(".snowflake-image").forEach((img) => {
             img.src = "/src/img/jambon-beurre.png";
             img.style.width = Math.random() * (75 - 25) + 25 + "px"; // Size from 25px to 75px
@@ -191,7 +182,7 @@ function removeEasterEgg() {
         if (favicon) {
             favicon.href = "/src/img/Butter_Pixel.png";
         }
-    }, 1250); // wait a forth of the duration of the animation (2.5s) before changing colors and the rest of the easter egg
+    }, 1250); // wait 1/4 of the duration of the animation before changing colors
 
     setTimeout(() => {
         document.body.style.animation = "";

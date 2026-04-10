@@ -1,10 +1,18 @@
 function snow(ammount, minSize=10, maxSize=25, minSpeed=15, maxSpeed=5) { // ammount, minSize, maxSize, minSpeed, maxSpeed
-  document.body.innerHTML += '<div id="snow"></div>' // Add snow to body
+  let snowContainer = document.getElementById('snow');
+  if (!snowContainer) {
+    snowContainer = document.createElement('div');
+    snowContainer.id = 'snow';
+    document.body.appendChild(snowContainer); // Add snow to body without rebuilding existing DOM
+  }
 
   const flakes = ["<img class='snowflake-image' src='/src/img/jambon-beurre.png' style='width: 200px; height: 200px;' />"] // Snowflakes
   for (let i = 0; i < ammount; i++) { // Create snowflakes
-      car = flakes[Math.floor(Math.random() * flakes.length)]; // Random snowflake
-      document.getElementById('snow').innerHTML += `<div class="snowflake">${car}</div>`; // Add snowflake to snow
+      const car = flakes[Math.floor(Math.random() * flakes.length)]; // Random snowflake
+      const flake = document.createElement('div');
+      flake.className = 'snowflake';
+      flake.innerHTML = car;
+      snowContainer.appendChild(flake); // Add snowflake to snow
   }
   const snowflakes = document.querySelectorAll(".snowflake"); // Select all snowflakes
   const snowflakesImage = document.querySelectorAll(".snowflake-image"); // Select all snowflakes images
