@@ -221,3 +221,7 @@ function removeEasterEgg() {
         document.body.style.animation = "";
     }, 5000); // remove the animation after it has completed one full rotation (5s)
 }
+
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'fr'}, 'google_translate_element');
+}

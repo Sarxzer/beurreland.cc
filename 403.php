@@ -15,9 +15,15 @@
     <link rel="stylesheet" href="/src/css/snow.css">
 
 
+
+    <!-- Google Translate -->
+    <script type="text/javascript"
+        src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+    </script>
 </head>
 
 <body>
+    <div id="google_translate_element"></div>
     <div class="page">
         <div class="banner">
             <h1>403 - Beurre refusé</h1>

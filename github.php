@@ -11,9 +11,16 @@
 
     <script src="./src/js/snow.js"></script>
     <link rel="stylesheet" href="./src/css/snow.css">
+
+
+    <!-- Google Translate -->
+    <script type="text/javascript"
+        src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+    </script>
 </head>
 
 <body>
+    <div id="google_translate_element"></div>
     <div class="sidebar">
         <h1><a href="?jambon=beurre">
                 <marquee>Beurreland</marquee>
