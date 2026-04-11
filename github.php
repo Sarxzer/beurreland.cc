@@ -12,6 +12,8 @@
     <script src="./src/js/snow.js"></script>
     <link rel="stylesheet" href="./src/css/snow.css">
 
+    <link rel="shortcut icon" href="/src/img/Butter_Pixel.png" type="image/x-icon">
+
 
     <!-- Google Translate -->
     <script type="text/javascript"
@@ -50,7 +52,7 @@
     <div class="page">
         <div class="banner">
             <h1>Github Info</h1>
-            <div class="subtitle">Informations sur le projet Beurreland sur Github</div>
+            <div class="subtitle"><a href="https://github.com/Sarxzer/Beurreland.cc" target="_blank">Informations sur le projet Beurreland sur Github</a></div>
         </div>
 
         <div class="content">
@@ -86,7 +88,7 @@
 
                 const commitsContainer = document.getElementById('commits');
                 commitsContainer.innerHTML = '<h2>Commits récents</h2>';
-                data.slice(0, 5).forEach(commit => {
+                data.slice(0, 10).forEach(commit => {
                     const sha = commit.sha.substring(0, 7);
                     const url = commit.html_url;
                     const message = commit.commit.message;
