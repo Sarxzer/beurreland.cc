@@ -69,7 +69,8 @@
         <div class="wip">
             <h2>Site en construction, revenez plus tard pour découvrir le culte beurré du Jambon-Beurre !</h2>
         </div>
-        <span class="tooltip">
+        <div class="paragraph">
+            <span class="tooltip">
             Je vais vous raconter la folle histoire du jambon-beurre. Il était une fois un jambon vercuvin qui se promenait tranquillement sur Pandora, explorant les forêts luxuriantes et les montagnes flottantes de cette planète étrange et fascinante. Ce jambon vercuvin n’était pas comme les autres ; il avait une certaine allure, une présence qui attirait le regard de quiconque croisait son chemin, qu’il s’agisse des créatures locales ou des rares voyageurs interstellaires qui passaient par là. Chaque pas du jambon résonnait doucement sur le sol recouvert de plantes phosphorescentes, et il semblait comme s’il se déplaçait avec un objectif mystérieux que personne ne pouvait comprendre.
             <br><br>
             Un jour, alors qu’il avançait avec son pas tranquille, le jambon vercuvin rencontra Frescri, un chasseur de l’arche occupé à farmer des armes rares et précieuses dans les coins les plus reculés de Pandora. Frescri, concentré sur sa mission mais toujours attentif aux bizarreries de l’univers, aperçut soudain ce jambon vercuvin. Il ne put s’empêcher de sourire en voyant cette créature si inhabituelle et trouva sa présence particulièrement amusante. Rapidement, Frescri commença à l’intégrer dans tous ses délires, imaginant des histoires absurdes et des situations improbables dans lesquelles le jambon vercuvin jouait un rôle central, parfois héros, parfois simple compagnon silencieux dans ses aventures.
@@ -80,11 +81,17 @@
             <br><br>
             Ainsi naquit ce concept étrange, inattendu et pourtant parfait dans sa simplicité. Le jambon vercuvin et le beurre, chacun remarquable à sa manière, furent réunis par l’imagination et la curiosité de Frescri, devenant le symbole d’un délire partagé et d’une rencontre fortuite qui prit une importance disproportionnée dans la vie de ceux qui y participaient. Voilà comment, à travers la coïncidence et la créativité d’un chasseur de l’arche et d’un simple jambon, cette étrange association vit le jour et s’imposa comme un petit miracle de l’absurde, une histoire que l’on raconte encore aujourd’hui.
             <span class="tooltiptext">Ne juger pas, chat-gpt l'a écrit, j'avais la flemme <br> ~Webmaster</span>
-        </span>
+            </span>
+        </div>
         <?php include "footer.php"; ?>
     </div>
     <div class="rsidebar">
-        <a href="/src/old"><img src="/src/img/Frescri-Beurre-Pub.png" alt="Une publicité pour le Beurre Gastronomique de Frescri" width="200"></a>
+        <a href="/src/old">
+        <figure class="image">
+            <img src="/src/img/Frescri-Beurre-Pub.png" alt="Publicité pour le Beurre Gastronomique de Frescri">
+            <figcaption>Publicité pour le Beurre Gastronomique de Frescri</figcaption>
+        </figure>
+        </a>
     </div>
     <script src="/src/js/script.js"></script>
 </body>

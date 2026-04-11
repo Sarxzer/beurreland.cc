@@ -210,6 +210,11 @@ function removeEasterEgg() {
         if (favicon) {
             favicon.href = "/src/img/Butter_Pixel.png";
         }
+
+        document.querySelectorAll("img").forEach((img) => {
+            img.style.filter = "none"; // remove hue rotation
+            img.style.transform = "none"; // remove horizontal flip
+        });
     }, 1250); // wait 1/4 of the duration of the animation before changing colors
 
     setTimeout(() => {
