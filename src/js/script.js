@@ -1,3 +1,26 @@
+function updateCounter(counterValue, digitElements) {
+    const str = counterValue.toString().padStart(6, "0");
+    str.split("").forEach((num, i) => {
+        console.log(`Updating digit ${i} to ${num}`);
+        digitElements[i].textContent = num;
+    });
+}
+
+const digits = document.querySelectorAll(".digit");
+
+fetch("/counter.php?increment=1")
+    .then((r) => r.text())
+    .then((n) => {
+        if (isNaN(n)) {
+            console.error("Invalid counter value received:", n);
+            return;
+        } else {
+            let visits = parseInt(n);
+            updateCounter(visits, digits);
+            console.log(`Counter updated: ${visits} visits`);
+        }
+    });
+
 document.querySelectorAll(".wave-auto").forEach((link) => {
     const text = link.textContent;
     link.textContent = "";
@@ -126,6 +149,11 @@ function activateEasterEgg() {
         if (favicon) {
             favicon.href = "/src/img/Exotic_Butters.webp";
         }
+
+        document.querySelectorAll("img").forEach((img) => {
+            img.style.filter = "hue-rotate(270deg)"; // apply a hue rotation to all images to make them more purple
+            img.style.transform = "rotateY(180deg)"; // flip all images horizontally to make them more purple
+        });
     }, 3750); // wait 3/4 of the animation duration before changing colors and the rest of the easter egg
 
     setTimeout(() => {

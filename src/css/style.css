@@ -256,6 +256,29 @@ a.big-center-link {
     box-shadow: inset 0 0 5px var(--beurre-shadow);
 }
 
+/* Right sidebar for ads and stuff */
+
+.rsidebar {
+    position: absolute;
+    top: 20px;
+    right: calc(50% - 700px);
+    margin: 0;
+    background: var(--beurre-light-secondary);
+    border: 3px double var(--beurre-dark);
+    padding: 20px;
+    width: 300px;
+    box-sizing: border-box;
+    float: none;
+}
+
+.rsidebar img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    border: 2px solid var(--beurre-dark);
+}
+
 /* Footer */
 
 .footer {

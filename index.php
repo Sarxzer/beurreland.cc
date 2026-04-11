@@ -46,11 +46,11 @@
 
         <div class="navlinks">
             <a href="/">Accueil</a>
-            <a href="/404.php">Page 404</a>
-            <a href="/403.php">Page 403</a>
-            <a href="/500.php">Page 500</a>
-            <a href="/contact.php">Contact</a>
-            <a href="/scrogneugneu">Scrognéugneu</a>
+            <a href="/404">Page 404</a>
+            <a href="/403">Page 403</a>
+            <a href="/500">Page 500</a>
+            <a href="/contact">Contact</a>
+            <a href="/github">Github</a>
             <a onclick="toggleEasterEgg()">Easter Egg</a>
         </div>
     </div>
@@ -83,34 +83,9 @@
         </span>
         <?php include "footer.php"; ?>
     </div>
-
-
-
-    <script>
-        function updateCounter(counterValue, digitElements) {
-            const str = counterValue.toString().padStart(6, '0');
-            str.split('').forEach((num, i) => {
-                console.log(`Updating digit ${i} to ${num}`);
-                digitElements[i].textContent = num;
-            });
-        }
-
-        const digits = document.querySelectorAll(".digit");
-
-
-        fetch("/counter.php?increment=1")
-            .then(r => r.text())
-            .then(n => {
-                if (isNaN(n)) {
-                    console.error("Invalid counter value received:", n);
-                    return;
-                } else {
-                    let visits = parseInt(n);
-                    updateCounter(visits, digits);
-                    console.log(`Counter updated: ${visits} visits`);
-                }
-            });
-    </script>
+    <div class="rsidebar">
+        <a href="/src/old"><img src="/src/img/Frescri-Beurre-Pub.png" alt="Une publicité pour le Beurre Gastronomique de Frescri" width="200"></a>
+    </div>
     <script src="/src/js/script.js"></script>
 </body>
 
