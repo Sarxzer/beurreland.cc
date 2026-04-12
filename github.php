@@ -23,7 +23,7 @@
 
 <body>
     <div id="google_translate_element"></div>
-    
+
     <?php include "inc/sidebar.php"; ?>
 
     <div class="page">
@@ -35,6 +35,8 @@
         <div class="paragraph">
             <div class="info">
                 <p>Ce projet est hébergé sur Github, où vous pouvez trouver le code source, les commits récents et contribuer si vous le souhaitez !</p>
+                <br>
+                <div id="commit-count"><strong>Nombre de commits : </strong>...</div>
             </div>
             <div id="latest-commit">Chargement...</div>
             <br>
@@ -92,6 +94,33 @@
             .catch(error => {
                 console.error('Erreur lors de la récupération des commits :', error);
                 document.getElementById('latest-commit').textContent = 'Impossible de récupérer les informations du commit.';
+            });
+
+
+        async function getCommitCount(owner, repo) {
+            const url = `https://api.github.com/repos/${owner}/${repo}/commits?per_page=1`;
+
+            const res = await fetch(url);
+            const link = res.headers.get("link");
+
+            if (!link) {
+                // repo has <= 1 commit
+                const data = await res.json();
+                return data.length;
+            }
+
+            // extract last page number
+            const match = link.match(/&page=(\d+)>;\s*rel="last"/);
+            return match ? parseInt(match[1]) : 1;
+        }
+
+        getCommitCount('Sarxzer', 'Beurreland.cc')
+            .then(count => {
+                document.getElementById('commit-count').innerHTML = `<strong>Nombre de commits :</strong> ${count}`;
+            })
+            .catch(error => {
+                console.error('Erreur lors de la récupération du nombre de commits :', error);
+                document.getElementById('commit-count').innerHTML = '<strong>Impossible de récupérer le nombre de commits.</strong>';
             });
     </script>
 </body>
