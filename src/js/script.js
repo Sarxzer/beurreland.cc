@@ -87,7 +87,7 @@ const splashTextElement = document.getElementById("splash-text");
 
 function applySplashTextSizeByLength(element, text) {
     // Longer text shrinks linearly between max and min font sizes.
-    const minSizeRem = 1.5;
+    const minSizeRem = 0.8;
     const maxSizeRem = 2.75;
     const shortestText = 8;
     const longestText = 36;

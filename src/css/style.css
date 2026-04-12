@@ -174,6 +174,9 @@ a {
 
 .banner h1.huge {
     font-size: 100px;
+    text-shadow: 
+        3px 3px 0 #fff,
+        6px 6px 0 var(--beurre-shadow);
 }
 
 .subtitle {
@@ -654,7 +657,7 @@ a.big-center-link {
         top: 120px;
         right: -130px;
         transform: translateY(-75%) rotate(-20deg) scale(1);
-        --splash-scale: 1.4;
+        --splash-scale: 1.6;
     }
 
     .paragraph {
