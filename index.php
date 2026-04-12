@@ -69,7 +69,10 @@
 
         <div class="banner">
             <div class="small blink">NOUVEAU !!! CULTE OFFICIEL EN CONSTRUCTION !!! GLOIRE AU BEURRE !!!</div>
-            <h1 class="wave-auto notranslate">Beurreland</h1>
+            <h1 class="banner-title huge">
+                <span class="wave-auto notranslate">Beurreland</span>
+                <span id="splash-text" class="splash-text">Beurre!!!</span>
+            </h1>
             <div class="subtitle">Le culte sacré et légèrement salé du Jambon-Beurre</div>
         </div>
 
@@ -99,6 +102,16 @@
                 <figcaption>Publicité pour le Beurre Gastronomique de Frescri</figcaption>
             </figure>
         </a>
+            <div class="cube-container">
+        <div class="cube">
+            <div class="cube-face front"><img src="/src/img/Fresnik_Mobile.png" alt=""></div>
+            <div class="cube-face back"><img src="/src/img/Fresnik_Mobile.png" alt=""></div>
+            <div class="cube-face right"><img src="/src/img/Fresnik_Mobile.png" alt=""></div>
+            <div class="cube-face left"><img src="/src/img/Fresnik_Mobile.png" alt=""></div>
+            <div class="cube-face top"><img src="/src/img/Fresnik_Mobile.png" alt=""></div>
+            <div class="cube-face bottom"><img src="/src/img/Fresnik_Mobile.png" alt=""></div>
+        </div>
+    </div>
     </div>
     <script src="/src/js/script.js"></script>
 </body>

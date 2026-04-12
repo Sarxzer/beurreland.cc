@@ -33,6 +33,73 @@ document.querySelectorAll(".wave-auto").forEach((link) => {
     });
 });
 
+
+const splashTexts = [
+    "Beurre!!!",
+    "Gloire au Beurre!!!",
+    "Vive le Jambon-Beurre!!!",
+    "Butter is love, butter is life!!!",
+    "In Butter We Trust!!!",
+    "Best viewed on desktop!!!",
+    "Hail Beurreland!!!",
+    "Hail le Jambon-Beurre!!!",
+    "Hail Frescri!!!",
+    "Chonk l'a dans le cul!!!",
+    "Exterminate the margarine!!!",
+    "COLORMATIC",
+];
+
+const splashText = splashTexts[Math.floor(Math.random() * splashTexts.length)];
+
+const splashTextElement = document.getElementById("splash-text");
+
+function applySplashTextSizeByLength(element, text) {
+    // Longer text shrinks linearly between max and min font sizes.
+    const minSizeRem = 0.85;
+    const maxSizeRem = 2;
+    const shortestText = 8;
+    const longestText = 36;
+    const length = text.trim().length;
+    const ratio = (length - shortestText) / (longestText - shortestText);
+    const clampedRatio = Math.min(1, Math.max(0, ratio));
+    const fontSizeRem = maxSizeRem - clampedRatio * (maxSizeRem - minSizeRem);
+
+    element.style.fontSize = `${fontSizeRem.toFixed(2)}rem`;
+}
+
+function renderColormaticSplash(element, text) {
+    const colors = [
+        "#ff2d55",
+        "#ff9500",
+        "#ffd60a",
+        "#34c759",
+        "#32ade6",
+        "#0a84ff",
+        "#5e5ce6",
+        "#bf5af2",
+    ];
+
+    element.textContent = "";
+    [...text].forEach((char, i) => {
+        const span = document.createElement("span");
+        span.textContent = char;
+        span.style.color = colors[i % colors.length];
+        span.style.display = "inline-block";
+        span.style.textShadow = "2px 2px 0 #000";
+        element.appendChild(span);
+    });
+}
+
+if (splashTextElement) {
+    applySplashTextSizeByLength(splashTextElement, splashText);
+
+    if (splashText === "COLORMATIC") {
+        renderColormaticSplash(splashTextElement, splashText);
+    } else {
+        splashTextElement.textContent = splashText;
+    }
+}
+
 const params = new URLSearchParams(window.location.search);
 
 if (params.get("jambon") === "beurre") {
@@ -154,6 +221,12 @@ function activateEasterEgg() {
             img.style.filter = "hue-rotate(270deg)"; // apply a hue rotation to all images to make them more purple
             img.style.transform = "rotateY(180deg)"; // flip all images horizontally to make them more purple
         });
+
+        document.querySelectorAll(".cube-face img").forEach((img) => {
+            img.src = "/src/img/PurpleGuyFace.webp";
+            img.style.filter = "";
+            img.style.transform = "none";
+        });
     }, 3750); // wait 3/4 of the animation duration before changing colors and the rest of the easter egg
 
     setTimeout(() => {
@@ -214,6 +287,12 @@ function removeEasterEgg() {
         document.querySelectorAll("img").forEach((img) => {
             img.style.filter = "none"; // remove hue rotation
             img.style.transform = "none"; // remove horizontal flip
+        });
+
+        document.querySelectorAll(".cube-face img").forEach((img) => {
+            img.src = "/src/img/Fresnik_Mobile.png";
+            img.style.filter = "";
+            img.style.transform = "none";
         });
     }, 1250); // wait 1/4 of the duration of the animation before changing colors
 
