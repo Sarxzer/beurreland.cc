@@ -48,6 +48,9 @@
                 <p>Vous avez des questions, des suggestions ou simplement envie de discuter du beurre ? N'hésitez pas à nous contacter !</p>
             </div>
         </div>
+        <div class="wip">
+            <h2>Site en construction, revenez plus tard pour découvrir le culte beurré du Jambon-Beurre !</h2>
+        </div>
         <div class="contact-form">
             <h2>Formulaire de contact</h2>
             <form action="mailto:frescri@beurreland.com" method="post" enctype="text/plain">
