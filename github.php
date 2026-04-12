@@ -44,7 +44,7 @@
             <div id="commits"></div>
         </div>
 
-        <?php include 'footer.php'; ?>
+        <?php include 'inc/footer.php'; ?>
     </div>
 
     <?php include "inc/rsidebar.php"; ?>
