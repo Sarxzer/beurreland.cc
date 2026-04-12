@@ -35,32 +35,8 @@
 
 <body>
     <div id="google_translate_element"></div>
-    <div class="sidebar">
-        <h1><a href="?jambon=beurre">
-                <marquee>Beurreland</marquee>
-            </a></h1>
-        <div class="counter-container">
-            <h3>Voici le compteur de visites :</h3>
-            <div class="counter" id="counter">
-                <div class="digit">b</div>
-                <div class="digit">e</div>
-                <div class="digit">u</div>
-                <div class="digit">r</div>
-                <div class="digit">r</div>
-                <div class="digit">e</div>
-            </div>
-        </div>
 
-        <div class="navlinks">
-            <a href="/">Accueil</a>
-            <a href="/404">Page 404</a>
-            <a href="/403">Page 403</a>
-            <a href="/500">Page 500</a>
-            <a href="/contact">Contact</a>
-            <a href="/github">Github</a>
-            <a onclick="toggleEasterEgg()">Easter Egg</a>
-        </div>
-    </div>
+    <?php include "inc/sidebar.php"; ?>
 
     <div class="page">
         <div class="topbar">
@@ -93,26 +69,11 @@
                 <span class="tooltiptext">Ne juger pas, chat-gpt l'a écrit, j'avais la flemme <br> ~Webmaster</span>
             </span>
         </div>
-        <?php include "footer.php"; ?>
+        <?php include "inc/footer.php"; ?>
     </div>
-    <div class="rsidebar">
-        <a href="/src/old">
-            <figure class="image">
-                <img src="/src/img/Frescri-Beurre-Pub.png" alt="Publicité pour le Beurre Gastronomique de Frescri">
-                <figcaption>Publicité pour le Beurre Gastronomique de Frescri</figcaption>
-            </figure>
-        </a>
-            <div class="cube-container">
-        <div class="cube">
-            <div class="cube-face front"><img src="/src/img/Fresnik_Mobile.png" alt=""></div>
-            <div class="cube-face back"><img src="/src/img/Fresnik_Mobile.png" alt=""></div>
-            <div class="cube-face right"><img src="/src/img/Fresnik_Mobile.png" alt=""></div>
-            <div class="cube-face left"><img src="/src/img/Fresnik_Mobile.png" alt=""></div>
-            <div class="cube-face top"><img src="/src/img/Fresnik_Mobile.png" alt=""></div>
-            <div class="cube-face bottom"><img src="/src/img/Fresnik_Mobile.png" alt=""></div>
-        </div>
-    </div>
-    </div>
+
+    <?php include "inc/rsidebar.php"; ?>
+    
     <script src="/src/js/script.js"></script>
 </body>
 

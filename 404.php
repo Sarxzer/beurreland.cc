@@ -23,6 +23,9 @@
 
 <body>
     <div id="google_translate_element"></div>
+
+    <?php include "inc/sidebar.php"; ?>
+    
     <div class="page">
         <div class="banner">
             <h1>404 - Pas de <span class="tooltip">beuere <p class="tooltiptext">Désolé, le dieu du beurre est dyslexique</p></span></h1>
@@ -36,10 +39,10 @@
 
         <a href="/" class="big-center-link wave-auto">Retour à la page d'accueil</a>
 
-        <?php include "footer.php"; ?>
+        <?php include "inc/footer.php"; ?>
     </div>
 
-
+    <?php include "inc/rsidebar.php"; ?>
 
     <script src="/src/js/script.js"></script>
 </body>
