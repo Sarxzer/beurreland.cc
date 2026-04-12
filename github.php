@@ -32,7 +32,10 @@
             <div class="subtitle"><a href="https://github.com/Sarxzer/Beurreland.cc" target="_blank">Informations sur le projet Beurreland sur Github</a></div>
         </div>
 
-        <div class="content">
+        <div class="paragraph">
+            <div class="info">
+                <p>Ce projet est hébergé sur Github, où vous pouvez trouver le code source, les commits récents et contribuer si vous le souhaitez !</p>
+            </div>
             <div id="latest-commit">Chargement...</div>
             <br>
             <br>
