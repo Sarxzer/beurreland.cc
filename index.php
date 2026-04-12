@@ -46,7 +46,7 @@
         <div class="banner">
             <div class="small blink">NOUVEAU !!! CULTE OFFICIEL EN CONSTRUCTION !!! GLOIRE AU BEURRE !!!</div>
             <h1 class="banner-title huge">
-                <span class="wave-auto notranslate">Beurreland</span>
+                <span class="wave-auto-big notranslate">Beurreland</span>
                 <span id="splash-text" class="splash-text">Beurre!!!</span>
             </h1>
             <div class="subtitle">Le culte sacré et légèrement salé du Jambon-Beurre</div>
@@ -73,7 +73,7 @@
     </div>
 
     <?php include "inc/rsidebar.php"; ?>
-    
+
     <script src="/src/js/script.js"></script>
 </body>
 

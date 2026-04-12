@@ -139,13 +139,17 @@ a {
 
 .splash-text {
     position: absolute;
-    top: 80px;
+    top: 92px;
     right: -90px;
-    font-size: 1.3rem;
+    --splash-size: 1.3rem;
+    --splash-scale: 1;
+    display: inline-block;
+    line-height: 1;
+    font-size: calc(var(--splash-size) * var(--splash-scale));
     font-weight: 700;
     color: #ffd800;
     text-shadow: 2px 2px 0 #000;
-    transform: rotate(-20deg) scale(1);
+    transform: translateY(-50%) rotate(-20deg) scale(1);
     transform-origin: center center;
     animation: splash-pop 0.9s ease-in-out infinite alternate;
     white-space: nowrap;
@@ -153,8 +157,8 @@ a {
 }
 
 @keyframes splash-pop {
-    from { transform: rotate(-20deg) scale(1); }
-    to   { transform: rotate(-20deg) scale(1.12); }
+    from { transform: translateY(-50%) rotate(-20deg) scale(1); }
+    to   { transform: translateY(-50%) rotate(-20deg) scale(1.12); }
 }
 
 .banner h1 {
@@ -439,6 +443,12 @@ a.big-center-link {
     animation: wave 1s ease-in-out infinite;
 }
 
+.waveBig {
+    display: inline-block;
+    animation: waveBig 1.3s ease-in-out infinite;
+}
+
+
 /* Animation */
 
 @keyframes spinY {
@@ -470,6 +480,17 @@ a.big-center-link {
 
     50% {
         transform: translateY(-6px);
+    }
+}
+
+@keyframes waveBig {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
     }
 }
 
@@ -536,9 +557,9 @@ a.big-center-link {
     }
 
     .splash-text {
-        top: 50px;
+        top: 58px;
         right: -60px;
-        font-size: 0.8rem;
+        --splash-size: 0.8rem;
     }
 
     .subtitle {
@@ -575,3 +596,150 @@ a.big-center-link {
         display: none;
     }
 }
+
+/* Ultrawide support for larger desktop displays */
+@media (min-width: 2000px) {
+    body {
+        font-size: 17px;
+    }
+
+    .page {
+        width: 980px;
+    }
+
+    .sidebar {
+        left: calc(50% - 780px);
+        width: 260px;
+        padding: 24px;
+    }
+
+    .sidebar h1 {
+        font-size: 30px;
+    }
+
+    .navlinks a {
+        width: 165px;
+        padding: 8px 14px;
+        font-size: 16px;
+    }
+
+    .rsidebar {
+        right: calc(50% - 920px);
+        width: 390px;
+        padding: 24px;
+    }
+
+    .topbar {
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    .banner {
+        padding: 24px 12px 14px;
+    }
+
+    .banner h1 {
+        font-size: 82px;
+    }
+
+    .banner h1.huge {
+        font-size: 135px;
+    }
+
+    .subtitle {
+        font-size: 20px;
+    }
+
+    .splash-text {
+        top: 120px;
+        right: -130px;
+        transform: translateY(-75%) rotate(-20deg) scale(1);
+        --splash-scale: 1.4;
+    }
+
+    .paragraph {
+        padding: 0 30px;
+        margin-top: 26px;
+        margin-bottom: 26px;
+        line-height: 1.8;
+    }
+
+    .wip {
+        padding: 26px;
+    }
+
+    .wip h2 {
+        font-size: 30px;
+    }
+
+    .cube-container {
+        margin-top: 70px;
+        margin-bottom: 70px;
+    }
+
+    .cube {
+        width: 130px;
+        height: 130px;
+    }
+
+    .cube-face {
+        width: 130px;
+        height: 130px;
+    }
+
+    .cube-face.front {
+        transform: translateZ(65px);
+    }
+
+    .cube-face.back {
+        transform: rotateY(180deg) translateZ(65px);
+    }
+
+    .cube-face.left {
+        transform: rotateY(-90deg) translateZ(65px);
+    }
+
+    .cube-face.right {
+        transform: rotateY(90deg) translateZ(65px);
+    }
+
+    .cube-face.top {
+        transform: rotateX(90deg) translateZ(65px);
+    }
+
+    .cube-face.bottom {
+        transform: rotateX(-90deg) translateZ(65px);
+    }
+
+    .counter-container {
+        margin-top: 28px;
+    }
+
+    .counter-container h3 {
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+
+    .counter {
+        padding: 7px 7px;
+    }
+
+    .counter .digit {
+        width: 26px;
+        height: 39px;
+        margin: 0 2px;
+        font-size: 26px;
+        line-height: 39px;
+    }
+
+    .footer {
+        font-size: 14px;
+        padding: 18px 10px 30px;
+    }
+
+    .small {
+        font-size: 14px;
+    }
+}
+
+

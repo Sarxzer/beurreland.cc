@@ -8,18 +8,38 @@ function updateCounter(counterValue, digitElements) {
 
 const digits = document.querySelectorAll(".digit");
 
-fetch("/counter.php?increment=1")
-    .then((r) => r.text())
-    .then((n) => {
-        if (isNaN(n)) {
-            console.error("Invalid counter value received:", n);
-            return;
-        } else {
-            let visits = parseInt(n);
-            updateCounter(visits, digits);
-            console.log(`Counter updated: ${visits} visits`);
-        }
-    });
+function incrementCounter() {
+    fetch("/counter.php?increment=1")
+        .then((r) => r.text())
+        .then((n) => {
+            if (isNaN(n)) {
+                console.error("Invalid counter value received:", n);
+                return;
+            } else {
+                let visits = parseInt(n);
+                updateCounter(visits, digits);
+                console.log(`Counter updated: ${visits} visits`);
+            }
+        });
+}
+
+function fetchCounter() {
+    fetch("/counter.php?view=1")
+        .then((r) => r.text())
+        .then((n) => {
+            if (isNaN(n)) {
+                console.error("Invalid counter value received:", n);
+                return;
+            } else {
+                let visits = parseInt(n);
+                updateCounter(visits, digits);
+                console.log(`Counter updated: ${visits} visits`);
+            }
+        });
+}
+
+setInterval(fetchCounter, 5000);
+incrementCounter();
 
 document.querySelectorAll(".wave-auto").forEach((link) => {
     const text = link.textContent;
@@ -27,6 +47,18 @@ document.querySelectorAll(".wave-auto").forEach((link) => {
     [...text].forEach((char, i) => {
         const span = document.createElement("span");
         span.classList.add("wave");
+        span.textContent = char === " " ? "\u00A0" : char;
+        span.style.animationDelay = `${i * 0.05}s`;
+        link.appendChild(span);
+    });
+});
+
+document.querySelectorAll(".wave-auto-big").forEach((link) => {
+    const text = link.textContent;
+    link.textContent = "";
+    [...text].forEach((char, i) => {
+        const span = document.createElement("span");
+        span.classList.add("waveBig");
         span.textContent = char === " " ? "\u00A0" : char;
         span.style.animationDelay = `${i * 0.05}s`;
         link.appendChild(span);
@@ -55,8 +87,8 @@ const splashTextElement = document.getElementById("splash-text");
 
 function applySplashTextSizeByLength(element, text) {
     // Longer text shrinks linearly between max and min font sizes.
-    const minSizeRem = 0.85;
-    const maxSizeRem = 2;
+    const minSizeRem = 1.5;
+    const maxSizeRem = 2.75;
     const shortestText = 8;
     const longestText = 36;
     const length = text.trim().length;
@@ -64,7 +96,7 @@ function applySplashTextSizeByLength(element, text) {
     const clampedRatio = Math.min(1, Math.max(0, ratio));
     const fontSizeRem = maxSizeRem - clampedRatio * (maxSizeRem - minSizeRem);
 
-    element.style.fontSize = `${fontSizeRem.toFixed(2)}rem`;
+    element.style.setProperty("--splash-size", `${fontSizeRem.toFixed(2)}rem`);
 }
 
 function renderColormaticSplash(element, text) {
