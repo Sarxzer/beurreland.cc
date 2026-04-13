@@ -14,6 +14,27 @@
     --beurre-topbar-end: #f6c745;
 }
 
+* {
+  cursor: url("/src/cur/jambon-beurre.cur"), auto;
+}
+
+a, button {
+  cursor: url("/src/cur/jambon-beurre.cur"), pointer;
+}
+
+input, textarea {
+  cursor: url("/src/cur/jambon-beurre.cur"), text;
+}
+
+.disabled {
+  cursor: url("/src/cur/jambon-beurre.cur"), not-allowed;
+}
+
+.loading {
+  cursor: url("/src/cur/jambon-beurre.cur"), wait;
+}
+
+
 body {
     margin: 0;
     padding: 0;
@@ -261,6 +282,84 @@ a.big-center-link {
         2px 2px 0 var(--beurre-shadow);
     animation: blink-red 1s steps(1) infinite;
 }
+
+
+/* Contact form */
+
+.contact-form {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background: var(--beurre-light-secondary);
+    border: 3px double var(--beurre-dark);
+    border-radius: 8px;
+}
+
+.contact-form h2 {
+    text-align: center;
+    color: var(--beurre-text-light);
+    font-size: 22px;
+    text-shadow:
+        1px 1px 0 #fff,
+        2px 2px 0 var(--beurre-shadow);
+    margin-top: 0;
+}
+
+.contact-form .subtitle {
+    text-align: center;
+    font-size: 14px;
+    color: var(--beurre-text-secondary);
+    margin-top: 6px;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.contact-form label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--beurre-text-secondary);
+    font-weight: bold;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 80%;
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 2px solid var(--beurre-dark);
+    border-radius: 4px;
+    box-shadow: inset 0 0 5px var(--beurre-shadow);
+    font-size: 14px;
+    font-family: inherit;
+}
+
+.contact-form select {
+    width: 84%;
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 2px solid var(--beurre-dark);
+    border-radius: 4px;
+    box-shadow: inset 0 0 5px var(--beurre-shadow);
+    font-size: 14px;
+    font-family: inherit;
+    background-color: #fff;
+}
+
+.contact-form button {
+    display: block;
+    width: 60%;
+    margin: 0 auto;
+    padding: 10px;
+    background-color: var(--beurre-light);
+    color: var(--beurre-text);
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 4px;
+    border: 2px solid var(--beurre-dark);
+    box-shadow: inset 0 0 5px var(--beurre-shadow);
+    cursor: pointer;
+}
+
 
 /* 3D spinning cube */
 .cube-container {

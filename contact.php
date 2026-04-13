@@ -12,7 +12,7 @@
 
 <body>
     <div id="google_translate_element"></div>
-    
+
     <?php include "inc/sidebar.php"; ?>
 
     <div class="page">
@@ -30,19 +30,34 @@
         </div>
         <div class="contact-form">
             <h2>Formulaire de contact</h2>
-            <form action="mailto:frescri@beurreland.com" method="post" enctype="text/plain">
+            <div class="subtitle">
+                <p>Remplissez le formulaire ci-dessous pour poser vos questions au Dieu du Beurre !</p>
+            </div>
+            <form action="mailto:frescri@beurreland.cc" method="post" enctype="text/plain">
                 <label for="name">Nom :</label>
                 <input type="text" id="name" name="name" required>
 
                 <label for="email">Email :</label>
                 <input type="email" id="email" name="email" required>
 
+                <label for="categorie">Catégorie :</label>
+                <select id="categorie" name="categorie" required>
+                    <option value="">Sélectionnez une catégorie</option>
+                    <option value="rejoindre">Souhaite rejoindre le culte</option>
+                    <option value="beurre">Demande de beurre</option>
+                    <option value="question">Question</option>
+                    <option value="suggestion">Suggestion</option>
+                    <option value="autre">Autre</option>
+                </select>
+
                 <label for="message">Message :</label>
                 <textarea id="message" name="message" rows="5" required></textarea>
 
-                <button type="submit">Envoyer</button>
+                <button type="submit">Envoyer au Dieu du Beurre</button>
             </form>
         </div>
+
+        <?php include 'inc/footer.php'; ?>
     </div>
 
     <?php include "inc/rsidebar.php"; ?>

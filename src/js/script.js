@@ -65,7 +65,6 @@ document.querySelectorAll(".wave-auto-big").forEach((link) => {
     });
 });
 
-
 const splashTexts = [
     "Beurre!!!",
     "Gloire au Beurre!!!",
@@ -164,6 +163,14 @@ document.addEventListener("keydown", (e) => {
     }
 });
 
+const easterEggTrigger = document.getElementById("easter-egg-trigger");
+if (easterEggTrigger) {
+    easterEggTrigger.addEventListener("click", (event) => {
+        event.preventDefault();
+        toggleEasterEgg();
+    });
+}
+
 function toggleEasterEgg() {
     const isActive =
         document.documentElement.style.getPropertyValue("--beurre-yellow") ===
@@ -237,7 +244,7 @@ function activateEasterEgg() {
         ); //new one is purple
 
         document.querySelectorAll(".snowflake-image").forEach((img) => {
-            img.src = "/src/img/PurpleGuy.webp";
+            img.src = "/src/img/PurpleButter.png";
             img.style.width = Math.random() * (75 - 25) + 25 + "px"; // Size from 25px to 75px
             img.style.height = Math.random() * (75 - 25) + 25 + "px"; // Size from 25px to 75px
         });
@@ -254,11 +261,26 @@ function activateEasterEgg() {
             img.style.transform = "rotateY(180deg)"; // flip all images horizontally to make them more purple
         });
 
+        document.querySelectorAll(".snowflake-image").forEach((img) => {
+            img.style.filter = ""; 
+            img.style.transform = "";
+        });
+
         document.querySelectorAll(".cube-face img").forEach((img) => {
             img.src = "/src/img/PurpleGuyFace.webp";
             img.style.filter = "";
             img.style.transform = "none";
         });
+
+        const style = document.createElement("style");
+        style.innerHTML = `
+          * { cursor: url('/src/cur/purple-guy.cur'), auto !important; }
+          a, button { cursor: url('/src/cur/purple-guy.cur'), pointer !important; }
+          input, textarea { cursor: url('/src/cur/purple-guy.cur'), text !important; }
+          .disabled { cursor: url('/src/cur/purple-guy.cur'), not-allowed !important; }
+          .loading { cursor: url('/src/cur/purple-guy.cur'), wait !important; }
+        `;
+        document.head.appendChild(style);
     }, 3750); // wait 3/4 of the animation duration before changing colors and the rest of the easter egg
 
     setTimeout(() => {
@@ -326,6 +348,18 @@ function removeEasterEgg() {
             img.style.filter = "";
             img.style.transform = "none";
         });
+
+        // change the body cursor back to the custom jambon-beurre cursor defined in the CSS file
+        const style = document.createElement("style");
+        style.innerHTML = `
+          * { cursor: url('/src/cur/jambon-beurre.cur'), auto !important; }
+          a, button { cursor: url('/src/cur/jambon-beurre.cur'), pointer !important; }
+          input, textarea { cursor: url('/src/cur/jambon-beurre.cur'), text !important; }
+          .disabled { cursor: url('/src/cur/jambon-beurre.cur'), not-allowed !important; }
+          .loading { cursor: url('/src/cur/jambon-beurre.cur'), wait !important; }
+        `;
+        document.head.appendChild(style);
+
     }, 1250); // wait 1/4 of the duration of the animation before changing colors
 
     setTimeout(() => {
@@ -334,5 +368,8 @@ function removeEasterEgg() {
 }
 
 function googleTranslateElementInit() {
-  new google.translate.TranslateElement({pageLanguage: 'fr'}, 'google_translate_element');
+    new google.translate.TranslateElement(
+        { pageLanguage: "fr" },
+        "google_translate_element",
+    );
 }

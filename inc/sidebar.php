@@ -21,6 +21,8 @@
             <a href="/500">Page 500</a>
             <a href="/contact">Contact</a>
             <a href="/github">Github</a>
-            <a href="javascript:void(0)" onclick="toggleEasterEgg()">Easter Egg</a>
+            <a href="javascript:void(0)" id="easter-egg-trigger">Easter Egg</a>
         </div>
+
+        
     </div>
