@@ -20,6 +20,7 @@
             <a href="/403">Page 403</a>
             <a href="/500">Page 500</a>
             <a href="/contact">Contact</a>
+            <a href="/guestbook">Guestbook</a>
             <a href="/github">Github</a>
             <a href="javascript:void(0)" id="easter-egg-trigger">Easter Egg</a>
         </div>

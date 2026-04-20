@@ -14,6 +14,8 @@
     <script src="/src/js/snow.js"></script>
     <link rel="stylesheet" href="/src/css/snow.css">
 
+    <link rel="shortcut icon" href="/src/img/Butter_Pixel.png" type="image/x-icon">
+
 
     <!-- Google Translate -->
     <script type="text/javascript"

@@ -290,6 +290,29 @@ a.big-center-link {
     line-height: 1.6;
 }
 
+.messages {
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.messages h2 {
+    text-align: center;
+    color: var(--beurre-text-light);
+    font-size: 22px;
+    text-shadow:
+        1px 1px 0 #fff,
+        2px 2px 0 var(--beurre-shadow);
+}
+
+.messages .message {
+    background: var(--beurre-light-secondary);
+    border: 2px solid var(--beurre-dark);
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 12px;
+    box-shadow: inset 0 0 5px var(--beurre-shadow);
+}
+
 .wip {
     padding: 20px;
     text-align: center;
