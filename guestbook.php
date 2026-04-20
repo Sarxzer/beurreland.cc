@@ -71,6 +71,8 @@ $messages = $pdo->query("SELECT * FROM guestbook ORDER BY id DESC")->fetchAll();
 
     <?php include "inc/rsidebar.php"; ?>
 
+    <script src="/src/js/script.js"></script>
+    
 
 </body>
 
