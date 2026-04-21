@@ -21,7 +21,7 @@ fetch("https://api.github.com/repos/Sarxzer/Beurreland.cc/commits")
 
         const commitsContainer = document.getElementById("commits");
         commitsContainer.innerHTML = "<h2>Commits récents</h2>";
-        data.slice(0, 10).forEach((commit) => {
+        data.forEach((commit) => {
             const sha = commit.sha.substring(0, 7);
             const url = commit.html_url;
             const message = commit.commit.message;
