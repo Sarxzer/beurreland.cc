@@ -1,5 +1,4 @@
 <?php $current_file = __FILE__; ?>
-<?php opcache_reset(); ?>
 <!doctype html>
 <html lang="en">
 
@@ -7,12 +6,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Beurreland — La religion sacrée du beurre</title>
-    <link rel="shortcut icon" href="./src/img/Butter_Pixel.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/assets/img/Butter_Pixel.png" type="image/x-icon">
 
-    <link rel="stylesheet" href="./src/css/style.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
 
-    <script src="./src/js/snow.js"></script>
-    <link rel="stylesheet" href="./src/css/snow.css">
+    <script src="/assets/js/snow.js"></script>
+    <link rel="stylesheet" href="/assets/css/snow.css">
 
     <meta name="description"
         content="Bienvenue sur Beurreland, le royaume du beurre. Rejoignez notre culte sacré dédié au Jambon-Beurre, découvrez nos histoires beurrées et partagez votre amour pour le beurre avec nous !">
@@ -36,7 +35,7 @@
 <body>
     <div id="google_translate_element"></div>
 
-    <?php include "inc/sidebar.php"; ?>
+    <?php include "../inc/sidebar.php"; ?>
 
     <div class="page">
         <div class="topbar">
@@ -69,12 +68,12 @@
                 <span class="tooltiptext">Ne juger pas, chat-gpt l'a écrit, j'avais la flemme <br> ~Webmaster</span>
             </span>
         </div>
-        <?php include "inc/footer.php"; ?>
+        <?php include "../inc/footer.php"; ?>
     </div>
 
-    <?php include "inc/rsidebar.php"; ?>
+    <?php include "../inc/rsidebar.php"; ?>
 
-    <script src="/src/js/script.js"></script>
+    <script src="/assets/js/script.js"></script>
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 <?php
-require_once 'src/php/database.php';
+require_once '../src/php/database.php';
 
 $name = trim($_POST['name']);
 $message = trim($_POST['message']);

@@ -1,5 +1,5 @@
 <?php
-require_once 'src/php/database.php';
+require_once '../src/php/database.php';
 
 $messages = $pdo->query("SELECT * FROM guestbook ORDER BY id DESC")->fetchAll();
 
@@ -48,12 +48,12 @@ function bbcode_to_html($text) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guestbook</title>
 
-    <link rel="stylesheet" href="/src/css/style.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
 
-    <script src="/src/js/snow.js"></script>
-    <link rel="stylesheet" href="/src/css/snow.css">
+    <script src="/assets/js/snow.js"></script>
+    <link rel="stylesheet" href="/assets/css/snow.css">
 
-    <link rel="shortcut icon" href="/src/img/Butter_Pixel.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/assets/img/Butter_Pixel.png" type="image/x-icon">
 
 
     <!-- Google Translate -->
@@ -65,7 +65,7 @@ function bbcode_to_html($text) {
 <body>
     <div id="google_translate_element"></div>
 
-    <?php include "inc/sidebar.php"; ?>
+    <?php include "../inc/sidebar.php"; ?>
 
     <div class="page">
         <div class="topbar">
@@ -88,7 +88,7 @@ function bbcode_to_html($text) {
                     <button type="button" class="bbcode-btn" id="bb-underline">U</button>
                     <button type="button" class="bbcode-btn" id="bb-strikethrough">S</button>
                     <button type="button" class="bbcode-btn" id="bb-url">URL</button>
-                    <button type="button" class="bbcode-btn" id="bb-image"><img src="/src/img/Butter_Pixel.png" alt="Image"></button>
+                    <button type="button" class="bbcode-btn" id="bb-image"><img src="/assets/img/Butter_Pixel.png" alt="Image"></button>
                     <button type="button" class="bbcode-btn" id="bb-code">CODE</button>
                 </div>
                 <label for="message">Message :</label>
@@ -113,13 +113,13 @@ function bbcode_to_html($text) {
                 <?php endforeach; ?>
         </div>
 
-        <?php include "inc/footer.php"; ?>
+        <?php include "../inc/footer.php"; ?>
     </div>
 
-    <?php include "inc/rsidebar.php"; ?>
+    <?php include "../inc/rsidebar.php"; ?>
 
-    <script src="/src/js/bbcode.js"></script>
-    <script src="/src/js/script.js"></script>
+    <script src="/assets/js/bbcode.js"></script>
+    <script src="/assets/js/script.js"></script>
     
 
 </body>

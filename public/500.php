@@ -9,12 +9,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>500 - Erreur interne du serveur</title>
 
-    <link rel="stylesheet" href="/src/css/style.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
 
-    <script src="/src/js/snow.js"></script>
-    <link rel="stylesheet" href="/src/css/snow.css">
+    <script src="/assets/js/snow.js"></script>
+    <link rel="stylesheet" href="/assets/css/snow.css">
 
-    <link rel="shortcut icon" href="/src/img/Butter_Pixel.png" type="image/x-icon">
+    <link rel="shortcut icon" href="/assets/img/Butter_Pixel.png" type="image/x-icon">
 
 
     <!-- Google Translate -->
@@ -26,7 +26,7 @@
 <body>
     <div id="google_translate_element"></div>
 
-    <?php include "inc/sidebar.php"; ?>
+    <?php include "../inc/sidebar.php"; ?>
 
     <div class="page">
         <div class="banner">
@@ -35,18 +35,18 @@
         </div>
 
         <figure class="image">
-            <img src="/src/img/Fresgozila.png" alt="Fresgozila" width="100">
+            <img src="/assets/img/Fresgozila.png" alt="Fresgozila" width="100">
             <figcaption>Fresgozila ravageant le serveur</figcaption>
         </figure>
 
         <a href="/" class="big-center-link wave-auto">Retour à la page d'accueil</a>
 
-        <?php include "inc/footer.php"; ?>
+        <?php include "../inc/footer.php"; ?>
     </div>
 
-    <?php include "inc/rsidebar.php"; ?>
+    <?php include "../inc/rsidebar.php"; ?>
 
-    <script src="/src/js/script.js"></script>
+    <script src="/assets/js/script.js"></script>
 </body>
 
 </html>

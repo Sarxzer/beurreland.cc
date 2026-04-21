@@ -244,7 +244,7 @@ function activateEasterEgg() {
         ); //new one is purple
 
         document.querySelectorAll(".snowflake-image").forEach((img) => {
-            img.src = "/src/img/PurpleButter.png";
+            img.src = "/assets/img/PurpleButter.png";
             img.style.width = Math.random() * (75 - 25) + 25 + "px"; // Size from 25px to 75px
             img.style.height = Math.random() * (75 - 25) + 25 + "px"; // Size from 25px to 75px
         });
@@ -253,7 +253,7 @@ function activateEasterEgg() {
         document.title = "Beurreland — Le royaume du Purple Guy";
         const favicon = document.querySelector("link[rel='shortcut icon']");
         if (favicon) {
-            favicon.href = "/src/img/Exotic_Butters.webp";
+            favicon.href = "/assets/img/Exotic_Butters.webp";
         }
 
         document.querySelectorAll("img").forEach((img) => {
@@ -267,18 +267,18 @@ function activateEasterEgg() {
         });
 
         document.querySelectorAll(".cube-face img").forEach((img) => {
-            img.src = "/src/img/PurpleGuyFace.webp";
+            img.src = "/assets/img/PurpleGuyFace.webp";
             img.style.filter = "";
             img.style.transform = "none";
         });
 
         const style = document.createElement("style");
         style.innerHTML = `
-          * { cursor: url('/src/cur/purple-guy.cur'), auto !important; }
-          a, button { cursor: url('/src/cur/purple-guy.cur'), pointer !important; }
-          input, textarea { cursor: url('/src/cur/purple-guy.cur'), text !important; }
-          .disabled { cursor: url('/src/cur/purple-guy.cur'), not-allowed !important; }
-          .loading { cursor: url('/src/cur/purple-guy.cur'), wait !important; }
+          * { cursor: url('/assets/cur/purple-guy.cur'), auto !important; }
+          a, button { cursor: url('/assets/cur/purple-guy.cur'), pointer !important; }
+          input, textarea { cursor: url('/assets/cur/purple-guy.cur'), text !important; }
+          .disabled { cursor: url('/assets/cur/purple-guy.cur'), not-allowed !important; }
+          .loading { cursor: url('/assets/cur/purple-guy.cur'), wait !important; }
         `;
         document.head.appendChild(style);
     }, 3750); // wait 3/4 of the animation duration before changing colors and the rest of the easter egg
@@ -326,7 +326,7 @@ function removeEasterEgg() {
         );
 
         document.querySelectorAll(".snowflake-image").forEach((img) => {
-            img.src = "/src/img/jambon-beurre.png";
+            img.src = "/assets/img/jambon-beurre.png";
             img.style.width = Math.random() * (75 - 25) + 25 + "px"; // Size from 25px to 75px
             img.style.height = "auto";
         });
@@ -335,7 +335,7 @@ function removeEasterEgg() {
         document.title = "Beurreland — La religion sacrée du beurre";
         const favicon = document.querySelector("link[rel='shortcut icon']");
         if (favicon) {
-            favicon.href = "/src/img/Butter_Pixel.png";
+            favicon.href = "/assets/img/Butter_Pixel.png";
         }
 
         document.querySelectorAll("img").forEach((img) => {
@@ -344,7 +344,7 @@ function removeEasterEgg() {
         });
 
         document.querySelectorAll(".cube-face img").forEach((img) => {
-            img.src = "/src/img/Fresnik_Mobile.png";
+            img.src = "/assets/img/Fresnik_Mobile.png";
             img.style.filter = "";
             img.style.transform = "none";
         });
@@ -352,11 +352,11 @@ function removeEasterEgg() {
         // change the body cursor back to the custom jambon-beurre cursor defined in the CSS file
         const style = document.createElement("style");
         style.innerHTML = `
-          * { cursor: url('/src/cur/jambon-beurre.cur'), auto !important; }
-          a, button { cursor: url('/src/cur/jambon-beurre.cur'), pointer !important; }
-          input, textarea { cursor: url('/src/cur/jambon-beurre.cur'), text !important; }
-          .disabled { cursor: url('/src/cur/jambon-beurre.cur'), not-allowed !important; }
-          .loading { cursor: url('/src/cur/jambon-beurre.cur'), wait !important; }
+          * { cursor: url('/assets/cur/jambon-beurre.cur'), auto !important; }
+          a, button { cursor: url('/assets/cur/jambon-beurre.cur'), pointer !important; }
+          input, textarea { cursor: url('/assets/cur/jambon-beurre.cur'), text !important; }
+          .disabled { cursor: url('/assets/cur/jambon-beurre.cur'), not-allowed !important; }
+          .loading { cursor: url('/assets/cur/jambon-beurre.cur'), wait !important; }
         `;
         document.head.appendChild(style);
 

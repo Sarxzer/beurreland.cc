@@ -6,7 +6,7 @@ function snow(ammount, minSize=10, maxSize=25, minSpeed=15, maxSpeed=5) { // amm
     document.body.appendChild(snowContainer); // Add snow to body without rebuilding existing DOM
   }
 
-  const flakes = ["<img class='snowflake-image' src='/src/img/jambon-beurre.png' style='width: 200px; height: 200px;' />"] // Snowflakes
+  const flakes = ["<img class='snowflake-image' src='/assets/img/jambon-beurre.png' style='width: 200px; height: 200px;' />"] // Snowflakes
   for (let i = 0; i < ammount; i++) { // Create snowflakes
       const car = flakes[Math.floor(Math.random() * flakes.length)]; // Random snowflake
       const flake = document.createElement('div');

@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact | Beurreland</title>
 
-    <link rel="shortcut icon" href="./src/img/Butter_Pixel.png" type="image/x-icon">
-    <link rel="stylesheet" href="./src/css/style.css">
+    <link rel="shortcut icon" href="/assets/img/Butter_Pixel.png" type="image/x-icon">
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 
 <body>
     <div id="google_translate_element"></div>
 
-    <?php include "inc/sidebar.php"; ?>
+    <?php include "../inc/sidebar.php"; ?>
 
     <div class="page">
         <div class="topbar">
@@ -60,11 +60,11 @@
         <?php include 'inc/footer.php'; ?>
     </div>
 
-    <?php include "inc/rsidebar.php"; ?>
+    <?php include "../inc/rsidebar.php"; ?>
 
 
 
-    <script src="./src/js/script.js"></script>
+    <script src="/assets/js/script.js"></script>
 </body>
 
 </html>

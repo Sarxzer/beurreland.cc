@@ -15,23 +15,23 @@
 }
 
 * {
-  cursor: url("/src/cur/jambon-beurre.cur"), auto;
+  cursor: url("/assets/cur/jambon-beurre.cur"), auto;
 }
 
 a, button {
-  cursor: url("/src/cur/jambon-beurre.cur"), pointer;
+  cursor: url("/assets/cur/jambon-beurre.cur"), pointer;
 }
 
 input, textarea {
-  cursor: url("/src/cur/jambon-beurre.cur"), text;
+  cursor: url("/assets/cur/jambon-beurre.cur"), text;
 }
 
 .disabled {
-  cursor: url("/src/cur/jambon-beurre.cur"), not-allowed;
+  cursor: url("/assets/cur/jambon-beurre.cur"), not-allowed;
 }
 
 .loading {
-  cursor: url("/src/cur/jambon-beurre.cur"), wait;
+  cursor: url("/assets/cur/jambon-beurre.cur"), wait;
 }
 
 
