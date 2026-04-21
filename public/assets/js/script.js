@@ -377,7 +377,7 @@ function googleTranslateElementInit() {
 function loadGuestbookLatestMessage() {
     const sidebarGuestbookPreview = document.getElementById("guestbook-latest-message");
 
-    fetch("/api/guestbook.php?id=latest&html=true")
+    fetch("/api/v1/guestbook.php?id=latest&html=true")
         .then((response) => response.json())
         .then((data) => {
             if (!data || !data.message) {
