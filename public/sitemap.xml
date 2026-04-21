@@ -9,27 +9,47 @@
 
 <url>
   <loc>https://beurreland.cc/</loc>
-  <lastmod>2026-04-11T23:37:13+00:00</lastmod>
+  <lastmod>2026-04-21T15:00:14+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
   <loc>https://beurreland.cc/?jambon=beurre</loc>
-  <lastmod>2026-04-11T23:37:13+00:00</lastmod>
+  <lastmod>2026-04-21T15:00:14+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://beurreland.cc/contact</loc>
+  <lastmod>2026-04-21T15:00:14+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://beurreland.cc/guestbook</loc>
+  <lastmod>2026-04-21T15:00:14+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://beurreland.cc/github</loc>
-  <lastmod>2026-04-11T23:37:13+00:00</lastmod>
+  <lastmod>2026-04-21T15:00:14+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://beurreland.cc/src/old</loc>
-  <lastmod>2026-04-11T23:37:13+00:00</lastmod>
+  <loc>https://beurreland.cc/assets/old</loc>
+  <lastmod>2026-04-21T15:00:14+00:00</lastmod>
   <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://beurreland.cc/contact?jambon=beurre</loc>
+  <lastmod>2026-04-21T15:00:14+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://beurreland.cc/guestbook?jambon=beurre</loc>
+  <lastmod>2026-04-21T15:00:14+00:00</lastmod>
+  <priority>0.64</priority>
 </url>
 <url>
   <loc>https://beurreland.cc/github?jambon=beurre</loc>
-  <lastmod>2026-04-11T23:37:13+00:00</lastmod>
+  <lastmod>2026-04-21T15:00:14+00:00</lastmod>
   <priority>0.64</priority>
 </url>
 
