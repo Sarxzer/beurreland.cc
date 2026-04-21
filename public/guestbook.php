@@ -3,7 +3,8 @@ require_once '../src/php/database.php';
 
 $messages = $pdo->query("SELECT * FROM guestbook ORDER BY id DESC")->fetchAll();
 
-function bbcode_to_html($text) {
+function bbcode_to_html($text)
+{
 
     $bbcodes = [
         // Bold
@@ -98,11 +99,13 @@ function bbcode_to_html($text) {
             </form>
         </div>
 
-        <div class="messages">
+        <div class="guestbook">
             <h2>Messages récents</h2>
-            <?php if (empty($messages)): ?>
-                <p>Aucun message pour le moment. Soyez le premier à laisser un message au Dieu du Beurre !</p>
-            <?php endif; ?>
+            <button id="reload">Recharger</button>
+            <div id="guestbook-messages" class="messages">
+                <?php if (empty($messages)): ?>
+                    <p>Aucun message pour le moment. Soyez le premier à laisser un message au Dieu du Beurre !</p>
+                <?php endif; ?>
                 <?php foreach ($messages as $message): ?>
                     <div class="message">
                         <span class="name"><?= htmlspecialchars($message['name']) ?></span>
@@ -111,6 +114,7 @@ function bbcode_to_html($text) {
                         <div class="content"><?= bbcode_to_html($message['message']) ?></div>
                     </div>
                 <?php endforeach; ?>
+            </div>
         </div>
 
         <?php include "../inc/footer.php"; ?>
@@ -120,7 +124,7 @@ function bbcode_to_html($text) {
 
     <script src="/assets/js/bbcode.js"></script>
     <script src="/assets/js/script.js"></script>
-    
+
 
 </body>
 

@@ -1,11 +1,13 @@
 <?php
-require __DIR__ . '/../../vendor/autoload.php';
+$baseDir = __DIR__ . '/../../../';
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
+require $baseDir . '/vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable($baseDir);
 $dotenv->load();
 
 header('Content-Type: application/json');
-require_once __DIR__ . '/../../src/php/database.php';
+require_once $baseDir . '/src/php/database.php';
 
 function bbcode_to_html($text) {
 

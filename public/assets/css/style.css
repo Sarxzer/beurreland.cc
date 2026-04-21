@@ -295,7 +295,7 @@ a.big-center-link {
     padding: 20px;
 }
 
-.messages h2 {
+.guestbook h2 {
     text-align: center;
     color: var(--beurre-text-light);
     font-size: 22px;
@@ -304,7 +304,7 @@ a.big-center-link {
         2px 2px 0 var(--beurre-shadow);
 }
 
-.messages .message {
+.guestbook .messages .message {
     background: var(--beurre-light-secondary);
     border: 2px solid var(--beurre-dark);
     border-radius: 4px;
@@ -313,33 +313,33 @@ a.big-center-link {
     box-shadow: inset 0 0 5px var(--beurre-shadow);
 }
 
-.messages .message .name {
+.guestbook .messages .message .name {
     font-weight: bold;
     color: var(--beurre-text);
     margin-bottom: 4px;
 }
 
-.messages .message .date {
+.guestbook .messages .message .date {
     font-size: 12px;
     color: var(--beurre-text-secondary);
     margin-bottom: 6px;
 }
 
-.messages .message .content {
+.guestbook .messages .message .content {
     color: var(--beurre-text);
     margin: 12px;
 }
 
-.messages .message .content a {
+.guestbook .messages .message .content a {
     color: var(--beurre-text-light);
     text-decoration: underline;
 }
 
-.messages .message .content a:hover {
+.guestbook .messages .message .content a:hover {
     color: var(--beurre-text);
 }
 
-.messages .message .content code {
+.guestbook .messages .message .content code {
     font-family: "Courier New", Courier, monospace;
     background-color: var(--beurre-dark);
     color: #fff;
@@ -347,7 +347,7 @@ a.big-center-link {
     border-radius: 4px;
 }
 
-.messages .message .content pre {
+.guestbook .messages .message .content pre {
     font-family: "Courier New", Courier, monospace;
     background-color: var(--beurre-dark);
     color: #fff;
@@ -356,7 +356,7 @@ a.big-center-link {
     overflow-x: auto;
 }
 
-.messages .message .content img {
+.guestbook .messages .message .content img {
     max-width: 50%;
     height: auto;
     margin-top: 10px;

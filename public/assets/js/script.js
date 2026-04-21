@@ -71,7 +71,7 @@ const splashTexts = [
     "Vive le Jambon-Beurre!!!",
     "Butter is love, butter is life!!!",
     "In Butter We Trust!!!",
-    "Best viewed on desktop!!!",
+    "Best viewed in 1920x1080!!!",
     "Hail Beurreland!!!",
     "Hail le Jambon-Beurre!!!",
     "Hail Frescri!!!",
@@ -262,7 +262,7 @@ function activateEasterEgg() {
         });
 
         document.querySelectorAll(".snowflake-image").forEach((img) => {
-            img.style.filter = ""; 
+            img.style.filter = "";
             img.style.transform = "";
         });
 
@@ -359,7 +359,6 @@ function removeEasterEgg() {
           .loading { cursor: url('/assets/cur/jambon-beurre.cur'), wait !important; }
         `;
         document.head.appendChild(style);
-
     }, 1250); // wait 1/4 of the duration of the animation before changing colors
 
     setTimeout(() => {
@@ -375,7 +374,9 @@ function googleTranslateElementInit() {
 }
 
 function loadGuestbookLatestMessage() {
-    const sidebarGuestbookPreview = document.getElementById("guestbook-latest-message");
+    const sidebarGuestbookPreview = document.getElementById(
+        "guestbook-latest-message",
+    );
 
     fetch("/api/v1/guestbook.php?id=latest&html=true")
         .then((response) => response.json())
@@ -395,10 +396,75 @@ function loadGuestbookLatestMessage() {
             `;
         })
         .catch((error) => {
-            console.error("Erreur lors de la récupération du dernier message du livre d'or :", error);
-            sidebarGuestbookPreview.textContent = "Impossible de récupérer le dernier message.";
+            console.error(
+                "Erreur lors de la récupération du dernier message du livre d'or :",
+                error,
+            );
+            sidebarGuestbookPreview.textContent =
+                "Impossible de récupérer le dernier message.";
         });
 }
 
 loadGuestbookLatestMessage();
 setInterval(loadGuestbookLatestMessage, 30000); // Refresh every 30 seconds
+
+function reloadGuestbook() {
+    const guestbookContainer = document.getElementById("guestbook-messages");
+
+    fetch("/api/v1/guestbook.php?html=true")
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Messages du livre d'or récupérés :", data);
+            if (!data) {
+                guestbookContainer.innerHTML = "<p>Aucun message trouvé.</p>";
+                return;
+            }
+
+            let messages = "";
+            data.forEach((message) => {
+                const author = message.name;
+                const content = message.message;
+
+                const date = new Date(message.created_at);
+
+                const parts = new Intl.DateTimeFormat("fr-FR", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
+                    timeZone: "Europe/Paris", // optional
+                }).formatToParts(date);
+
+                const map = Object.fromEntries(
+                    parts
+                        .filter((p) => p.type !== "literal")
+                        .map((p) => [p.type, p.value]),
+                );
+
+                let formattedDate = `le ${map.day}/${map.month}/${map.year} à ${map.hour}:${map.minute}`;
+
+                const messageElement = document.createElement("div");
+                messageElement.classList.add("message");
+                messageElement.innerHTML = `
+                <span class="name">${author}</span>
+                <span class="date">(${formattedDate})</span>
+                </br>
+                <div class="content">${content}</div>
+            `;
+                messages += messageElement.outerHTML;
+            });
+            guestbookContainer.innerHTML = messages;
+        })
+        .catch((error) => {
+            console.error(
+                "Erreur lors de la récupération des messages du livre d'or :",
+                error,
+            );
+            guestbookContainer.innerHTML =
+                "<p>Impossible de récupérer les messages.</p>";
+        });
+}
+
+document.getElementById("reload").addEventListener("click", reloadGuestbook);
