@@ -35,6 +35,7 @@ document.getElementById('bb-bold').addEventListener('click', () => bbwrap('b'));
 document.getElementById('bb-italic').addEventListener('click', () => bbwrap('i'));
 document.getElementById('bb-underline').addEventListener('click', () => bbwrap('u'));
 document.getElementById('bb-strikethrough').addEventListener('click', () => bbwrap('s'));
+document.getElementById('bb-wave').addEventListener('click', () => bbwrap('wave'));
 document.getElementById('bb-url').addEventListener('click', () => bbwrap('url'));
 document.getElementById('bb-image').addEventListener('click', () => bbwrap('img'));
 document.getElementById('bb-code').addEventListener('click', () => bbwrap('code'));

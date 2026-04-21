@@ -1,43 +1,8 @@
 <?php
 require_once '../src/php/database.php';
+require_once '../src/php/bbcode.php';
 
 $messages = $pdo->query("SELECT * FROM guestbook ORDER BY id DESC")->fetchAll();
-
-function bbcode_to_html($text)
-{
-
-    $bbcodes = [
-        // Bold
-        '/\[b\](.*?)\[\/b\]/is' => '<strong>$1</strong>',
-
-        // Italic
-        '/\[i\](.*?)\[\/i\]/is' => '<em>$1</em>',
-
-        // Underline
-        '/\[u\](.*?)\[\/u\]/is' => '<u>$1</u>',
-
-        // Strike
-        '/\[s\](.*?)\[\/s\]/is' => '<s>$1</s>',
-
-        // URL [url]link[/url]
-        '/\[url\](https?:\/\/.*?)\[\/url\]/is' => '<a href="$1" target="_blank" rel="noopener">$1</a>',
-
-        // URL [url=link]text[/url]
-        '/\[url=(https?:\/\/.*?)\](.*?)\[\/url\]/is' => '<a href="$1" target="_blank" rel="noopener">$2</a>',
-
-        // Image
-        '/\[img\](https?:\/\/.*?)\[\/img\]/is' => '<a href="$1" target="_blank" rel="noopener"><img src="$1" alt="image" /></a>',
-
-        // Code
-        '/\[code\](.*?)\[\/code\]/is' => '<pre><code>$1</code></pre>',
-    ];
-
-    foreach ($bbcodes as $pattern => $replace) {
-        $text = preg_replace($pattern, $replace, $text);
-    }
-
-    return nl2br($text);
-}
 ?>
 <?php $current_file = __FILE__; ?>
 
@@ -58,9 +23,9 @@ function bbcode_to_html($text)
 
 
     <!-- Google Translate -->
-    <!-- <script type="text/javascript"
+    <script type="text/javascript"
         src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
-    </script> -->
+    </script>
 </head>
 
 <body>
@@ -81,13 +46,14 @@ function bbcode_to_html($text)
             <h2>Ajouter un message</h2>
             <form action="sign.php" method="post">
                 <label for="name">Nom :</label>
-                <input type="text" id="name" name="name" required>
+                <input type="text" id="name" name="name" required maxlength="50">
 
                 <div class="bbcode-bar">
                     <button type="button" class="bbcode-btn" id="bb-bold">B</button>
                     <button type="button" class="bbcode-btn" id="bb-italic">I</button>
                     <button type="button" class="bbcode-btn" id="bb-underline">U</button>
                     <button type="button" class="bbcode-btn" id="bb-strikethrough">S</button>
+                    <button type="button" class="bbcode-btn wave-auto" id="bb-wave">WAVE</button>
                     <button type="button" class="bbcode-btn" id="bb-url">URL</button>
                     <button type="button" class="bbcode-btn" id="bb-image"><img src="/assets/img/Butter_Pixel.png" alt="Image"></button>
                     <button type="button" class="bbcode-btn" id="bb-code">CODE</button>

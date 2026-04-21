@@ -41,29 +41,33 @@ function fetchCounter() {
 setInterval(fetchCounter, 5000);
 incrementCounter();
 
-document.querySelectorAll(".wave-auto").forEach((link) => {
-    const text = link.textContent;
-    link.textContent = "";
-    [...text].forEach((char, i) => {
-        const span = document.createElement("span");
-        span.classList.add("wave");
-        span.textContent = char === " " ? "\u00A0" : char;
-        span.style.animationDelay = `${i * 0.05}s`;
-        link.appendChild(span);
+function loadWaveAnimation() {
+    document.querySelectorAll(".wave-auto").forEach((link) => {
+        const text = link.textContent;
+        link.textContent = "";
+        [...text].forEach((char, i) => {
+            const span = document.createElement("span");
+            span.classList.add("wave");
+            span.textContent = char === " " ? "\u00A0" : char;
+            span.style.animationDelay = `${i * 0.05}s`;
+            link.appendChild(span);
+        });
     });
-});
 
-document.querySelectorAll(".wave-auto-big").forEach((link) => {
-    const text = link.textContent;
-    link.textContent = "";
-    [...text].forEach((char, i) => {
-        const span = document.createElement("span");
-        span.classList.add("waveBig");
-        span.textContent = char === " " ? "\u00A0" : char;
-        span.style.animationDelay = `${i * 0.05}s`;
-        link.appendChild(span);
+    document.querySelectorAll(".wave-auto-big").forEach((link) => {
+        const text = link.textContent;
+        link.textContent = "";
+        [...text].forEach((char, i) => {
+            const span = document.createElement("span");
+            span.classList.add("waveBig");
+            span.textContent = char === " " ? "\u00A0" : char;
+            span.style.animationDelay = `${i * 0.05}s`;
+            link.appendChild(span);
+        });
     });
-});
+}
+
+loadWaveAnimation();
 
 const splashTexts = [
     "Beurre!!!",
@@ -373,6 +377,27 @@ function googleTranslateElementInit() {
     );
 }
 
+function dateToFrenchLocale(dateString) {
+    const date = new Date(dateString);
+
+    const parts = new Intl.DateTimeFormat("fr-FR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+        timeZone: "Europe/Paris", // optional
+    }).formatToParts(date);
+
+    const map = Object.fromEntries(
+        parts.filter((p) => p.type !== "literal").map((p) => [p.type, p.value]),
+    );
+
+    let formattedDate = `le ${map.day}/${map.month}/${map.year} à ${map.hour}:${map.minute}`;
+    return formattedDate;
+}
+
 function loadGuestbookLatestMessage() {
     const sidebarGuestbookPreview = document.getElementById(
         "guestbook-latest-message",
@@ -388,12 +413,14 @@ function loadGuestbookLatestMessage() {
 
             const message = data.message;
             const author = data.name;
-            const date = new Date(data.created_at).toLocaleString();
+            const date = dateToFrenchLocale(data.created_at);
 
             sidebarGuestbookPreview.innerHTML = `
                 <span class="name">${author} </span> <span class="date">(${date})</span><br>
                 <div class="content">${message}</div>
             `;
+
+            loadWaveAnimation(); // Reapply wave animation to new messages
         })
         .catch((error) => {
             console.error(
@@ -425,25 +452,7 @@ function reloadGuestbook() {
                 const author = message.name;
                 const content = message.message;
 
-                const date = new Date(message.created_at);
-
-                const parts = new Intl.DateTimeFormat("fr-FR", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: false,
-                    timeZone: "Europe/Paris", // optional
-                }).formatToParts(date);
-
-                const map = Object.fromEntries(
-                    parts
-                        .filter((p) => p.type !== "literal")
-                        .map((p) => [p.type, p.value]),
-                );
-
-                let formattedDate = `le ${map.day}/${map.month}/${map.year} à ${map.hour}:${map.minute}`;
+                const formattedDate = dateToFrenchLocale(message.created_at);
 
                 const messageElement = document.createElement("div");
                 messageElement.classList.add("message");
@@ -456,6 +465,8 @@ function reloadGuestbook() {
                 messages += messageElement.outerHTML;
             });
             guestbookContainer.innerHTML = messages;
+
+            loadWaveAnimation(); // Reapply wave animation to new messages
         })
         .catch((error) => {
             console.error(

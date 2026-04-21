@@ -6,43 +6,16 @@ require $baseDir . '/vendor/autoload.php';
 $dotenv = Dotenv\Dotenv::createImmutable($baseDir);
 $dotenv->load();
 
+$config = HTMLPurifier_Config::createDefault();
+
+$config->set('HTML.Allowed', 'b,i,em,strong,a[href],p,br,ul,ol,li,blockquote,code');
+
+$purifier = new HTMLPurifier($config);
+
 header('Content-Type: application/json');
+
 require_once $baseDir . '/src/php/database.php';
-
-function bbcode_to_html($text) {
-
-    $bbcodes = [
-        // Bold
-        '/\[b\](.*?)\[\/b\]/is' => '<strong>$1</strong>',
-
-        // Italic
-        '/\[i\](.*?)\[\/i\]/is' => '<em>$1</em>',
-
-        // Underline
-        '/\[u\](.*?)\[\/u\]/is' => '<u>$1</u>',
-
-        // Strike
-        '/\[s\](.*?)\[\/s\]/is' => '<s>$1</s>',
-
-        // URL [url]link[/url]
-        '/\[url\](https?:\/\/.*?)\[\/url\]/is' => '<a href="$1" target="_blank" rel="noopener">$1</a>',
-
-        // URL [url=link]text[/url]
-        '/\[url=(https?:\/\/.*?)\](.*?)\[\/url\]/is' => '<a href="$1" target="_blank" rel="noopener">$2</a>',
-
-        // Image
-        '/\[img\](https?:\/\/.*?)\[\/img\]/is' => '<a href="$1" target="_blank" rel="noopener"><img src="$1" alt="image" /></a>',
-
-        // Code
-        '/\[code\](.*?)\[\/code\]/is' => '<pre><code>$1</code></pre>',
-    ];
-
-    foreach ($bbcodes as $pattern => $replace) {
-        $text = preg_replace($pattern, $replace, $text);
-    }
-
-    return nl2br($text);
-}
+require_once $baseDir . '/src/php/bbcode.php';
 
 
 function getUserIP() {
@@ -133,8 +106,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     $data['ip'] = getUserIP();
 
+    $name = substr(trim($data['name']), 0, 50);
+    $message = substr(trim($data['message']), 0, 1000);
+
+    $name = $purifier->purify($name);
+    $message = $purifier->purify($message);
+
     $stmt = $pdo->prepare("INSERT INTO guestbook (name, message, ip_address) VALUES (?, ?, ?)");
-    $stmt->execute([$data['name'], $data['message'], $data['ip']]);
+    $stmt->execute([$name, $message, $data['ip']]);
     http_response_code(201);
     echo json_encode(['success' => 'Message ajouté avec succès', 'id' => $pdo->lastInsertId()]);
     exit;
