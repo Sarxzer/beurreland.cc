@@ -7,6 +7,41 @@ $dotenv->load();
 header('Content-Type: application/json');
 require_once __DIR__ . '/../../src/php/database.php';
 
+function bbcode_to_html($text) {
+
+    $bbcodes = [
+        // Bold
+        '/\[b\](.*?)\[\/b\]/is' => '<strong>$1</strong>',
+
+        // Italic
+        '/\[i\](.*?)\[\/i\]/is' => '<em>$1</em>',
+
+        // Underline
+        '/\[u\](.*?)\[\/u\]/is' => '<u>$1</u>',
+
+        // Strike
+        '/\[s\](.*?)\[\/s\]/is' => '<s>$1</s>',
+
+        // URL [url]link[/url]
+        '/\[url\](https?:\/\/.*?)\[\/url\]/is' => '<a href="$1" target="_blank" rel="noopener">$1</a>',
+
+        // URL [url=link]text[/url]
+        '/\[url=(https?:\/\/.*?)\](.*?)\[\/url\]/is' => '<a href="$1" target="_blank" rel="noopener">$2</a>',
+
+        // Image
+        '/\[img\](https?:\/\/.*?)\[\/img\]/is' => '<a href="$1" target="_blank" rel="noopener"><img src="$1" alt="image" /></a>',
+
+        // Code
+        '/\[code\](.*?)\[\/code\]/is' => '<pre><code>$1</code></pre>',
+    ];
+
+    foreach ($bbcodes as $pattern => $replace) {
+        $text = preg_replace($pattern, $replace, $text);
+    }
+
+    return nl2br($text);
+}
+
 
 function getUserIP() {
     if (!empty($_SERVER['HTTP_CF_CONNECTING_IP'])) {
@@ -25,9 +60,17 @@ function getUserIP() {
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $id = isset($_GET['id']) ? $_GET['id'] : null;
 
+    $html = isset($_GET['html']) && $_GET['html'] === 'true';
+
     if (!isset($id)) {
         http_response_code(200);
         $messages = $pdo->query("SELECT id, message, name, created_at FROM guestbook ORDER BY id DESC")->fetchAll();
+        
+        if ($html) {
+            foreach ($messages as &$message) {
+                $message['message'] = bbcode_to_html($message['message']);
+            }
+        }
         echo json_encode($messages);
         exit;
     }
@@ -39,6 +82,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             http_response_code(404);
             echo json_encode(['error' => 'Aucun message trouvé', 'message' => $message]);
             exit;
+        }
+        if ($html) {
+            $message['message'] = bbcode_to_html($message['message']);
         }
         echo json_encode($message);
         exit;
@@ -52,6 +98,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         echo json_encode(['error' => 'Message non trouvé', 'id' => $id]);
         exit;
     }
+    if ($html) {
+        $message['message'] = bbcode_to_html($message['message']);
+    }
+
     echo json_encode($message);
     exit;
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {

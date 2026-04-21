@@ -15,4 +15,10 @@
             <div class="cube-face bottom"><img src="/assets/img/Fresnik_Mobile.png" alt=""></div>
         </div>
     </div>
+    <div class="guestbook-preview">
+        <a href="/guestbook"><h2>Guestbook</h2></a>
+        <p>Laissez un message dans notre livre d'or !</p>
+        <h3>Derniers Messages</h3>
+        <div id="guestbook-latest-message">...</div>
+    </div>
 </div>

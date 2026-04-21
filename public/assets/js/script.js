@@ -373,3 +373,32 @@ function googleTranslateElementInit() {
         "google_translate_element",
     );
 }
+
+function loadGuestbookLatestMessage() {
+    const sidebarGuestbookPreview = document.getElementById("guestbook-latest-message");
+
+    fetch("/api/guestbook.php?id=latest&html=true")
+        .then((response) => response.json())
+        .then((data) => {
+            if (!data || !data.message) {
+                sidebarGuestbookPreview.textContent = "Aucun message trouvé.";
+                return;
+            }
+
+            const message = data.message;
+            const author = data.name;
+            const date = new Date(data.created_at).toLocaleString();
+
+            sidebarGuestbookPreview.innerHTML = `
+                <span class="name">${author} </span> <span class="date">(${date})</span><br>
+                <div class="content">${message}</div>
+            `;
+        })
+        .catch((error) => {
+            console.error("Erreur lors de la récupération du dernier message du livre d'or :", error);
+            sidebarGuestbookPreview.textContent = "Impossible de récupérer le dernier message.";
+        });
+}
+
+loadGuestbookLatestMessage();
+setInterval(loadGuestbookLatestMessage, 30000); // Refresh every 30 seconds
