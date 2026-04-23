@@ -8,7 +8,7 @@ if (empty($_SESSION['csrf_token'])) {
 require_once '../src/php/database.php';
 require_once '../src/php/bbcode.php';
 
-$messages = $pdo->query("SELECT * FROM guestbook ORDER BY id DESC")->fetchAll();
+$messages = $pdo->query("SELECT * FROM guestbook WHERE `status` != 'deleted' ORDER BY id DESC")->fetchAll();
 ?>
 <?php $current_file = __FILE__; ?>
 
@@ -83,6 +83,7 @@ $messages = $pdo->query("SELECT * FROM guestbook ORDER BY id DESC")->fetchAll();
                 <?php endif; ?>
                 <?php foreach ($messages as $message): ?>
                     <div class="message">
+                        <button class="admin-only" style="display: none;" onclick="deleteMessage(<?= $message['id'] ?>)">Supprimer id: <?= $message['id'] ?></button>
                         <span class="name"><?= htmlspecialchars($message['name']) ?></span>
                         <span class="date">(<?= date('\l\e d/m/Y à H:i', strtotime($message['created_at'])) ?>)</span>
                         <br>

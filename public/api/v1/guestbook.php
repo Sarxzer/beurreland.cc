@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if (!isset($id)) {
         http_response_code(200);
-        $messages = $pdo->query("SELECT id, message, name, created_at FROM guestbook ORDER BY id DESC")->fetchAll();
+        $messages = $pdo->query("SELECT id, message, name, created_at FROM guestbook WHERE `status` != 'deleted' ORDER BY id DESC")->fetchAll();
         
         if ($html) {
             foreach ($messages as &$message) {
@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     if ($id == 'latest') {         // Get the latest message
         http_response_code(200);
-        $message = $pdo->query("SELECT id, message, name, created_at FROM guestbook ORDER BY id DESC LIMIT 1")->fetch();
+        $message = $pdo->query("SELECT id, message, name, created_at FROM guestbook WHERE `status` != 'deleted' ORDER BY id DESC LIMIT 1")->fetch();
         if (!$message) {
             http_response_code(404);
             echo json_encode(['error' => 'Aucun message trouvé', 'message' => $message]);

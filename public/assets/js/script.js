@@ -146,6 +146,7 @@ if (params.get("purple") === "guy") {
 }
 
 const secret = ["3", "9", "5", "2", "4", "8"];
+const admin = ["a", "d", "m", "i", "n"];
 
 let buffer = [];
 
@@ -163,6 +164,12 @@ document.addEventListener("keydown", (e) => {
         JSON.stringify(secret).toLowerCase()
     ) {
         toggleEasterEgg();
+        buffer = []; // reset so it can be triggered again later
+    }
+    if (JSON.stringify(buffer).toLowerCase() ===
+        JSON.stringify(admin).toLowerCase()
+    ) {
+        setupAdmin();
         buffer = []; // reset so it can be triggered again later
     }
 });
@@ -479,3 +486,46 @@ function reloadGuestbook() {
 }
 
 document.getElementById("reload").addEventListener("click", reloadGuestbook);
+
+
+
+
+
+/* Admin setup */
+
+function setupAdmin() {
+    const password = prompt("Entrez le mot de passe pour accéder aux fonctionnalités d'administration:");
+
+    if (!password) return;
+
+    sessionStorage.setItem("adminPassword", password);
+
+    const adminElements = document.querySelectorAll(".admin-only");
+
+    adminElements.forEach((el) => (el.style.display = "block"));
+}
+
+function deleteMessage(id) {
+    if (!confirm("Êtes-vous sûr de vouloir supprimer ce message ?")) return;
+
+    const adminPassword = sessionStorage.getItem("adminPassword");
+
+    fetch(`/api/v1/guestbook.php?id=${id}`, {
+        method: "DELETE",
+        headers: {
+            "X-Auth-Token": adminPassword,
+        },
+    })
+        .then((response) => {
+            if (response.ok) {
+                alert("Message supprimé avec succès.");
+                reloadGuestbook();
+            } else {
+                alert("Échec de la suppression du message.");
+            }
+        })
+        .catch((error) => {
+            console.error("Erreur lors de la suppression du message :", error);
+            alert("Une erreur est survenue lors de la suppression du message.");
+        });
+}
