@@ -1,4 +1,10 @@
 <?php
+session_start();
+
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 require_once '../src/php/database.php';
 require_once '../src/php/bbcode.php';
 
@@ -60,6 +66,9 @@ $messages = $pdo->query("SELECT * FROM guestbook ORDER BY id DESC")->fetchAll();
                 </div>
                 <label for="message">Message :</label>
                 <textarea id="message" name="message" rows="5" required></textarea>
+
+                <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+                <input type="text" name="website" style="display:none">
 
                 <button id="submit-btn" type="submit">Envoyer au Dieu du Beurre</button>
             </form>
