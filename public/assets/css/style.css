@@ -444,6 +444,7 @@ a.big-center-link {
 .guestbook-form input,
 .guestbook-form textarea {
     width: 80%;
+    max-width: 100%;
     padding: 8px;
     margin-bottom: 12px;
     border: 2px solid var(--beurre-dark);
@@ -573,6 +574,7 @@ a.big-center-link {
 .contact-form input,
 .contact-form textarea {
     width: 80%;
+    max-width: 100%;
     padding: 8px;
     margin-bottom: 12px;
     border: 2px solid var(--beurre-dark);
