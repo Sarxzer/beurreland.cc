@@ -39,6 +39,10 @@
             <figcaption>Fresgozila ravageant le serveur</figcaption>
         </figure>
 
+        <?php if (isset($error_message)): ?>
+            <p class="error-message"><?= htmlspecialchars($error_message) ?></p>
+        <?php endif; ?>
+
         <a href="/" class="big-center-link wave-auto">Retour à la page d'accueil</a>
 
         <?php include "../inc/footer.php"; ?>

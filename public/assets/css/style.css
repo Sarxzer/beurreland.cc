@@ -210,11 +210,6 @@ a {
     pointer-events: none;
 }
 
-@keyframes splash-pop {
-    from { transform: translateY(-50%) rotate(-20deg) scale(1); }
-    to   { transform: translateY(-50%) rotate(-20deg) scale(1.12); }
-}
-
 .banner h1 {
     margin: 0;
     margin-bottom: 30px;
@@ -404,6 +399,15 @@ a.big-center-link {
         2px 2px 0 var(--beurre-shadow);
     animation: blink-red 1s steps(1) infinite;
 }
+
+.error-message {
+    margin-top: 20px;
+    color: #ff0000;
+    font-weight: bold;
+    text-align: center;
+}
+
+
 
 /* Guestbook form */
 .guestbook-form {
@@ -948,6 +952,11 @@ a.big-center-link {
     }
 }
 
+@keyframes splash-pop {
+    from { transform: translateY(-50%) rotate(-20deg) scale(1); }
+    to   { transform: translateY(-50%) rotate(-20deg) scale(1.12); }
+}
+
 /* Responsive design for smaller screens */
 
 @media (max-width: 820px) {
@@ -1018,8 +1027,18 @@ a.big-center-link {
         display: none;
     }
 
-    .rsidebar {
+    /* .rsidebar {
         display: none;
+    } */
+
+    /* rsidebar becomes a module below content on phone */
+    .rsidebar {
+        position: static;
+        float: none;
+        width: calc(100% - 24px);
+        max-width: 420px;
+        margin: 12px auto 20px;
+        padding: 14px;
     }
 }
 

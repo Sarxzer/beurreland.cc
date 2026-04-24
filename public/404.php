@@ -27,7 +27,7 @@
     <div id="google_translate_element"></div>
 
     <?php include "../inc/sidebar.php"; ?>
-    
+
     <div class="page">
         <div class="banner">
             <h1>404 - Pas de <span class="tooltip">beuere <p class="tooltiptext">Désolé, le dieu du beurre est dyslexique</p></span></h1>
@@ -38,6 +38,10 @@
             <img src="/assets/img/davide-jambon-beuere.gif" alt="Beurre pas de bol" width="600">
             <figcaption>Beurre pas de bol</figcaption>
         </figure>
+
+        <?php if (isset($error_message)): ?>
+            <p class="error-message"><?= htmlspecialchars($error_message) ?></p>
+        <?php endif; ?>
 
         <a href="/" class="big-center-link wave-auto">Retour à la page d'accueil</a>
 

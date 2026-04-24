@@ -2,20 +2,28 @@
 session_start();
 
 if (
-    empty($_POST['csrf']) ||
-    empty($_SESSION['csrf']) ||
-    !hash_equals($_SESSION['csrf'], $_POST['csrf'])
+    empty($_POST['csrf_token']) ||
+    empty($_SESSION['csrf_token']) ||
+    !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
 ) {
-    http_response_code(403);
-    exit('Invalid CSRF token');
+    // http_response_code(403);
+    // exit('Invalid CSRF token');
+    //use cutom 403 error page
+    $error_message = 'Token CSRF invalide. Veuillez réessayer.';
+    require '403.php';
+    exit;
 }
 
 if (
     empty($_SERVER['HTTP_ORIGIN']) ||
-    parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_HOST) !== 'yourdomain.tld'
+    parse_url($_SERVER['HTTP_ORIGIN'], PHP_URL_HOST) !== 'beurreland.cc'
 ) {
-    http_response_code(403);
-    exit('Bad origin');
+    // http_response_code(403);
+    // exit('Invalid origin');
+    //use custom 403 error page
+    $error_message = 'Origine invalide. Veuillez réessayer.';
+    require '403.php';
+    exit;
 }
 
 require_once '../vendor/autoload.php';
@@ -79,8 +87,12 @@ if ($name && $message) {
         $stmt = $pdo->prepare("INSERT INTO guestbook (name, message, ip_address) VALUES (?, ?, ?)");
         $stmt->execute([$name, $message, $ip]);
     } else {
-        http_response_code(429);
-        exit('Too many messages from this IP address. Please try again later.');
+        // http_response_code(429);
+        // exit('Too many messages from this IP address. Please try again later.');
+        //use custom 429 error page
+        $error_message = 'Trop de messages envoyés depuis cette adresse IP. Veuillez réessayer plus tard.';
+        require '429.php';
+        exit;
     }
 }
 
