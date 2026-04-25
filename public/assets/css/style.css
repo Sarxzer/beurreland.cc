@@ -1188,3 +1188,7 @@ a.big-center-link {
 }
 
 
+/* Admin page */
+.admin-only {
+    display: none;
+}

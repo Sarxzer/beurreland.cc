@@ -18,7 +18,8 @@ require_once $baseDir . '/src/php/database.php';
 require_once $baseDir . '/src/php/bbcode.php';
 
 
-function getUserIP() {
+function getUserIP()
+{
     if (!empty($_SERVER['HTTP_CF_CONNECTING_IP'])) {
         return $_SERVER['HTTP_CF_CONNECTING_IP'];
     }
@@ -28,6 +29,23 @@ function getUserIP() {
     }
 
     return $_SERVER['REMOTE_ADDR'];
+}
+
+
+function isKeyValid($pdo, $key)
+{
+    // check if the provided key matches the one in the new database table
+    $stmt = $pdo->prepare("SELECT id FROM api_keys WHERE api_key = ?");
+    $stmt->execute([$key]);
+    return !!$stmt->fetch();
+}
+
+function keyUsed($pdo, $key, $usageType = 'guestbook')
+{
+    // update the last_used timestamp of the key in the database
+    $ip = getUserIP();
+    $stmt = $pdo->prepare("INSERT INTO api_key_usage (api_key_id, used_type, ip_address) VALUES ((SELECT id FROM api_keys WHERE api_key = ?), ?, ?)");
+    $stmt->execute([$key, $usageType, $ip]);
 }
 
 // guestbook API
@@ -40,13 +58,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (!isset($id)) {
         http_response_code(200);
         $messages = $pdo->query("SELECT id, message, name, created_at FROM guestbook WHERE `status` != 'deleted' ORDER BY id DESC")->fetchAll();
-        
+
         if ($html) {
             foreach ($messages as &$message) {
                 $message['message'] = bbcode_to_html($message['message']);
             }
         }
+
         echo json_encode($messages);
+
+        //keyUsed($pdo, $token, 'guestbook_list');
+
         exit;
     }
 
@@ -61,7 +83,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         if ($html) {
             $message['message'] = bbcode_to_html($message['message']);
         }
+
         echo json_encode($message);
+
+        //keyUsed($pdo, $token, 'guestbook_latest');
+
         exit;
     }
 
@@ -78,6 +104,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
 
     echo json_encode($message);
+
+    keyUsed($pdo, $token, 'guestbook_single');
+
     exit;
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     /* Expected JSON body:
@@ -90,7 +119,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // check token
 
     $token = isset($_SERVER['HTTP_X_AUTH_TOKEN']) ? $_SERVER['HTTP_X_AUTH_TOKEN'] : null;
-    if (!$token || $token !== $_ENV['AUTH_TOKEN']) {   // temporary hardcoded token, should be stored securely in env variable or config file
+    // if (!$token || $token !== $_ENV['AUTH_TOKEN']) {   // temporary hardcoded token, should be stored securely in env variable or config file
+    //     http_response_code(401);
+    //     echo json_encode(['error' => 'Token d\'authentification invalide']);
+    //     exit;
+    // }
+
+    if (!$token || !isKeyValid($pdo, $token)) {
         http_response_code(401);
         echo json_encode(['error' => 'Token d\'authentification invalide']);
         exit;
@@ -115,7 +150,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $stmt = $pdo->prepare("INSERT INTO guestbook (name, message, ip_address) VALUES (?, ?, ?)");
     $stmt->execute([$name, $message, $data['ip']]);
     http_response_code(201);
+
     echo json_encode(['success' => 'Message ajouté avec succès', 'id' => $pdo->lastInsertId()]);
+
+    keyUsed($pdo, $token, 'guestbook_post');
     exit;
 } elseif ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     // Delete a message by ID (admin only)
@@ -128,16 +166,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     // check token
     $token = isset($_SERVER['HTTP_X_AUTH_TOKEN']) ? $_SERVER['HTTP_X_AUTH_TOKEN'] : null;
-    if (!$token || $token !== $_ENV['AUTH_TOKEN']) {   // temporary hardcoded token, should be stored securely in env variable or config file
+    // if (!$token || $token !== $_ENV['AUTH_TOKEN']) {   // temporary hardcoded token, should be stored securely in env variable or config file
+    //     http_response_code(401);
+    //     echo json_encode(['error' => 'Token d\'authentification invalide']);
+    //     exit;
+    // }
+
+    if (!$token || !isKeyValid($pdo, $token)) {
         http_response_code(401);
         echo json_encode(['error' => 'Token d\'authentification invalide']);
         exit;
     }
 
-    $stmt = $pdo->prepare("DELETE FROM guestbook WHERE id = ?");
+    $stmt = $pdo->prepare("UPDATE guestbook SET `status` = 'deleted' WHERE id = ?");
     $stmt->execute([(int)$id]);
     http_response_code(200);
+
     echo json_encode(['success' => 'Message supprimé avec succès', 'id' => $id]);
+
+    keyUsed($pdo, $token, 'guestbook_delete');
+
     exit;
 } else {
     http_response_code(405);

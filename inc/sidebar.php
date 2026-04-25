@@ -22,6 +22,7 @@
             <a href="/contact">Contact</a>
             <a href="/guestbook">Guestbook</a>
             <a href="/github">Github</a>
+            <a href="/panel">Panel</a>
             <a href="javascript:void(0)" id="easter-egg-trigger">Easter Egg</a>
         </div>
 

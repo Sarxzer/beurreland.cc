@@ -83,7 +83,7 @@ $messages = $pdo->query("SELECT * FROM guestbook WHERE `status` != 'deleted' ORD
                 <?php endif; ?>
                 <?php foreach ($messages as $message): ?>
                     <div class="message">
-                        <button class="admin-only" style="display: none;" onclick="deleteMessage(<?= $message['id'] ?>)">Supprimer id: <?= $message['id'] ?></button>
+                        <button class="admin-only" onclick="deleteMessage(<?= $message['id'] ?>)">Supprimer id: <?= $message['id'] ?></button>
                         <span class="name"><?= htmlspecialchars($message['name']) ?></span>
                         <span class="date">(<?= date('\l\e d/m/Y à H:i', strtotime($message['created_at'])) ?>)</span>
                         <br>

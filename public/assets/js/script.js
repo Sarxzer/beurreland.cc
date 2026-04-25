@@ -478,6 +478,7 @@ function reloadGuestbook() {
                 const messageElement = document.createElement("div");
                 messageElement.classList.add("message");
                 messageElement.innerHTML = `
+                <button class="admin-only" onclick="deleteMessage(${message.id})">Supprimer id: ${message.id}</button>
                 <span class="name">${author}</span>
                 <span class="date">(${formattedDate})</span>
                 </br>
@@ -512,9 +513,14 @@ function setupAdmin() {
 
     sessionStorage.setItem("adminPassword", password);
 
-    const adminElements = document.querySelectorAll(".admin-only");
+    // change the css for admin-only elements to make them visible
+    const style = document.createElement("style");
+    style.innerHTML = `
+        .admin-only { display: inline-block !important; }
+    `;
+    document.head.appendChild(style);
 
-    adminElements.forEach((el) => (el.style.display = "block"));
+    alert("Mode administrateur activé !");
 }
 
 function deleteMessage(id) {
