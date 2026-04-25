@@ -41,29 +41,42 @@ function fetchCounter() {
 setInterval(fetchCounter, 5000);
 incrementCounter();
 
-function loadWaveAnimation() {
-    document.querySelectorAll(".wave-auto").forEach((link) => {
-        const text = link.textContent;
-        link.textContent = "";
-        [...text].forEach((char, i) => {
-            const span = document.createElement("span");
-            span.classList.add("wave");
-            span.textContent = char === " " ? "\u00A0" : char;
-            span.style.animationDelay = `${i * 0.05}s`;
-            link.appendChild(span);
-        });
+function waveify(node, className, delayStart = 0) {
+    if (node.querySelector && node.querySelector(`span.${className}`)) {
+        return delayStart; // already processed
+    }
+    let delay = delayStart;
+
+    node.childNodes.forEach((child) => {
+        if (child.nodeType === Node.TEXT_NODE) {
+            const text = child.textContent;
+            const frag = document.createDocumentFragment();
+
+            [...text].forEach((char) => {
+                const span = document.createElement("span");
+                span.classList.add(className);
+                span.textContent = char === " " ? "\u00A0" : char;
+                span.style.animationDelay = `${delay}s`;
+                delay += 0.05;
+                frag.appendChild(span);
+            });
+
+            child.replaceWith(frag);
+        } else if (child.nodeType === Node.ELEMENT_NODE) {
+            delay = waveify(child, className, delay);
+        }
     });
 
-    document.querySelectorAll(".wave-auto-big").forEach((link) => {
-        const text = link.textContent;
-        link.textContent = "";
-        [...text].forEach((char, i) => {
-            const span = document.createElement("span");
-            span.classList.add("waveBig");
-            span.textContent = char === " " ? "\u00A0" : char;
-            span.style.animationDelay = `${i * 0.05}s`;
-            link.appendChild(span);
-        });
+    return delay;
+}
+
+function loadWaveAnimation() {
+    document.querySelectorAll(".wave-auto").forEach((el) => {
+        waveify(el, "wave");
+    });
+
+    document.querySelectorAll(".wave-auto-big").forEach((el) => {
+        waveify(el, "waveBig");
     });
 }
 
@@ -166,7 +179,8 @@ document.addEventListener("keydown", (e) => {
         toggleEasterEgg();
         buffer = []; // reset so it can be triggered again later
     }
-    if (JSON.stringify(buffer).toLowerCase() ===
+    if (
+        JSON.stringify(buffer).toLowerCase() ===
         JSON.stringify(admin).toLowerCase()
     ) {
         setupAdmin();
@@ -487,14 +501,12 @@ function reloadGuestbook() {
 
 document.getElementById("reload").addEventListener("click", reloadGuestbook);
 
-
-
-
-
 /* Admin setup */
 
 function setupAdmin() {
-    const password = prompt("Entrez le mot de passe pour accéder aux fonctionnalités d'administration:");
+    const password = prompt(
+        "Entrez le mot de passe pour accéder aux fonctionnalités d'administration:",
+    );
 
     if (!password) return;
 
