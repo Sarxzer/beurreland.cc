@@ -1,4 +1,5 @@
 <?php
+// Made by copilot for a temporary admin panel, will be removed later when a more complete and secure solution is implemented
 session_start();
 
 require_once '../src/php/database.php';

@@ -1,3 +1,4 @@
+// Made by copilot for a temporary admin panel, will be removed later when a more complete and secure solution is implemented
 document.querySelectorAll(".js-revoke-form").forEach((form) => {
     form.addEventListener("submit", (event) => {
         const ok = window.confirm("Revoke this API key? This cannot be undone.");
