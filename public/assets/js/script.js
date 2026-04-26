@@ -8,23 +8,23 @@ function updateCounter(counterValue, digitElements) {
 
 const digits = document.querySelectorAll(".digit");
 
-function incrementCounter() {
-    fetch("/counter.php?increment=1")
-        .then((r) => r.text())
-        .then((n) => {
-            if (isNaN(n)) {
-                console.error("Invalid counter value received:", n);
-                return;
-            } else {
-                let visits = parseInt(n);
-                updateCounter(visits, digits);
-                console.log(`Counter updated: ${visits} visits`);
-            }
-        });
-}
+// function incrementCounter() {
+//     fetch("/counter.php?increment=1")
+//         .then((r) => r.text())
+//         .then((n) => {
+//             if (isNaN(n)) {
+//                 console.error("Invalid counter value received:", n);
+//                 return;
+//             } else {
+//                 let visits = parseInt(n);
+//                 updateCounter(visits, digits);
+//                 console.log(`Counter updated: ${visits} visits`);
+//             }
+//         });
+// }
 
 function fetchCounter() {
-    fetch("/counter.php?view=1")
+    fetch("/api/v1/counter.php")
         .then((r) => r.text())
         .then((n) => {
             if (isNaN(n)) {
@@ -39,7 +39,7 @@ function fetchCounter() {
 }
 
 setInterval(fetchCounter, 5000);
-incrementCounter();
+fetchCounter(); // initial fetch to set the counter on page load
 
 function waveify(node, className, delayStart = 0) {
     if (node.querySelector && node.querySelector(`span.${className}`)) {

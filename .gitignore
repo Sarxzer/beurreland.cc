@@ -2,4 +2,3 @@
 .env
 /vendor
 passwordgen.php
-database.sql

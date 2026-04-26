@@ -42,6 +42,10 @@ $message = trim($_POST['message']);
 $name = $purifier->purify($name);
 $message = $purifier->purify($message);
 
+// Strip unicode spam characters
+$name = preg_replace('/[^\x00-\x7F]/', '', $name);
+$message = preg_replace('/[^\x00-\x7F]/', '', $message);
+
 // $name = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
 // $message = htmlspecialchars($message, ENT_QUOTES, 'UTF-8');
 
