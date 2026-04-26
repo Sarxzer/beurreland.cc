@@ -66,12 +66,20 @@
 .panel-form input[type="text"],
 .panel-form input[type="email"],
 .panel-form input[type="password"],
-.panel-form input[type="date"] {
+.panel-form input[type="date"],
+.panel-form textarea,
+.panel-select {
     width: 100%;
     box-sizing: border-box;
     border: 2px solid var(--beurre-dark);
     background: #fffdf0;
     padding: 6px;
+}
+
+.panel-form textarea {
+    resize: vertical;
+    min-height: 140px;
+    font-family: inherit;
 }
 
 .panel-form button,

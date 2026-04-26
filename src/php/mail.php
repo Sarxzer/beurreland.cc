@@ -20,15 +20,24 @@ $phpmailer->Encoding = 'base64';
 function test_mail() {
     global $phpmailer;
 
+    $phpmailer->clearAllRecipients();
+    $phpmailer->clearReplyTos();
+    $phpmailer->clearAttachments();
+
     $phpmailer->setFrom($_ENV['MAIL_USER'], 'Beurreland');
     $phpmailer->addAddress($_ENV['MAIL_TEST_RECIPIENT']);
     $phpmailer->Subject = 'Test de mail';
+    $phpmailer->isHTML(false);
     $phpmailer->Body = 'Ceci est un test de mail envoyé depuis le site de Beurreland.';
     return $phpmailer->send();
 }
 
 function send_mail($to, $subject, $body, $is_html = true) {
     global $phpmailer;
+
+    $phpmailer->clearAllRecipients();
+    $phpmailer->clearReplyTos();
+    $phpmailer->clearAttachments();
 
     $phpmailer->setFrom($_ENV['MAIL_USER'], 'Beurreland');
     $phpmailer->addAddress($to);
@@ -37,6 +46,7 @@ function send_mail($to, $subject, $body, $is_html = true) {
         $phpmailer->isHTML(true);
         $phpmailer->Body = $body;
     } else {
+        $phpmailer->isHTML(false);
         $phpmailer->Body = strip_tags($body);
     }
     

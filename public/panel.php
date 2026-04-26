@@ -3,6 +3,7 @@
 session_start();
 
 require_once '../src/php/database.php';
+require_once '../src/php/mail.php';
 
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -59,7 +60,84 @@ function format_fr_date($dateString)
     return date('d/m/Y H:i', $ts);
 }
 
+function is_admin($account)
+{
+    return $account && ($account['role'] ?? '') === 'admin';
+}
+
+function poetic_category_label($categorie)
+{
+    switch ($categorie) {
+        case 'rejoindre':
+            return 'Voeu de rejoindre le saint culte';
+        case 'beurre':
+            return 'Quete de l\'auguste beurre sacré';
+        case 'question':
+            return 'Interrogation adressée au Dieu du Beurre';
+        case 'suggestion':
+            return 'Proclamation d\'un conseil pour l\'ordre sacré du Jambon-Beurre';
+        case 'autre':
+        default:
+            return 'Missive d\'un humble mortel';
+    }
+}
+
+function build_panel_mail_html($mailCss, $senderName, $categoryLabel, $message, $subject)
+{
+    $safeSender = h($senderName);
+    $safeCategory = h($categoryLabel);
+    $safeSubject = h($subject);
+    $safeMessage = nl2br(h($message));
+
+    $formatter = new IntlDateFormatter(
+        'fr_FR',
+        IntlDateFormatter::LONG,
+        IntlDateFormatter::NONE,
+        'Europe/Paris',
+        IntlDateFormatter::GREGORIAN,
+        "d MMMM y 'à' HH:mm"
+    );
+
+    $date = $formatter->format(new DateTime());
+
+    return "<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>{$safeSubject}</title>
+    <style>{$mailCss}</style>
+</head>
+<body>
+    <div class='mail-bg'>
+        <table role='presentation' class='mail-wrapper' cellpadding='0' cellspacing='0'>
+            <tr>
+                <td>
+                    <div class='mail-card'>
+                        <p class='mail-kicker'>✦ Chronique des Messagers de Beurreland ✦</p>
+                        <h1>Par la plume et l'encre sacrée, missive de {$safeSender}</h1>
+                        <p class='mail-description'>Un message vous a é été envoyé par l'administration de Beurreland depuis le panel interne.</p>
+                        <p class='mail-meta'><strong>Categorie scellée :</strong> {$safeCategory}</p>
+                        <div class='mail-message'>{$safeMessage}</div>
+                        <p class='mail-date'>Redigé en ce jour du {$date}, consigne pour memoire eternelle.</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>";
+}
+
 $currentAccount = current_account($pdo);
+
+$adminMailForm = [
+    'recipient_mode' => 'single',
+    'recipient_email' => '',
+    'subject' => '',
+    'categorie' => 'autre',
+    'message' => ''
+];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $postedCsrf = $_POST['csrf_token'] ?? '';
@@ -149,6 +227,96 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $currentAccount = current_account($pdo);
                 }
             }
+        } elseif ($action === 'send_admin_mail') {
+            if (!is_admin($currentAccount)) {
+                add_error($errors, 'Seuls les admins peuvent envoyer des mails depuis le panel.');
+            } else {
+                $adminMailForm['recipient_mode'] = $_POST['recipient_mode'] ?? 'single';
+                $adminMailForm['recipient_email'] = trim($_POST['recipient_email'] ?? '');
+                $adminMailForm['subject'] = trim($_POST['mail_subject'] ?? '');
+                $adminMailForm['categorie'] = trim($_POST['categorie'] ?? 'autre');
+                $adminMailForm['message'] = trim($_POST['mail_message'] ?? '');
+
+                $recipientMode = $adminMailForm['recipient_mode'];
+                $recipientEmail = $adminMailForm['recipient_email'];
+                $subject = preg_replace('/[\r\n]+/', ' ', $adminMailForm['subject']);
+                $categorie = $adminMailForm['categorie'];
+                $message = $adminMailForm['message'];
+
+                $allowedCategories = ['rejoindre', 'beurre', 'question', 'suggestion', 'autre'];
+                if (!in_array($categorie, $allowedCategories, true)) {
+                    $categorie = 'autre';
+                }
+
+                if (!in_array($recipientMode, ['single', 'all_accounts'], true)) {
+                    add_error($errors, 'Mode de destinataire invalide.');
+                }
+
+                if (strlen($subject) < 3 || strlen($subject) > 180) {
+                    add_error($errors, 'Le sujet doit faire entre 3 et 180 caracteres.');
+                }
+
+                if (strlen($message) < 5 || strlen($message) > 5000) {
+                    add_error($errors, 'Le message doit faire entre 5 et 5000 caracteres.');
+                }
+
+                $recipients = [];
+                if (empty($errors)) {
+                    if ($recipientMode === 'single') {
+                        if (!filter_var($recipientEmail, FILTER_VALIDATE_EMAIL)) {
+                            add_error($errors, 'Adresse email destinataire invalide.');
+                        } else {
+                            $recipients[] = $recipientEmail;
+                        }
+                    } else {
+                        $mailTargets = $pdo->query('SELECT email FROM accounts WHERE email IS NOT NULL AND email != "" ORDER BY id ASC');
+                        foreach ($mailTargets->fetchAll() as $row) {
+                            if (filter_var($row['email'], FILTER_VALIDATE_EMAIL)) {
+                                $recipients[] = $row['email'];
+                            }
+                        }
+                        $recipients = array_values(array_unique($recipients));
+                        if (empty($recipients)) {
+                            add_error($errors, 'Aucun destinataire valide trouve dans les comptes.');
+                        }
+                    }
+                }
+
+                if (empty($errors)) {
+                    $mailCss = '';
+                    $mailCssPath = __DIR__ . '/assets/css/mail.css';
+                    if (is_readable($mailCssPath)) {
+                        $mailCss = file_get_contents($mailCssPath) ?: '';
+                    }
+
+                    $categoryLabel = poetic_category_label($categorie);
+                    $mailBody = build_panel_mail_html(
+                        $mailCss,
+                        $currentAccount['username'],
+                        $categoryLabel,
+                        $message,
+                        $subject
+                    );
+
+                    $sentCount = 0;
+                    $failedRecipients = [];
+                    foreach ($recipients as $to) {
+                        if (send_mail($to, $subject, $mailBody, true)) {
+                            $sentCount++;
+                        } else {
+                            $failedRecipients[] = $to;
+                        }
+                    }
+
+                    if ($sentCount > 0) {
+                        add_success($successes, 'Mail envoye a ' . $sentCount . ' destinataire(s).');
+                    }
+
+                    if (!empty($failedRecipients)) {
+                        add_error($errors, 'Echec d envoi pour: ' . implode(', ', $failedRecipients));
+                    }
+                }
+            }
         } elseif ($action === 'create_api_key') {
             if (!$currentAccount) {
                 add_error($errors, 'Tu dois etre connecte pour creer une API key.');
@@ -209,6 +377,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $currentAccount = current_account($pdo);
 $apiKeys = [];
+$accountMailCount = 0;
 
 if ($currentAccount) {
     $keyStmt = $pdo->prepare(
@@ -231,6 +400,12 @@ if ($currentAccount) {
     );
     $keyStmt->execute([(int) $currentAccount['id']]);
     $apiKeys = $keyStmt->fetchAll();
+
+    if (is_admin($currentAccount)) {
+        $countStmt = $pdo->query('SELECT COUNT(*) AS c FROM accounts WHERE email IS NOT NULL AND email != ""');
+        $countRow = $countStmt ? $countStmt->fetch() : null;
+        $accountMailCount = (int) ($countRow['c'] ?? 0);
+    }
 }
 
 $current_file = __FILE__;
@@ -334,6 +509,48 @@ $current_file = __FILE__;
                     </form>
                 </section>
 
+                <?php if (is_admin($currentAccount)): ?>
+                    <section class="panel-section">
+                        <h2>Mail Admin</h2>
+                        <p>Envoi de mail aux utilisateurs avec le meme template HTML/CSS que la page contact.</p>
+
+                        <form method="post" class="panel-form js-send-mail-form">
+                            <input type="hidden" name="action" value="send_admin_mail">
+                            <input type="hidden" name="csrf_token" value="<?= h($_SESSION['csrf_token']) ?>">
+
+                            <label for="recipient_mode">Destinataires</label>
+                            <select id="recipient_mode" name="recipient_mode" class="panel-select js-recipient-mode">
+                                <option value="single" <?= $adminMailForm['recipient_mode'] === 'single' ? 'selected' : '' ?>>Un email</option>
+                                <option value="all_accounts" <?= $adminMailForm['recipient_mode'] === 'all_accounts' ? 'selected' : '' ?>>Tous les comptes (<?= (int) $accountMailCount ?>)</option>
+                            </select>
+
+                            <div class="js-recipient-single">
+                                <label for="recipient_email">Email destinataire</label>
+                                <input type="email" id="recipient_email" name="recipient_email" value="<?= h($adminMailForm['recipient_email']) ?>" maxlength="255" placeholder="personne@example.com">
+                            </div>
+
+                            <label for="mail_subject">Sujet</label>
+                            <input type="text" id="mail_subject" name="mail_subject" value="<?= h($adminMailForm['subject']) ?>" minlength="3" maxlength="180" required>
+
+                            <label for="categorie">Catégorie</label>
+                            <select id="categorie" name="categorie" class="panel-select">
+                                <option value="rejoindre" <?= $adminMailForm['categorie'] === 'rejoindre' ? 'selected' : '' ?>>Rejoindre</option>
+                                <option value="beurre" <?= $adminMailForm['categorie'] === 'beurre' ? 'selected' : '' ?>>Beurre</option>
+                                <option value="question" <?= $adminMailForm['categorie'] === 'question' ? 'selected' : '' ?>>Question</option>
+                                <option value="suggestion" <?= $adminMailForm['categorie'] === 'suggestion' ? 'selected' : '' ?>>Suggestion</option>
+                                <option value="autre" <?= $adminMailForm['categorie'] === 'autre' ? 'selected' : '' ?>>Autre</option>
+                            </select>
+
+                            <label for="mail_message">Message</label>
+                            <textarea id="mail_message" name="mail_message" minlength="5" maxlength="5000" rows="8" required><?= h($adminMailForm['message']) ?></textarea>
+
+                            <button type="submit" class="btn-small">Envoyer le mail</button>
+                        </form>
+
+                        <p class="panel-note">En mode "Tous les comptes", l'email est envoyé à chaque compte avec une adresse valide.</p>
+                    </section>
+                <?php endif; ?>
+
                 <section class="panel-section">
                     <h2>API Keys</h2>
                     <p>Cree une cle avec expiration optionnelle. Les cles revoquees restent visibles pour historique.</p>
@@ -386,7 +603,7 @@ $current_file = __FILE__;
                             <tbody>
                                 <?php if (empty($apiKeys)): ?>
                                     <tr>
-                                        <td colspan="8">Aucune API key pour le moment.</td>
+                                        <td colspan="10">Aucune API key pour le moment.</td>
                                     </tr>
                                 <?php else: ?>
                                     <?php foreach ($apiKeys as $key): ?>
