@@ -500,7 +500,52 @@ function reloadGuestbook() {
         });
 }
 
-document.getElementById("reload").addEventListener("click", reloadGuestbook);
+const reloadButton = document.getElementById("reload");
+if (reloadButton) {
+    reloadButton.addEventListener("click", reloadGuestbook);
+}
+
+function randomAds() {
+    console.log("Selecting a random ad to display...");
+    const ads = [
+        {
+            image: "/assets/img/Frescri-Beurre-Pub.png",
+            alt: "Publicité pour le Beurre Gastronomique de Frescri",
+        },
+        {
+            image: "/assets/img/beurre.jpg",
+            alt: "beurre.jpg",
+        },
+        {
+            image: "/assets/img/beurre-frescri-ad.png",
+            alt: "Publicité pour le Beurre Deluxe de Frescri",
+        },
+        {
+            image: "/assets/img/davide-jambon-beuere.gif",
+            alt: "Désolé, le dieu du beurre a mangé la publicité",
+        },
+        {
+            image: "/assets/img/jambon-beurre.png",
+            alt: "jambon-beurre.png",
+        }
+    ];
+
+    const randomAd = ads[Math.floor(Math.random() * ads.length)];
+
+    html = `
+        <img src="${randomAd.image}" alt="${randomAd.alt}">
+        <figcaption>${randomAd.alt}</figcaption>
+    `;
+
+    const ad = document.getElementById("ad");
+    if (ad) {
+        ad.innerHTML = html;
+
+        console.log(`Ad displayed: ${randomAd.alt}`);
+    }
+}
+
+randomAds();
 
 /* Admin setup */
 
