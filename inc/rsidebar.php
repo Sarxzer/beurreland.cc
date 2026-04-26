@@ -30,7 +30,7 @@
             <figcaption><?php echo $randomAdAlt; ?></figcaption> -->
         </figure>
     </a>
-    <div class="cube-container">
+    <a class="hiden-link"><div class="cube-container">
         <div class="cube">
             <div class="cube-face front"><img src="/assets/img/Fresnik_Mobile.png" alt=""></div>
             <div class="cube-face back"><img src="/assets/img/Fresnik_Mobile.png" alt=""></div>
@@ -39,7 +39,7 @@
             <div class="cube-face top"><img src="/assets/img/Fresnik_Mobile.png" alt=""></div>
             <div class="cube-face bottom"><img src="/assets/img/Fresnik_Mobile.png" alt=""></div>
         </div>
-    </div>
+    </div></a>
     <div class="guestbook-preview">
         <a href="/guestbook"><h2>Guestbook</h2></a>
         <p>Laissez un message dans notre livre d'or !</p>

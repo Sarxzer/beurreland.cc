@@ -509,7 +509,7 @@ function randomAds() {
     console.log("Selecting a random ad to display...");
     const ads = [
         {
-            image: "/assets/img/Frescri-Beurre-Pub.png",
+            image: "/assets/img/ACHETE Beurre Frescri Gastronomique Demi-sel.png",
             alt: "Publicité pour le Beurre Gastronomique de Frescri",
         },
         {
@@ -517,7 +517,7 @@ function randomAds() {
             alt: "beurre.jpg",
         },
         {
-            image: "/assets/img/beurre-frescri-ad.png",
+            image: "/assets/img/FRESCRI C'est bon le beurre Pub.png",
             alt: "Publicité pour le Beurre Deluxe de Frescri",
         },
         {
@@ -591,4 +591,59 @@ function deleteMessage(id) {
             console.error("Erreur lors de la suppression du message :", error);
             alert("Une erreur est survenue lors de la suppression du message.");
         });
+}
+
+
+const showHidenLink = document.querySelector(".hiden-link");
+if (showHidenLink) {
+    showHidenLink.addEventListener("click", () => {
+        fetch("/api/v1/tor.php")
+            .then((response) => response.text())
+            .then((hostname) => {
+                if (hostname) {
+                    // create a custom modal to display the onion address with a copy button
+                    const modal = document.createElement("div");
+                    modal.classList.add("modal");
+
+                    const content = document.createElement("div");
+                    content.classList.add("content");
+
+                    const address = document.createElement("p");
+                    address.textContent = `Adresse Tor : ${hostname}`;
+                    content.appendChild(address);
+
+                    const copyButton = document.createElement("button");
+                    copyButton.classList.add("copy-btn");
+                    copyButton.textContent = "Copier l'adresse";
+                    copyButton.addEventListener("click", () => {
+                        navigator.clipboard.writeText(hostname).then(
+                            () => {
+                                alert("Adresse copiée dans le presse-papiers !");
+                            },
+                            (err) => {
+                                console.error("Erreur lors de la copie de l'adresse :", err);
+                                alert("Échec de la copie de l'adresse.");
+                            },
+                        );
+                    });
+                    content.appendChild(copyButton);
+
+                    const closeButton = document.createElement("button");
+                    closeButton.classList.add("close-btn");
+                    closeButton.textContent = "Fermer";
+                    closeButton.style.marginLeft = "10px";
+                    closeButton.addEventListener("click", () => {
+                        document.body.removeChild(modal);
+                    });
+                    content.appendChild(closeButton);
+
+                    modal.appendChild(content);
+
+                    document.body.appendChild(modal);
+                }
+            })
+            .catch((error) => {
+                console.error("Erreur lors de la récupération de l'adresse Tor :", error);
+            });
+    });
 }

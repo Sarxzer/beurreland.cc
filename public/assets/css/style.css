@@ -859,6 +859,59 @@ a.big-center-link {
     visibility: visible;
 }
 
+
+
+
+/* Modal */
+.modal {
+    /* take the whole screen to prevent clicking outside the modal */
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+/* center of the whole screen, not page */
+.modal .content {
+    position: fixed;
+    background-color: var(--beurre-light-secondary);
+    border: 3px double var(--beurre-dark);
+    padding: 20px;
+    z-index: 1000;
+}
+
+.modal .content .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--beurre-dark);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+}
+
+.modal .content .close-btn:hover {
+    background-color: var(--beurre-text-light);
+}
+
+.modal .content .copy-btn {
+    background-color: var(--beurre-dark);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 8px;
+    cursor: pointer;
+}
+
+.modal .content .copy-btn:hover {
+    background-color: var(--beurre-text-light);
+}
+
 .small {
     font-size: 12px;
 }
