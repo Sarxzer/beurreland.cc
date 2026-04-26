@@ -407,6 +407,13 @@ a.big-center-link {
     text-align: center;
 }
 
+.success-message {
+    margin-top: 20px;
+    color: #00aa00;
+    font-weight: bold;
+    text-align: center;
+}
+
 
 
 /* Guestbook form */

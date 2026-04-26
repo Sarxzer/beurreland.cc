@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+$_SESSION['form_time'] = time(); // Store the time when the form is generated to prevent spam
+
+?>
+<?php $current_file = __FILE__; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,12 +44,20 @@
         <div class="wip">
             <h2>Site en construction, revenez plus tard pour découvrir le culte beurré du Jambon-Beurre !</h2>
         </div>
+        <?php 
+        if (isset($successes_message)) {
+            echo '<div class="success-message">' . htmlspecialchars($successes_message) . '</div>';
+        }
+        if (isset($error_message)) {
+            echo '<div class="error-message">' . htmlspecialchars($error_message) . '</div>';
+        }
+        ?>
         <div class="contact-form">
             <h2>Formulaire de contact</h2>
             <div class="subtitle">
                 <p>Remplissez le formulaire ci-dessous pour poser vos questions au Dieu du Beurre !</p>
             </div>
-            <form action="mailto:frescri@beurreland.cc" method="post" enctype="text/plain">
+            <form action="mail.php" method="post" id="contact-form">
                 <label for="name">Nom :</label>
                 <input type="text" id="name" name="name" required>
 
@@ -58,11 +77,15 @@
                 <label for="message">Message :</label>
                 <textarea id="message" name="message" rows="5" required></textarea>
 
+                <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+                <input type="text" name="contact_middle_name" style="display:none">
+
+
                 <button type="submit">Envoyer au Dieu du Beurre</button>
             </form>
         </div>
 
-        <?php include 'inc/footer.php'; ?>
+        <?php include '../inc/footer.php'; ?>
     </div>
 
     <?php include "../inc/rsidebar.php"; ?>

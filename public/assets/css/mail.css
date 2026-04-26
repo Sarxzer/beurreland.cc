@@ -1,0 +1,104 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #ffffcc;
+    color: #2f1d00;
+    font-family: Verdana, Arial, sans-serif;
+}
+
+.mail-bg {
+    width: 100%;
+    padding: 24px 12px;
+    background-color: #ffffcc;
+    background-image:
+        linear-gradient(45deg, rgba(255, 255, 255, 0.35) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(255, 255, 255, 0.35) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.35) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.35) 75%);
+    background-size: 24px 24px;
+    background-position:
+        0 0,
+        0 12px,
+        12px -12px,
+        -12px 0;
+}
+
+.mail-wrapper {
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
+}
+
+.mail-card {
+    background: #fff9df;
+    border: 3px double #c58d2b;
+    padding: 24px;
+    box-shadow:
+        inset 0 0 6px #f6d57b,
+        0 0 0 2px #c58d2b;
+}
+
+.mail-kicker {
+    margin: 0 0 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #b14c00;
+}
+
+h1 {
+    margin: 0 0 12px;
+    font-size: 26px;
+    line-height: 1.25;
+    font-family: "Trebuchet MS", Verdana, sans-serif;
+    color: #6d3900;
+    text-shadow:
+        1px 1px 0 #fff,
+        2px 2px 0 #f6d57b;
+}
+
+.mail-description {
+    margin: 0 0 16px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #4d2900;
+}
+
+.mail-meta {
+    margin: 0 0 16px;
+    font-size: 14px;
+}
+
+.mail-message {
+    background: #fff;
+    border: 2px solid #c58d2b;
+    padding: 14px;
+    font-size: 15px;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    word-break: break-word;
+    box-shadow: inset 0 0 5px #f6d57b;
+}
+
+.mail-date {
+    margin: 14px 0 0;
+    font-size: 13px;
+    color: #6d3900;
+    border-top: 1px dashed #c58d2b;
+    padding-top: 10px;
+}
+
+@media only screen and (max-width: 640px) {
+    .mail-bg {
+        padding: 12px 8px;
+    }
+
+    .mail-card {
+        padding: 16px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+}
