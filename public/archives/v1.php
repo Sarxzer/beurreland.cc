@@ -1,1 +1,2 @@
-<img src="https://img-3.journaldesfemmes.fr/wL8YsmuUZnKQprYtJFg0isTvxzY=/1500x/smart/432c5298182d45818c7a1b140e6b21f1/ccmcms-jdf/10662027.jpg ">
+<!-- <img src="https://img-3.journaldesfemmes.fr/wL8YsmuUZnKQprYtJFg0isTvxzY=/1500x/smart/432c5298182d45818c7a1b140e6b21f1/ccmcms-jdf/10662027.jpg "> -->
+<img src="/assets/img/beurre.jpg">
