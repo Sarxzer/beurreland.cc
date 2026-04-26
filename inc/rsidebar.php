@@ -1,5 +1,5 @@
 <div class="rsidebar">
-    <a href="/assets/old">
+    <a href="/archives/v1">
         <figure class="image">
             <img src="/assets/img/Frescri-Beurre-Pub.png" alt="Publicité pour le Beurre Gastronomique de Frescri">
             <figcaption>Publicité pour le Beurre Gastronomique de Frescri</figcaption>
