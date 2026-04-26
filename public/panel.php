@@ -116,10 +116,10 @@ function build_panel_mail_html($mailCss, $senderName, $categoryLabel, $message, 
                     <div class='mail-card'>
                         <p class='mail-kicker'>✦ Chronique des Messagers de Beurreland ✦</p>
                         <h1>Par la plume et l'encre sacrée, missive de {$safeSender}</h1>
-                        <p class='mail-description'>Un message vous a é été envoyé par l'administration de Beurreland depuis le panel interne.</p>
+                        <p class='mail-description'>Un message vous a été envoyé par l'administration de Beurreland depuis le panel interne.</p>
                         <p class='mail-meta'><strong>Categorie scellée :</strong> {$safeCategory}</p>
                         <div class='mail-message'>{$safeMessage}</div>
-                        <p class='mail-date'>Redigé en ce jour du {$date}, consigne pour memoire eternelle.</p>
+                        <p class='mail-date'>Redigé en ce jour du {$date}, consigné pour memoire éternelle.</p>
                     </div>
                 </td>
             </tr>
