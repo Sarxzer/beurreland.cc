@@ -418,7 +418,7 @@ a.big-center-link {
 
 /* Guestbook form */
 .guestbook-form {
-    max-width: 400px;
+    max-width: 600px;
     margin: 20px auto;
     padding: 20px;
     background: var(--beurre-light-secondary);

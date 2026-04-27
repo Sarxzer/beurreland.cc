@@ -21,11 +21,14 @@ function bbcode_to_html($text)
         // URL [url=link]text[/url]
         '/\[url=(https?:\/\/.*?)\](.*?)\[\/url\]/is' => '<a href="$1" target="_blank" rel="noopener">$2</a>',
 
-        // Image
+        // Code (anything between [code] and [/code] is treated as preformatted text)
+        '/\[code\](.*?)\[\/code\]/is' => '<pre><code>$1</code></pre>',
+
+        // Image 
         '/\[img\](https?:\/\/.*?)\[\/img\]/is' => '<a href="$1" target="_blank" rel="noopener"><img src="$1" alt="image" /></a>',
 
-        // Code
-        '/\[code\](.*?)\[\/code\]/is' => '<pre><code>$1</code></pre>',
+        // Image with alt text [img=alt]url[/img]
+        '/\[img=(.*?)\](https?:\/\/.*?)\[\/img\]/is'=> '<a href="$2" target="_blank" rel="noopener"><img src="$2" alt="$1" /></a>',
 
         // Wave
         '/\[wave\](.*?)\[\/wave\]/is' => '<span class="wave-auto">$1</span>',

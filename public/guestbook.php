@@ -22,6 +22,8 @@ $messages = $pdo->query("SELECT * FROM guestbook WHERE `status` != 'deleted' ORD
 
     <link rel="stylesheet" href="/assets/css/style.css">
 
+    <link rel="stylesheet" href="/assets/css/gif_picker.css">
+
     <script src="/assets/js/snow.js"></script>
     <link rel="stylesheet" href="/assets/css/snow.css">
 
@@ -63,6 +65,17 @@ $messages = $pdo->query("SELECT * FROM guestbook WHERE `status` != 'deleted' ORD
                     <button type="button" class="bbcode-btn" id="bb-url">URL</button>
                     <button type="button" class="bbcode-btn" id="bb-image"><img src="/assets/img/Butter_Pixel.png" alt="Image"></button>
                     <button type="button" class="bbcode-btn" id="bb-code">CODE</button>
+                    <button type="button" class="bbcode-btn" id="bb-gif">GIF</button>
+                </div>
+                <div class="gif-picker-container">
+                    <div class="gif-picker" id="gifPicker">
+                        <input type="text" id="searchInput" placeholder="Search for GIFs...">
+                        <button type="button" id="searchButton">Search</button>
+                        <div id="results">
+                            <!-- Display GIF results in 2 columns, with the static image shown by default and the animated GIF shown on hover -->
+                        </div>
+                        <p id="status"></p>
+                    </div>
                 </div>
                 <label for="message">Message :</label>
                 <textarea id="message" name="message" rows="5" required></textarea>
@@ -100,6 +113,7 @@ $messages = $pdo->query("SELECT * FROM guestbook WHERE `status` != 'deleted' ORD
 
     <script src="/assets/js/bbcode.js"></script>
     <script src="/assets/js/script.js"></script>
+    <script src="/assets/js/gif_picker.js"></script>
 
 
 </body>
