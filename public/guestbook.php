@@ -73,10 +73,10 @@ $messages = $pdo->query("SELECT * FROM guestbook WHERE `status` != 'deleted' ORD
                             <input type="text" id="searchInput" placeholder="Search for GIFs...">
                             <button type="button" id="searchButton">Search</button>
                         </div>
-                        <div id="results">
+                        <div class="gif-results" id="results">
                             <!-- Display GIF results in 2 columns, with the static image shown by default and the animated GIF shown on hover -->
                         </div>
-                        <p id="status"></p>
+                        <p class="gif-status" id="status"></p>
                     </div>
                 </div>
                 <label for="message">Message :</label>

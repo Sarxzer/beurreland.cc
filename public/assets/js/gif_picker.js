@@ -1,9 +1,69 @@
-const api = "https://beurreland.cc/api/v1/gifs.php"; // Replace with your actual API endpoint
+const api = "https://beurreland.cc/api/v1/gifs.php"; // Replace with your actual API endpoint, uses klipy API
 
 let currentPage = 1;
 let currentQuery = "";
 
 let firstLoad = true;
+
+function getGifColumns(resultsDiv) {
+    let col1 = resultsDiv.querySelector(".gif-column-left");
+    let col2 = resultsDiv.querySelector(".gif-column-right");
+
+    if (!col1 || !col2) {
+        resultsDiv.innerHTML = "";
+        col1 = document.createElement("div");
+        col1.classList.add("gif-column-left");
+        col2 = document.createElement("div");
+        col2.classList.add("gif-column-right");
+        resultsDiv.appendChild(col1);
+        resultsDiv.appendChild(col2);
+    }
+
+    return { col1, col2 };
+}
+
+function appendGifToBalancedColumns(resultsDiv, img) {
+    const { col1, col2 } = getGifColumns(resultsDiv);
+    const col1Height = col1.scrollHeight;
+    const col2Height = col2.scrollHeight;
+
+    if (col1Height <= col2Height) {
+        col1.appendChild(img);
+    } else {
+        col2.appendChild(img);
+    }
+}
+
+function createGifImage(gif) {
+    const imgUrl =
+        gif?.file?.sm?.jpg?.url ||
+        gif?.file?.md?.jpg?.url ||
+        gif?.file?.xs?.jpg?.url;
+    const gifUrl =
+        gif?.file?.sm?.gif?.url ||
+        gif?.file?.md?.gif?.url ||
+        gif?.file?.xs?.gif?.url;
+
+    if (!gifUrl) {
+        return null;
+    }
+
+    const img = document.createElement("img");
+    img.src = imgUrl || gifUrl;
+    img.alt = gif?.title || "GIF result";
+    img.loading = "lazy";
+    img.addEventListener("mouseover", () => {
+        img.src = gifUrl;
+    });
+    img.addEventListener("mouseout", () => {
+        img.src = imgUrl || gifUrl;
+    });
+    img.addEventListener("click", () => {
+        addToTextarea(gifUrl, img.alt);
+    });
+
+    return img;
+}
 
 function toggleGifPicker() {
     const picker = document.getElementById("gifPicker");
@@ -22,49 +82,12 @@ function goOnTop() {
 function addGifsToResults(gifs) {
     const resultsDiv = document.getElementById("results");
     gifs = gifs?.data?.data || gifs?.data || gifs || [];
+    if (!resultsDiv) return;
 
-    let col1 = resultsDiv.querySelector(".gif-column-left");
-    let col2 = resultsDiv.querySelector(".gif-column-right");
-
-    if (!col1 || !col2) {
-        resultsDiv.innerHTML = "";
-        col1 = document.createElement("div");
-        col1.classList.add("gif-column-left");
-        col2 = document.createElement("div");
-        col2.classList.add("gif-column-right");
-        resultsDiv.appendChild(col1);
-        resultsDiv.appendChild(col2);
-    }
-
-    gifs.forEach((gif, index) => {
-        const imgUrl =
-            gif?.file?.sm?.jpg?.url ||
-            gif?.file?.md?.jpg?.url ||
-            gif?.file?.xs?.jpg?.url;
-        const gifUrl =
-            gif?.file?.sm?.gif?.url ||
-            gif?.file?.md?.gif?.url ||
-            gif?.file?.xs?.gif?.url;
-        if (!gifUrl) return;
-
-        const img = document.createElement("img");
-        img.src = imgUrl || gifUrl;
-        img.alt = gif?.title || "GIF result";
-        img.loading = "lazy";
-        img.addEventListener("mouseover", () => {
-            img.src = gifUrl;
-        });
-        img.addEventListener("mouseout", () => {
-            img.src = imgUrl || gifUrl;
-        });
-        img.addEventListener("click", () => {
-            addToTextarea(gifUrl);
-        });
-
-        if (index % 2 === 0) {
-            col1.appendChild(img);
-        } else {
-            col2.appendChild(img);
+    gifs.forEach((gif) => {
+        const img = createGifImage(gif);
+        if (img) {
+            appendGifToBalancedColumns(resultsDiv, img);
         }
     });
 }
@@ -73,54 +96,15 @@ function showGifs(gifs) {
     // show gif results in 2 columns, alternating images between the 2 columns, with the static image shown by default and the animated GIF shown on hover
     const resultsDiv = document.getElementById("results");
 
-    console.log("Raw GIF data:", gifs);
-    console.log("GIFs data structure:", typeof gifs, gifs);
-
     gifs = gifs?.data?.data || gifs?.data || gifs || [];
 
-    const col1 = document.createElement("div");
-    col1.classList.add("gif-column-left");
-    const col2 = document.createElement("div");
-    col2.classList.add("gif-column-right");
-
     resultsDiv.innerHTML = "";
-    console.log("GIFs to display:", gifs);
     gifs.forEach((gif) => {
-        const imgUrl =
-            gif?.file?.sm?.jpg?.url ||
-            gif?.file?.md?.jpg?.url ||
-            gif?.file?.xs?.jpg?.url;
-        const gifUrl =
-            gif?.file?.sm?.gif?.url ||
-            gif?.file?.md?.gif?.url ||
-            gif?.file?.xs?.gif?.url;
-        const blurUrl = gif?.blur_preview; //base64-encoded blurred image for placeholder
-        if (!gifUrl) {
-            return;
-        }
-
-        const img = document.createElement("img");
-        img.src = imgUrl || gifUrl;
-        img.alt = gif?.title || "GIF result";
-        img.loading = "lazy";
-        // on hover, swap the static image with the animated GIF
-        img.addEventListener("mouseover", () => {
-            img.src = gifUrl;
-        });
-        img.addEventListener("mouseout", () => {
-            img.src = imgUrl;
-        });
-        img.addEventListener("click", () => {
-            addToTextarea(gifUrl, img.alt);
-        });
-        if (gifs.indexOf(gif) % 2 === 0) {
-            col1.appendChild(img);
-        } else {
-            col2.appendChild(img);
+        const img = createGifImage(gif);
+        if (img) {
+            appendGifToBalancedColumns(resultsDiv, img);
         }
     });
-    resultsDiv.appendChild(col1);
-    resultsDiv.appendChild(col2);
 
     goOnTop();
 }
@@ -131,7 +115,7 @@ async function loadTrending(page = 1) {
     status.textContent = "Loading...";
 
     try {
-        const response = await fetch(`${api}?type=trending&page=${page}`);
+        const response = await fetch(`${api}?type=trending&page=${page}&beurre=${currentPage}`);
         const data = await response.json();
 
         console.log("API response:", data);
@@ -156,7 +140,7 @@ async function searchGifs(query, page = 1) {
 
     try {
         const response = await fetch(
-            `${api}?type=search&query=${encodeURIComponent(query)}&page=${page}`,
+            `${api}?type=search&query=${encodeURIComponent(query)}&page=${page}&beurre=${currentPage}`,
         );
         const data = await response.json();
 
@@ -194,7 +178,7 @@ document.getElementById("bb-gif").addEventListener("click", () => {
     if (firstLoad) {
         firstLoad = false;
         (async () => {
-            const gifs = await searchGifs("Beurre"); // Load trending GIFs on first open
+            const gifs = await loadTrending(); // Load trending GIFs on first open
             showGifs(gifs);
             console.log("Initial trending GIFs:", gifs);
         })();
