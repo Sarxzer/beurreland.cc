@@ -47,7 +47,7 @@
 
 .gif-picker button {
     flex: 0 0 110px; /* fixed width */
-    height: 32px;
+    height: 33px;
     padding: 6px 8px;
     background: var(--beurre-mid, #f5cf5f);
     border: 2px solid var(--beurre-dark, #c58d2b);
