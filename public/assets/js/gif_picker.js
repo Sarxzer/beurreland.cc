@@ -194,7 +194,7 @@ document.getElementById("bb-gif").addEventListener("click", () => {
     if (firstLoad) {
         firstLoad = false;
         (async () => {
-            const gifs = await loadTrending();
+            const gifs = await searchGifs("Beurre"); // Load trending GIFs on first open
             showGifs(gifs);
             console.log("Initial trending GIFs:", gifs);
         })();

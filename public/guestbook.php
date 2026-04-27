@@ -69,8 +69,10 @@ $messages = $pdo->query("SELECT * FROM guestbook WHERE `status` != 'deleted' ORD
                 </div>
                 <div class="gif-picker-container">
                     <div class="gif-picker" id="gifPicker">
-                        <input type="text" id="searchInput" placeholder="Search for GIFs...">
-                        <button type="button" id="searchButton">Search</button>
+                        <div class="search-bar">
+                            <input type="text" id="searchInput" placeholder="Search for GIFs...">
+                            <button type="button" id="searchButton">Search</button>
+                        </div>
                         <div id="results">
                             <!-- Display GIF results in 2 columns, with the static image shown by default and the animated GIF shown on hover -->
                         </div>
