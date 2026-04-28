@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
     echo json_encode($message);
 
-    keyUsed($pdo, $token, 'guestbook_single');
+    // keyUsed($pdo, $token, 'guestbook_single');
 
     exit;
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {

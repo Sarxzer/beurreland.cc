@@ -1,13 +1,12 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 $baseDir = __DIR__ . '/../../../';
 
 require $baseDir . '/vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable($baseDir);
 $dotenv->load();
+
+header('Content-Type: application/json');
 
 // small api wrapper to call klipy api from the frontend without exposing the key
 

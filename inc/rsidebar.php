@@ -46,4 +46,10 @@
         <h3>Derniers Messages</h3>
         <div id="guestbook-latest-message">...</div>
     </div>
+
+    <div class="88x31">
+        <a href="https://beurreland.cc" title="Beurreland - Le culte du beurre en ligne">
+            <img src="/assets/img/beurre-88x31.jpg" alt="Beurreland - Le culte du beurre en ligne">
+        </a>
+    </div>
 </div>

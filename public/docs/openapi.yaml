@@ -1,0 +1,237 @@
+openapi: 3.1.0
+info:
+  title: Beurreland API
+  version: 1.0.0
+  description: |
+    Official API for Beurreland services.
+    Some endpoints require an API key sent in the `X-Auth-Token` header.
+    Some endpoints are listed in the documentation but used internally and may not be accessible to external users.
+
+servers:
+  - url: https://beurreland.cc/api/v1
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Auth-Token
+
+  schemas:
+    GuestbookMessage:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        message:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+
+paths:
+  /counter:
+    get:
+      summary: Get current counter value
+      responses:
+        '200':
+          description: Current counter value
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  value:
+                    type: integer
+
+    post:
+      summary: Increment counter
+      security:
+        - ApiKeyAuth: []
+      responses:
+        '200':
+          description: New counter value
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  value:
+                    type: integer
+        '401':
+          description: Unauthorized
+
+  /gifs:
+    get:
+      summary: Klipy GIF proxy with optional butter injection
+      parameters:
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [search, trending, single]
+            default: search
+        - name: query
+          description: Search query for 'search' type
+          in: query
+          schema:
+            type: string
+        - name: id
+          description: GIF ID for 'single' type
+          in: query
+          schema:
+            type: string
+        - name: page
+          description: Page number for pagination (starting from 1)
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: per_page
+          description: Number of results per page
+          in: query
+          schema:
+            type: integer
+            default: 10
+        - name: locale
+          description: Locale for trending GIFs (e.g. 'FR' for France)
+          in: query
+          schema:
+            type: string
+            default: FR
+        - name: content_filter
+          description: Content filter level (e.g. 'high', 'medium', 'low')
+          in: query
+          schema:
+            type: string
+        - name: customer_id
+          description: Unique identifier per user for personalized trending results
+          in: query
+          schema:
+            type: string
+        - name: beurre
+          description: Number of butter GIFs to inject randomly into results
+          in: query
+          schema:
+            type: integer
+            description: Number of butter GIFs to inject randomly
+      responses:
+        '200':
+          description: Klipy API JSON response
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad request
+        '500':
+          description: KLIPY key not configured
+
+  /guestbook:
+    get:
+      summary: Retrieve guestbook messages
+      parameters:
+        - name: id
+          description: Message ID to retrieve a specific message, or 'latest' for the most recent message
+          in: query
+          schema:
+            type: string
+            description: Message ID or 'latest'
+        - name: html
+          description: Whether to return messages with BBCode formatting for HTML display
+          in: query
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Guestbook message(s)
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: array
+                    items:
+                      $ref: '#/components/schemas/GuestbookMessage'
+                  - $ref: '#/components/schemas/GuestbookMessage'
+        '404':
+          description: Message not found
+
+    post:
+      summary: Add a guestbook message
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, message]
+              properties:
+                name:
+                  type: string
+                  maxLength: 50
+                message:
+                  type: string
+                  maxLength: 1000
+      responses:
+        '201':
+          description: Message created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: string
+                  id:
+                    type: integer
+        '401':
+          description: Unauthorized
+
+    delete:
+      summary: Delete a guestbook message
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Message deleted
+        '401':
+          description: Unauthorized
+
+  /tor:
+    get:
+      summary: Get Tor hostname
+      responses:
+        '200':
+          description: Tor onion address
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  hostname:
+                    type: string
+  
+  /lore:
+    get:
+      summary: Get Beurreland lore text
+      responses:
+        '200':
+          description: Lore text
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  lore:
+                    type: string

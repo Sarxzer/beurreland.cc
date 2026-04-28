@@ -1,4 +1,4 @@
-fetch("https://api.github.com/repos/Sarxzer/Beurreland.cc/commits")
+fetch("https://api.github.com/repos/Sarxzer/Beurreland.cc/commits?per_page=100")
     .then((response) => response.json())
     .then((data) => {
         const latestCommit = data[0];

@@ -8,12 +8,11 @@
 // );
 // UPDATE counters SET value = value + 1 WHERE name = 'visits';
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 $baseDir = __DIR__ . '/../../../';
 
 include $baseDir . '/src/php/database.php';
+
+header('Content-Type: application/json');
 
 function isKeyValid($pdo, $key)
 {
@@ -75,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
     incrementCounter();
     $counter = getCounter();
-    echo $counter;
+    echo json_encode(['value' => $counter]);
 
     keyUsed($pdo, $token, 'counter_increment');
     exit;
