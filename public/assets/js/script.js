@@ -649,3 +649,21 @@ if (showHidenLink) {
             });
     });
 }
+
+const copyButton = document.getElementById("copyButton");
+if (copyButton) {
+    copyButton.addEventListener("click", () => {
+        const copyInput = document.getElementById("copyInput");
+        if (copyInput) {
+            navigator.clipboard.writeText(copyInput.value).then(
+                () => {
+                    alert("88x31.png copié dans le presse-papiers !");
+                },
+                (err) => {
+                    console.error("Erreur lors de la copie du code de parrainage :", err);
+                    alert("Échec de la copie du code de parrainage.");
+                },
+            );
+        }
+    });
+}
