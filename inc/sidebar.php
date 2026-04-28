@@ -16,15 +16,14 @@
 
         <div class="navlinks">
             <a href="/">Accueil</a>
-            <a href="/404">Page 404</a>
+            <!-- <a href="/404">Page 404</a>
             <a href="/403">Page 403</a>
             <a href="/429">Page 429</a>
-            <a href="/500">Page 500</a>
+            <a href="/500">Page 500</a> -->
             <a href="/contact">Contact</a>
             <a href="/guestbook">Guestbook</a>
             <a href="/github">Github</a>
             <a href="/panel">Panel</a>
-            <a href="javascript:void(0)" id="easter-egg-trigger">Easter Egg</a>
         </div>
 
         

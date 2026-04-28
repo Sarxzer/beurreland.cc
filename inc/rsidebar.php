@@ -75,8 +75,8 @@
         <img src="https://88x31.nl/gifs/wii_button.gif" alt="">
         <img src="https://cyber.dabamos.de/88x31/blinchik.gif" alt="">
         <img src="https://cyber.dabamos.de/88x31/bestviewed16bit.gif" alt="">
-        <img src="https://cyber.dabamos.de/88x31/typhrakromer.gif" alt="">
-
+        <!-- <img src="https://cyber.dabamos.de/88x31/typhrakromer.gif" alt=""> -->
+        <img src="https://cyber.dabamos.de/88x31/gaybears.gif" alt="">
         <!-- Input field non editable with a button to copy the link to the clipboard -->
         <div class="copy-link">
             <input type="text" id="copyInput" value=
