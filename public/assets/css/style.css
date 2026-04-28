@@ -728,12 +728,12 @@ a.big-center-link {
 .rsidebar {
     position: absolute;
     top: 20px;
-    right: calc(50% - 700px);
+    right: calc(50% - 700px - 20px);
     margin: 0;
     background: var(--beurre-light-secondary);
     border: 3px double var(--beurre-dark);
     padding: 20px;
-    width: 300px;
+    width: 320px;
     box-sizing: border-box;
     float: none;
 }
@@ -810,6 +810,25 @@ a.big-center-link {
     border-radius: 4px;
 }
 
+/*Arrange the buttons in a grid patern, no border */
+.retro-buttons {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(88px, 1fr));
+    gap: 5px;
+}
+
+.retro-buttons a {
+    display: block;
+    width: 100%;
+    background-color: transparent;
+}
+
+.retro-buttons img {
+    width: 88px;
+    height: 31px;
+    aspect-ratio: 88 / 31;
+}
 
 /* Footer */
 

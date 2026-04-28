@@ -599,8 +599,10 @@ if (showHidenLink) {
     showHidenLink.addEventListener("click", () => {
         fetch("/api/v1/tor.php")
             .then((response) => response.text())
-            .then((hostname) => {
+            .then((data) => {
+                const hostname = JSON.parse(data).hostname;
                 if (hostname) {
+                    // response example: {"hostname":"exampleonionaddress.onion"}
                     // create a custom modal to display the onion address with a copy button
                     const modal = document.createElement("div");
                     modal.classList.add("modal");
