@@ -6,7 +6,7 @@ if (empty($_SESSION['csrf_token'])) {
 }
 
 require_once '../src/php/database.php';
-require_once '../src/php/bbcode.php';
+require_once '../src/php/utils.php';
 
 $messages = $pdo->query("SELECT * FROM guestbook WHERE `status` != 'deleted' ORDER BY id DESC")->fetchAll();
 ?>

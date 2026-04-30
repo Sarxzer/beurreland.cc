@@ -11,36 +11,9 @@
 $baseDir = __DIR__ . '/../../../';
 
 include $baseDir . '/src/php/database.php';
+include $baseDir . '/src/php/utils.php';
 
 header('Content-Type: application/json');
-
-function isKeyValid($pdo, $key)
-{
-    // check if the provided key matches the one in the new database table
-    $stmt = $pdo->prepare("SELECT id FROM api_keys WHERE api_key = ?");
-    $stmt->execute([$key]);
-    return !!$stmt->fetch();
-}
-
-function keyUsed($pdo, $key, $usageType = 'guestbook')
-{
-    // update the last_used timestamp of the key in the database
-    $ip = getUserIP();
-    $stmt = $pdo->prepare("INSERT INTO api_key_usage (api_key_id, used_type, ip_address) VALUES ((SELECT id FROM api_keys WHERE api_key = ?), ?, ?)");
-    $stmt->execute([$key, $usageType, $ip]);
-}
-
-function getUserIP()
-{
-    // get the user's IP address, accounting for proxies
-    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-        return $_SERVER['HTTP_CLIENT_IP'];
-    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        return $_SERVER['HTTP_X_FORWARDED_FOR'];
-    } else {
-        return $_SERVER['REMOTE_ADDR'];
-    }
-}
 
 function incrementCounter()
 {

@@ -1,45 +1,31 @@
 <?php
-require_once '../vendor/autoload.php';
-
-$config = HTMLPurifier_Config::createDefault();
-
-$config->set('HTML.Allowed', 'b,i,em,strong,a[href],p,br,ul,ol,li,blockquote,code');
-
-$purifier = new HTMLPurifier($config);
-
 session_start();
 
 include '../src/php/mail.php';
+include '../src/php/utils.php';
 
 if (empty($_POST['name']) || empty($_POST['message'])) {
-    http_response_code(404);
-    include __DIR__ . '/404.php';
+    error_page(404, '');
     exit;
 }
 
 if (empty($_POST['csrf_token']) || empty($_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-    http_response_code(403);
-    $error_message = "Invalid CSRF token";
-    include __DIR__ . '/403.php';
+    error_page(403, 'Token CSRF invalide. Veuillez réessayer.');    
     exit;
 }
 
 if (!empty($_POST['contact_middle_name'])) { // honeypot field
-    http_response_code(403);
-    $error_message = "Bot detected";
-    include __DIR__ . '/403.php';
+    error_page(403, 'Bot détecté.');
     exit;
 }
 
 if (time() - ($_SESSION['form_time'] ?? 0) < 3) {
-    http_response_code(403);
-    $error_message = "Too fast submission, possible bot";
-    include __DIR__ . '/403.php';
+    error_page(403, 'Trop rapide. Veuillez prendre votre temps pour remplir le formulaire.');
     exit;
 }
 
 
-$ip = $_SERVER['REMOTE_ADDR'];
+$ip = getUserIP();
 $now = time();
 
 if (!isset($_SESSION['last_submit'])) {
@@ -49,9 +35,7 @@ if (!isset($_SESSION['last_submit'])) {
 $_SESSION['last_submit'][$ip] = $_SESSION['last_submit'][$ip] ?? 0;
 
 if ($now - $_SESSION['last_submit'][$ip] < 10) { // 10 sec cooldown
-    http_response_code(429);
-    $error_message = "Please wait before sending another message";
-    include __DIR__ . '/429.php';
+    error_page(429, 'Veuillez attendre avant d’envoyer un autre message.');
     exit;
 }
 
@@ -65,16 +49,18 @@ if (!isset($_SESSION['last_message'])) {
 
 $_SESSION['last_message'][$ip] = $_SESSION['last_message'][$ip] ?? ['message' => '', 'time' => 0];
 
-if ($message === $_SESSION['last_message'][$ip]['message'] && $now - $_SESSION['last_message'][$ip]['time'] < 600) { // 10 minutes cooldown for same message
-    http_response_code(429);
-    $error_message = "Please wait before sending the same message again";
-    include __DIR__ . '/429.php';
-    exit;
-}
-
 
 $name = trim($_POST['name']);
 $message = trim($_POST['message']);
+$categorie = htmlspecialchars($_POST['categorie'] ?? 'General');
+
+$name = sanitize_input($name);
+$message = sanitize_input($message);
+
+if ($message === $_SESSION['last_message'][$ip]['message'] && $now - $_SESSION['last_message'][$ip]['time'] < 600) { // 10 minutes cooldown for same message
+    error_page(429, 'Veuillez attendre avant d’envoyer le même message.');
+    exit;
+}
 
 if (strlen($name) < 2 || strlen($name) > 50) {
     $error_message = "Le nom doit comporter entre 2 et 50 caractères.";
@@ -88,16 +74,9 @@ if (strlen($message) < 5 || strlen($message) > 2000) {
     exit;
 }
 
-$categorie = htmlspecialchars($_POST['categorie'] ?? 'General');
-$name = htmlspecialchars($purifier->purify($name));
-$message = htmlspecialchars($purifier->purify($message));
-
 $mail_css_path = __DIR__ . '/assets/css/mail.css';
-$mail_css = '';
 
-if (is_readable($mail_css_path)) {
-    $mail_css = file_get_contents($mail_css_path) ?: '';
-}
+$mail_css = file_exists($mail_css_path) ? file_get_contents($mail_css_path) : '';
 
 
 // Category transcripted to be poetic and thematic

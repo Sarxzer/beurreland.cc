@@ -1,17 +1,12 @@
 <?php
+require __DIR__ . '/utils.php';
 require __DIR__ . '/../../vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
 $dotenv->load();
 
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 if (basename($_SERVER['SCRIPT_FILENAME']) === basename(__FILE__)) {
-    http_response_code(403);
-    include __DIR__ . '/../../403.php';
+    error_page(403, 'Accès interdit');
     exit;
 }
 

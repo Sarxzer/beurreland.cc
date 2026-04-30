@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
+include '../src/php/utils.php';
+
+$csrf = generate_csrf_token(); // Generate a CSRF token for the form
 
 $_SESSION['form_time'] = time(); // Store the time when the form is generated to prevent spam
 
@@ -77,7 +77,7 @@ $_SESSION['form_time'] = time(); // Store the time when the form is generated to
                 <label for="message">Message :</label>
                 <textarea id="message" name="message" rows="5" required></textarea>
 
-                <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
+                <input type="hidden" name="csrf_token" value="<?= $csrf ?>">
                 <input type="text" name="contact_middle_name" style="display:none">
 
 

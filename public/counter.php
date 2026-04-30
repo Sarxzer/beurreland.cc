@@ -1,4 +1,6 @@
 <?php
+include __DIR__ . '/../src/php/utils.php';
+
 $file = '/var/www/data/counter.txt';
 
 $fp = fopen($file, 'c+');
@@ -21,24 +23,8 @@ if ($_GET["view"]) {
     fwrite($fp, $counter);
     echo $counter;
 } else {
-    echo "
-<h1>count <span id=\"counter\"></span></h1>
-
-<script>
-    function viewCounter() {
-        fetch('?view=1')
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('counter').innerText = data;
-            });
-    }
-
-    // Show the counter value every 0.5 seconds
-    setInterval(viewCounter, 500);
-</script>";
+    error_page(400, 'Bad Request: Missing "view" or "increment" parameter.');
 }
-
 
 flock($fp, LOCK_UN);
 fclose($fp);
-?>

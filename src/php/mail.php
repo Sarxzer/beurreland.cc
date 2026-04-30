@@ -17,6 +17,10 @@ $phpmailer->Port = $_ENV['MAIL_PORT'];
 $phpmailer->CharSet = 'UTF-8';
 $phpmailer->Encoding = 'base64';
 
+/**
+ * Test the mail configuration by sending a test email to the configured test recipient
+ * @return bool
+ */
 function test_mail() {
     global $phpmailer;
 
@@ -32,7 +36,15 @@ function test_mail() {
     return $phpmailer->send();
 }
 
-function send_mail($to, $subject, $body, $is_html = true) {
+/**
+ * Send an email using PHPMailer with the configured SMTP settings
+ * @param string $to recipient email address
+ * @param string $subject email subject
+ * @param string $body email body, can be HTML or plain text depending on the $is_html parameter
+ * @param bool $is_html
+ * @return bool
+ */
+function send_mail(string $to, string $subject, string $body, bool $is_html = true) {
     global $phpmailer;
 
     $phpmailer->clearAllRecipients();
