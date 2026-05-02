@@ -10,8 +10,8 @@
 
 $baseDir = __DIR__ . '/../../../';
 
-include $baseDir . '/src/php/database.php';
-include $baseDir . '/src/php/utils.php';
+require_once $baseDir . '/src/php/database.php';
+require_once $baseDir . '/src/php/utils.php';
 
 header('Content-Type: application/json');
 

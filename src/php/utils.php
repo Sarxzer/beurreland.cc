@@ -4,7 +4,7 @@
 $_baseDir = __DIR__ . '/../../';
 
 // load htmlpurifier for input sanitization
-require_once '../vendor/autoload.php';
+require_once $_baseDir . '/vendor/autoload.php';
 
 $config = HTMLPurifier_Config::createDefault();
 
