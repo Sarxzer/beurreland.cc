@@ -15,7 +15,6 @@ $purifier = new HTMLPurifier($config);
 header('Content-Type: application/json');
 
 require_once $baseDir . '/src/php/database.php';
-require_once $baseDir . '/src/php/bbcode.php';
 require_once $baseDir . '/src/php/utils.php';
 
 // guestbook API
