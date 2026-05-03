@@ -1,10 +1,8 @@
 <?php
 // recurent functions used in multiple places
 
-$_baseDir = __DIR__ . '/../../';
-
-// load htmlpurifier for input sanitization
-require_once $_baseDir . '/vendor/autoload.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/database.php';
 
 $config = HTMLPurifier_Config::createDefault();
 

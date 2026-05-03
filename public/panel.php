@@ -1,9 +1,7 @@
 <?php
 // Made by copilot for a temporary admin panel, will be removed later when a more complete and secure solution is implemented
-session_start();
-
-require_once '../src/php/database.php';
-require_once '../src/php/mail.php';
+require_once __DIR__ . '/../src/php/init.php';
+require_once BASE_PATH . '/src/php/mailer.php';
 
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -431,7 +429,7 @@ $current_file = __FILE__;
 <body>
     <div id="google_translate_element"></div>
 
-    <?php include '../inc/sidebar.php'; ?>
+    <?php include '/../inc/sidebar.php'; ?>
 
     <div class="page">
         <div class="topbar">
@@ -608,7 +606,7 @@ $current_file = __FILE__;
                                 <?php else: ?>
                                     <?php foreach ($apiKeys as $key): ?>
                                         <?php
-                                        $masked = substr($key['api_key'], 0, 8) . '...' . substr($key['api_key'], -4);
+                                        $masked = substr($key['api_key'], 0, 8) . '/...' . substr($key['api_key'], -4);
                                         $isExpired = $key['expires_at'] !== null && strtotime($key['expires_at']) < time();
                                         $status = $key['is_revoked'] ? 'revoked' : ($isExpired ? 'expired' : 'active');
                                         ?>
@@ -644,10 +642,10 @@ $current_file = __FILE__;
             <?php endif; ?>
         </div>
 
-        <?php include '../inc/footer.php'; ?>
+        <?php include '/../inc/footer.php'; ?>
     </div>
 
-    <?php include '../inc/rsidebar.php'; ?>
+    <?php include '/../inc/rsidebar.php'; ?>
 
     <script src="/assets/js/script.js"></script>
     <script src="/assets/js/panel.js"></script>

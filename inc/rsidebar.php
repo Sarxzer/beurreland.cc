@@ -1,6 +1,6 @@
 <div class="rsidebar">
     <a href="/archives/v1">
-        <?php require "ad.php"; ?>
+        <?php include "ad.php"; ?>
     </a>
     <div class="cube-container">
         <div class="cube">

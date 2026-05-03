@@ -1,16 +1,14 @@
 <?php
-session_start();
+require_once __DIR__ . '/../src/php/init.php';
 
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
-require_once '../src/php/database.php';
-require_once '../src/php/utils.php';
 
 $messages = $pdo->query("SELECT * FROM guestbook WHERE `status` != 'deleted' ORDER BY id DESC")->fetchAll();
 ?>
-<?php $current_file = __FILE__; ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -52,7 +50,7 @@ $messages = $pdo->query("SELECT * FROM guestbook WHERE `status` != 'deleted' ORD
 
         <div class="guestbook-form">
             <h2>Ajouter un message</h2>
-            <form action="sign.php" method="post">
+            <form action="guestbook-handler.php" method="post">
                 <label for="name">Nom :</label>
                 <input type="text" id="name" name="name" required maxlength="50">
 

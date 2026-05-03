@@ -1,10 +1,5 @@
 <?php
-$baseDir = __DIR__ . '/../../../';
-
-require $baseDir . '/vendor/autoload.php';
-
-$dotenv = Dotenv\Dotenv::createImmutable($baseDir);
-$dotenv->load();
+require_once __DIR__ . '/../../../src/php/init.php';
 
 header('Content-Type: application/json');
 
@@ -31,14 +26,13 @@ if ($klipyKey == '') {
 }
 
 // Helper function to fetch butter gif
-function getButterGif($klipyKey) {
+function getButterGif(String $klipyKey) {
     $butterRequest = 'https://api.klipy.com/api/v1/' . $klipyKey . '/gifs/items?ids=9226942027851934';
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $butterRequest);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
     
     if ($httpCode == 200) {
         $data = json_decode($response, true);
@@ -52,7 +46,8 @@ function getButterGif($klipyKey) {
     return null;
 }
 
-function injectButterGifAtRandomPosition(&$data, $butter) {
+
+function injectButterGifAtRandomPosition(mixed &$data, $butter) {
     if (!$butter) {
         return;
     }
@@ -82,7 +77,6 @@ if ($type === 'search') {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
     
     if ($httpCode != 200) {
         http_response_code($httpCode);
@@ -107,7 +101,6 @@ if ($type === 'search') {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
     
     if ($httpCode != 200) {
         http_response_code($httpCode);
@@ -135,7 +128,6 @@ if ($type === 'search') {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
     
     if ($httpCode != 200) {
         http_response_code($httpCode);

@@ -1,7 +1,5 @@
 <?php
-
-$baseDir = __DIR__ . '/../../../';
-
+require_once __DIR__ . '/../../../src/php/init.php';
 header('Content-Type: application/json');
 
 // Lore API endpoint
@@ -9,7 +7,7 @@ header('Content-Type: application/json');
 // GET /api/v1/lore - returns the current lore text
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    $loreFile = $baseDir ."/lore.txt";
+    $loreFile = BASE_PATH . "/lore.txt";
     if (!file_exists($loreFile)) {
         http_response_code(500);
         echo json_encode(['error' => 'Lore file not found']);

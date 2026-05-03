@@ -8,21 +8,9 @@
 // );
 // UPDATE counters SET value = value + 1 WHERE name = 'visits';
 
-$baseDir = __DIR__ . '/../../../';
-
-require_once $baseDir . '/src/php/database.php';
-require_once $baseDir . '/src/php/utils.php';
+require_once __DIR__ . '/../../../src/php/init.php';
 
 header('Content-Type: application/json');
-
-function incrementCounter()
-{
-    global $pdo;
-
-    // increment the counter in the database
-    $stmt = $pdo->prepare('UPDATE counters SET value = value + 1 WHERE name = "visits"');
-    $stmt->execute();
-}
 
 function getCounter()
 {
@@ -36,19 +24,6 @@ function getCounter()
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     echo getCounter();
-} elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $token = isset($_SERVER['HTTP_X_AUTH_TOKEN']) ? $_SERVER['HTTP_X_AUTH_TOKEN'] : null;
-
-    if (empty($token) || !isKeyValid($pdo, $token)) {
-        http_response_code(401);
-        echo json_encode(['error' => 'Unauthorized']);
-        exit;
-    }
-    incrementCounter();
-    $counter = getCounter();
-    echo json_encode(['value' => $counter]);
-
-    keyUsed($pdo, $token, 'counter_increment');
-    exit;
+} else {
+    error_page(405, 'Method Not Allowed');
 }

@@ -1,14 +1,12 @@
 <?php
-session_start();
-
-include '../src/php/utils.php';
+require_once __DIR__ . '/../src/php/init.php';
 
 $csrf = generate_csrf_token(); // Generate a CSRF token for the form
 
 $_SESSION['form_time'] = time(); // Store the time when the form is generated to prevent spam
 
 ?>
-<?php $current_file = __FILE__; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -57,7 +55,7 @@ $_SESSION['form_time'] = time(); // Store the time when the form is generated to
             <div class="subtitle">
                 <p>Remplissez le formulaire ci-dessous pour poser vos questions au Dieu du Beurre !</p>
             </div>
-            <form action="mail.php" method="post" id="contact-form">
+            <form action="contact-handler.php" method="post" id="contact-form">
                 <label for="name">Nom :</label>
                 <input type="text" id="name" name="name" required>
 
@@ -85,7 +83,7 @@ $_SESSION['form_time'] = time(); // Store the time when the form is generated to
             </form>
         </div>
 
-        <?php include '../inc/footer.php'; ?>
+        <?php include '/../inc/footer.php'; ?>
     </div>
 
     <?php include "../inc/rsidebar.php"; ?>

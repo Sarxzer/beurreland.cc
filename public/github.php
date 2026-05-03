@@ -1,4 +1,4 @@
-<?php $current_file = __FILE__; ?>
+<?php require_once __DIR__ . '/../src/php/init.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 

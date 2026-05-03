@@ -1,7 +1,5 @@
 <?php
-session_start();
-
-include_once "../src/php/utils.php";
+require_once __DIR__ . '/../src/php/init.php';
 
 if (
     empty($_POST['csrf_token']) ||
@@ -28,7 +26,6 @@ if (
     exit;
 }
 
-require_once '../src/php/database.php';
 
 $name = trim($_POST['name']);
 $message = trim($_POST['message']);

@@ -1,8 +1,6 @@
 <?php
-session_start();
-
-include '../src/php/mail.php';
-include '../src/php/utils.php';
+require_once __DIR__ . '/../src/php/init.php';
+require_once BASE_PATH . '/src/php/mailer.php';
 
 if (empty($_POST['name']) || empty($_POST['message'])) {
     error_page(404, '');

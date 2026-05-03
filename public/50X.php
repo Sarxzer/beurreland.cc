@@ -1,5 +1,5 @@
+<?php require_once __DIR__ . '/../src/php/init.php'; ?>
 <?php http_response_code(500); ?>
-<?php $current_file = __FILE__; ?>
 
 <!DOCTYPE html>
 <html lang="en">
