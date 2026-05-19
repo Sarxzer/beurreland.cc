@@ -55,7 +55,7 @@ $_SESSION['form_time'] = time(); // Store the time when the form is generated to
             <div class="subtitle">
                 <p>Remplissez le formulaire ci-dessous pour poser vos questions au Dieu du Beurre !</p>
             </div>
-            <form action="contact-handler.php" method="post" id="contact-form">
+            <form action="mail.php" method="post" id="contact-form">
                 <label for="name">Nom :</label>
                 <input type="text" id="name" name="name" required>
 
@@ -83,7 +83,7 @@ $_SESSION['form_time'] = time(); // Store the time when the form is generated to
             </form>
         </div>
 
-        <?php include '/../inc/footer.php'; ?>
+        <?php include __DIR__ . '/../inc/footer.php'; ?>
     </div>
 
     <?php include "../inc/rsidebar.php"; ?>

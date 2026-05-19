@@ -429,7 +429,7 @@ $current_file = __FILE__;
 <body>
     <div id="google_translate_element"></div>
 
-    <?php include '/../inc/sidebar.php'; ?>
+    <?php include __DIR__ . '/../inc/sidebar.php'; ?>
 
     <div class="page">
         <div class="topbar">
@@ -642,10 +642,10 @@ $current_file = __FILE__;
             <?php endif; ?>
         </div>
 
-        <?php include '/../inc/footer.php'; ?>
+        <?php include __DIR__ . '/../inc/footer.php'; ?>
     </div>
 
-    <?php include '/../inc/rsidebar.php'; ?>
+    <?php include __DIR__ . '/../inc/rsidebar.php'; ?>
 
     <script src="/assets/js/script.js"></script>
     <script src="/assets/js/panel.js"></script>
