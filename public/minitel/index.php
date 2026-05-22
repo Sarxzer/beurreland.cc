@@ -9,7 +9,8 @@ if (MiniPaviCli::$fctn === 'FIN' || MiniPaviCli::$fctn === 'FCTN?') {
     exit;
 }
 
-function ascii_text(string $text): string {
+function ascii_text(string $text): string
+{
     $normalized = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $text);
     if ($normalized === false) {
         $normalized = $text;
@@ -18,7 +19,8 @@ function ascii_text(string $text): string {
     return $normalized;
 }
 
-function split_sentences(string $paragraph): array {
+function split_sentences(string $paragraph): array
+{
     $paragraph = trim($paragraph);
     if ($paragraph === '') {
         return [];
@@ -31,7 +33,8 @@ function split_sentences(string $paragraph): array {
     return array_values(array_filter($sentences, 'strlen'));
 }
 
-function wrap_sentence_lines(string $sentence, int $width): array {
+function wrap_sentence_lines(string $sentence, int $width): array
+{
     $sentence = trim($sentence);
     if ($sentence === '') {
         return [];
@@ -40,7 +43,8 @@ function wrap_sentence_lines(string $sentence, int $width): array {
     return explode("\n", $wrapped);
 }
 
-function get_lore_pages(int $width, int $linesPerPage): array {
+function get_lore_pages(int $width, int $linesPerPage): array
+{
     $path = BASE_PATH . 'lore.txt';
     $text = file_exists($path) ? file_get_contents($path) : '';
     $text = ascii_text($text);
@@ -131,12 +135,18 @@ function get_lore_pages(int $width, int $linesPerPage): array {
     return $pages;
 }
 
-function render_header(string $title): string {
+function render_header(string $title): string
+{
     $vdt = MiniPaviCli::clearScreen();
     $vdt .= MiniPaviCli::setPos(1, 1) . VDT_BGBLUE . MiniPaviCli::repeatChar(' ', 40);
     $vdt .= MiniPaviCli::writeCentered(1, $title, VDT_BGBLUE . VDT_TXTWHITE);
     $vdt .= VDT_FDNORM;
     return $vdt;
+}
+
+function button_label(string $label): string
+{
+    return VDT_BGYELLOW . VDT_TXTBLACK . ' ' . $label . ' ' . VDT_BGBLACK . VDT_TXTWHITE;
 }
 
 $context = MiniPaviCli::$context ? unserialize(MiniPaviCli::$context) : ['step' => 'home'];
@@ -191,7 +201,8 @@ while (true) {
         case 'contact_name':
             $vdt = render_header('CONTACT');
             $vdt .= MiniPaviCli::setPos(2, 4) . 'Nom:';
-            $vdt .= MiniPaviCli::setPos(2, 6) . 'Entrez votre nom puis Envoi.';
+            $vdt .= MiniPaviCli::setPos(2, 6) . 'Entrez votre nom puis' . button_label('Envoi') . '.';
+            $vdt .= MiniPaviCli::setPos(2, 7) . 'Ou ' . button_label('Sommaire') . ' pour menu.';   
             if (!empty($context['flash'])) {
                 $vdt .= MiniPaviCli::writeLine0($context['flash']);
                 unset($context['flash']);
@@ -221,7 +232,7 @@ while (true) {
         case 'contact_message':
             $vdt = render_header('CONTACT');
             $vdt .= MiniPaviCli::setPos(2, 4) . 'Message:';
-            $vdt .= MiniPaviCli::setPos(2, 12) . 'Envoi pour envoyer.';
+            $vdt .= MiniPaviCli::setPos(2, 12) . button_label('Envoi') . ' pour envoyer.';
             if (!empty($context['flash'])) {
                 $vdt .= MiniPaviCli::writeLine0($context['flash']);
                 unset($context['flash']);
@@ -260,7 +271,36 @@ while (true) {
 
             $name = $context['contact_name'] ?? 'Minitel';
             $safeName = preg_replace('/[\r\n]+/', ' ', $name);
-            $sent = send_mail('Frescri@beurreland.cc', "Minitel: $safeName", $message, false);
+
+            $html = '
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Minitel — Beurreland</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap");
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a0a0f; font-family: "Share Tech Mono", monospace; padding: 32px 16px; color: #ccddff; }
+        .card { max-width: 520px; margin: 0 auto; }
+        .kicker { font-size: 12px; color: #ffdd00; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
+        .from { font-family: "VT323", monospace; font-size: 28px; color: #fff; margin-bottom: 12px; }
+        .description { font-size: 13px; color: #8899cc; line-height: 1.7; margin-bottom: 16px; }
+        .message { font-size: 13px; line-height: 1.75; border-left: 2px solid #0044cc; padding-left: 14px; white-space: pre-wrap; word-break: break-word; margin-bottom: 20px; }
+        .date { font-size: 11px; color: #445588; letter-spacing: 1px; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <p class="kicker">✦ Chronique des Messagers de Beurreland ✦</p>
+        <p class="from">Par la plume et l\'encre sacrée, missive de ' . $safeName . '</p>
+        <p class="description">Ô grand Dieu du Beurre, sache qu\'une nouvelle missive a été déposée en les registres du domaine de Beurreland, portée par vents et sortilèges depuis le terminal Minitel.</p>
+        <div class="message">' . $message . '</div>
+        <p class="date">Rédigé en ce jour du ' . date('d/m/Y') . '  , consigné pour mémoire éternelle.</p>
+    </div>
+</body>
+</html>';
+            $sent = send_mail('Frescri@beurreland.cc', 'Nouvelle missive de ' . $safeName, $html);
 
             $context['contact_status'] = $sent ? 'Message envoye.' : 'Echec envoi.';
             $step = 'contact_done';
@@ -271,7 +311,8 @@ while (true) {
             $vdt = render_header('CONTACT');
             $status = $context['contact_status'] ?? 'Termine.';
             $vdt .= MiniPaviCli::writeCentered(6, $status);
-            $vdt .= MiniPaviCli::setPos(2, 10) . 'Envoi ou Sommaire pour menu.';
+            $vdt .= MiniPaviCli::setPos(1, 10) . VDT_CLRLN;
+            $vdt .= MiniPaviCli::setPos(2, 10) . button_label('Envoi') . ' ou ' . button_label('Sommaire') . ' pour menu.';
             $cmd = MiniPaviCli::createInputTxtCmd(2, 11, 1, MSK_ENVOI | MSK_SOMMAIRE, true, '.');
             unset($context['contact_status'], $context['contact_name']);
             $context['step'] = 'home';
@@ -286,7 +327,7 @@ while (true) {
 
             $pages = get_lore_pages(38, 18);
             $totalPages = count($pages);
-            $page = (int)($context['lore_page'] ?? 0);
+            $page = (int) ($context['lore_page'] ?? 0);
 
             if (MiniPaviCli::$fctn === 'SUITE') {
                 $page++;
@@ -311,7 +352,10 @@ while (true) {
                 $lineNo++;
             }
             $vdt .= MiniPaviCli::setPos(2, 22) . VDT_TXTYELLOW . 'Page ' . ($page + 1) . '/' . $totalPages;
-            $vdt .= MiniPaviCli::setPos(2, 23) . VDT_TXTGREEN . 'Suite/Retour/Sommaire';
+            $vdt .= MiniPaviCli::setPos(2, 23)
+                . button_label('Suite') . ' '
+                . button_label('Retour') . ' '
+                . button_label('Sommaire');
             $vdt .= MiniPaviCli::setPos(2, 24) . VDT_TXTWHITE . 'Action:';
             $cmd = MiniPaviCli::createInputTxtCmd(10, 24, 1, MSK_SUITE | MSK_RETOUR | MSK_SOMMAIRE, true, '.');
             $context['step'] = 'lore_nav';
@@ -322,7 +366,7 @@ while (true) {
             $vdt .= MiniPaviCli::setPos(2, 5) . 'Site : https://beurreland.cc';
             $vdt .= MiniPaviCli::setPos(2, 6) . 'Github: github.com/Sarxzer/beurreland.cc';
             $vdt .= MiniPaviCli::setPos(2, 8) . 'Contact: menu -> Contact';
-            $vdt .= MiniPaviCli::setPos(2, 12) . 'Sommaire pour menu.';
+            $vdt .= MiniPaviCli::setPos(2, 12) . button_label('Sommaire') . ' pour menu.';
             $cmd = MiniPaviCli::createInputTxtCmd(2, 13, 1, MSK_SOMMAIRE | MSK_ENVOI, true, '.');
             $context['step'] = 'home';
             break 2;
