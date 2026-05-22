@@ -87,6 +87,7 @@
         <a href="/guestbook">Guestbook</a>
         <a href="/github">Github</a>
         <a href="/panel">Panel</a>
+        <a href="/minitel">Minitel</a>
     </div>
 
 
