@@ -149,6 +149,129 @@ function button_label(string $label): string
     return VDT_BGYELLOW . VDT_TXTBLACK . ' ' . $label . ' ' . VDT_BGBLACK . VDT_TXTWHITE;
 }
 
+if (!defined('MINITEL_BOARD_DIR')) {
+    define('MINITEL_BOARD_DIR', '/var/www/data');
+}
+if (!defined('MINITEL_BOARD_FILE')) {
+    define('MINITEL_BOARD_FILE', MINITEL_BOARD_DIR . '/minitel-board.json');
+}
+
+function ensure_minitel_board_dir(string $dir): bool
+{
+    if (is_dir($dir)) {
+        return true;
+    }
+    return @mkdir($dir, 0775, true);
+}
+
+function load_minitel_board_entries(): array
+{
+    $path = MINITEL_BOARD_FILE;
+    if (!is_file($path)) {
+        return [];
+    }
+    $json = file_get_contents($path);
+    if ($json === false || trim($json) === '') {
+        return [];
+    }
+    $data = json_decode($json, true);
+    if (!is_array($data)) {
+        return [];
+    }
+
+    $entries = [];
+    foreach ($data as $entry) {
+        if (!is_array($entry)) {
+            continue;
+        }
+        $name = sanitize_input(trim((string) ($entry['name'] ?? '')));
+        $message = sanitize_input(trim((string) ($entry['message'] ?? '')));
+        $createdAt = (string) ($entry['created_at'] ?? '');
+        if ($name === '' || $message === '') {
+            continue;
+        }
+        $entries[] = [
+            'name' => substr($name, 0, 30),
+            'message' => substr($message, 0, 280),
+            'created_at' => $createdAt !== '' ? $createdAt : date('c'),
+        ];
+    }
+
+    return $entries;
+}
+
+function save_minitel_board_entries(array $entries): bool
+{
+    $path = MINITEL_BOARD_FILE;
+    $dir = dirname($path);
+    if (!ensure_minitel_board_dir($dir)) {
+        return false;
+    }
+    $json = json_encode($entries, JSON_PRETTY_PRINT);
+    if ($json === false) {
+        return false;
+    }
+    $tmp = $path . '.tmp';
+    if (file_put_contents($tmp, $json, LOCK_EX) === false) {
+        return false;
+    }
+    return rename($tmp, $path);
+}
+
+function append_minitel_board_entry(string $name, string $message): bool
+{
+    $entries = load_minitel_board_entries();
+    $entries[] = [
+        'name' => substr(sanitize_input($name), 0, 30),
+        'message' => substr(sanitize_input($message), 0, 280),
+        'created_at' => date('c'),
+    ];
+
+    $maxEntries = 100;
+    if (count($entries) > $maxEntries) {
+        $entries = array_slice($entries, -$maxEntries);
+    }
+
+    return save_minitel_board_entries($entries);
+}
+
+function wrap_minitel_board_lines(string $text, int $width): array
+{
+    $text = trim(preg_replace('/\s+/', ' ', $text));
+    if ($text === '') {
+        return [];
+    }
+    $wrapped = wordwrap($text, $width, "\n", true);
+    return explode("\n", $wrapped);
+}
+
+function get_minitel_board_pages(array $entries, int $width, int $linesPerPage): array
+{
+    $lines = [];
+    foreach ($entries as $entry) {
+        $name = $entry['name'] ?? 'Anon';
+        $message = $entry['message'] ?? '';
+        $entryLines = wrap_minitel_board_lines($name . ': ' . $message, $width);
+        if (empty($entryLines)) {
+            continue;
+        }
+        foreach ($entryLines as $line) {
+            $lines[] = $line;
+        }
+        $lines[] = '';
+    }
+
+    while (!empty($lines) && $lines[count($lines) - 1] === '') {
+        array_pop($lines);
+    }
+
+    if (empty($lines)) {
+        $lines = ['Aucun message pour le moment.'];
+    }
+
+    return array_chunk($lines, $linesPerPage);
+}
+
 $context = MiniPaviCli::$context ? unserialize(MiniPaviCli::$context) : ['step' => 'home'];
 $step = $context['step'] ?? 'home';
 
@@ -164,6 +287,7 @@ while (true) {
             $vdt .= MiniPaviCli::setPos(2, 6) . '1) Contact';
             $vdt .= MiniPaviCli::setPos(2, 7) . '2) Lore';
             $vdt .= MiniPaviCli::setPos(2, 8) . '3) Liens';
+            $vdt .= MiniPaviCli::setPos(2, 9) . '4) Messages';
             $vdt .= MiniPaviCli::setPos(2, 10) . 'Choix:';
             $vdt .= MiniPaviCli::setPos(2, 20) . 'Le Dieu du Beurre vous salue.';
             $vdt .= file_get_contents(__DIR__ . '/../assets/beurre.vdt');
@@ -190,6 +314,13 @@ while (true) {
             }
             if ($choice === '3') {
                 $step = 'links';
+                $context['step'] = $step;
+                continue;
+            }
+            if ($choice === '4') {
+                $context['board_page'] = 0;
+                $context['board_from_menu'] = true;
+                $step = 'board_view';
                 $context['step'] = $step;
                 continue;
             }
@@ -316,6 +447,155 @@ while (true) {
             $cmd = MiniPaviCli::createInputTxtCmd(2, 11, 1, MSK_ENVOI | MSK_SOMMAIRE, true, '.');
             unset($context['contact_status'], $context['contact_name']);
             $context['step'] = 'home';
+            break 2;
+
+        case 'board_view':
+            if (MiniPaviCli::$fctn === 'SOMMAIRE') {
+                $step = 'home';
+                $context['step'] = $step;
+                continue;
+            }
+            if (!empty($context['board_from_menu'])) {
+                unset($context['board_from_menu']);
+            } elseif (MiniPaviCli::$fctn === 'ENVOI') {
+                $step = 'board_name';
+                $context['step'] = $step;
+                continue;
+            }
+
+            $entries = load_minitel_board_entries();
+            $entries = array_reverse($entries);
+            $pages = get_minitel_board_pages($entries, 38, 16);
+            $totalPages = count($pages);
+            $page = (int) ($context['board_page'] ?? 0);
+
+            if (MiniPaviCli::$fctn === 'SUITE') {
+                $page++;
+            }
+            if (MiniPaviCli::$fctn === 'RETOUR') {
+                $page--;
+            }
+
+            if ($page < 0) {
+                $page = 0;
+            }
+            if ($page > $totalPages - 1) {
+                $page = $totalPages - 1;
+            }
+            $context['board_page'] = $page;
+
+            $vdt = render_header('MESSAGES');
+            $lines = $pages[$page] ?? [];
+            $lineNo = 4;
+            foreach ($lines as $line) {
+                if ($lineNo > 19) {
+                    break;
+                }
+                $vdt .= MiniPaviCli::setPos(1, $lineNo) . VDT_TXTWHITE . $line;
+                $lineNo++;
+            }
+            $vdt .= MiniPaviCli::setPos(2, 21) . VDT_TXTYELLOW . 'Page ' . ($page + 1) . '/' . $totalPages;
+            $vdt .= MiniPaviCli::setPos(2, 22) . button_label('Suite') . ' ' . button_label('Retour');
+            $vdt .= MiniPaviCli::setPos(2, 23) . button_label('Envoi') . ' ' . button_label('Sommaire');
+            $vdt .= MiniPaviCli::setPos(2, 24) . VDT_TXTWHITE . 'Action:';
+            if (!empty($context['flash'])) {
+                $vdt .= MiniPaviCli::writeLine0($context['flash']);
+                unset($context['flash']);
+            }
+            $cmd = MiniPaviCli::createInputTxtCmd(10, 24, 1, MSK_SUITE | MSK_RETOUR | MSK_ENVOI | MSK_SOMMAIRE, true, '.');
+            $context['step'] = 'board_view';
+            break 2;
+
+        case 'board_name':
+            $vdt = render_header('MESSAGES');
+            $vdt .= MiniPaviCli::setPos(2, 4) . 'Nom:';
+            $vdt .= MiniPaviCli::setPos(2, 6) . 'Entrez votre nom puis' . button_label('Envoi') . '.';
+            $vdt .= MiniPaviCli::setPos(2, 7) . 'Ou ' . button_label('Sommaire') . ' pour retour.';
+            if (!empty($context['flash'])) {
+                $vdt .= MiniPaviCli::writeLine0($context['flash']);
+                unset($context['flash']);
+            }
+            $cmd = MiniPaviCli::createInputTxtCmd(2, 5, 30, MSK_ENVOI | MSK_SOMMAIRE, true, '.');
+            $context['step'] = 'board_name_submit';
+            break 2;
+
+        case 'board_name_submit':
+            if (MiniPaviCli::$fctn === 'SOMMAIRE') {
+                $step = 'board_view';
+                $context['step'] = $step;
+                continue;
+            }
+            $name = sanitize_input(trim(MiniPaviCli::$content[0] ?? ''));
+            if (strlen($name) < 2 || strlen($name) > 30) {
+                $context['flash'] = 'Nom invalide.';
+                $step = 'board_name';
+                $context['step'] = $step;
+                continue;
+            }
+            $context['board_name'] = $name;
+            $step = 'board_message';
+            $context['step'] = $step;
+            continue;
+
+        case 'board_message':
+            $vdt = render_header('MESSAGES');
+            $vdt .= MiniPaviCli::setPos(2, 4) . 'Message:';
+            $vdt .= MiniPaviCli::setPos(2, 12) . button_label('Envoi') . ' pour publier.';
+            if (!empty($context['flash'])) {
+                $vdt .= MiniPaviCli::writeLine0($context['flash']);
+                unset($context['flash']);
+            }
+            $cmd = MiniPaviCli::createInputMsgCmd(2, 5, 37, 6, MSK_ENVOI | MSK_SOMMAIRE, true, '.');
+            $context['step'] = 'board_message_submit';
+            break 2;
+
+        case 'board_message_submit':
+            if (MiniPaviCli::$fctn === 'SOMMAIRE') {
+                $step = 'board_view';
+                $context['step'] = $step;
+                continue;
+            }
+            $message = sanitize_input(trim(implode("\n", MiniPaviCli::$content ?? [])));
+            $message = preg_replace('/\s+/', ' ', $message);
+            if (strlen($message) < 5 || strlen($message) > 280) {
+                $context['flash'] = 'Message invalide.';
+                $step = 'board_message';
+                $context['step'] = $step;
+                continue;
+            }
+
+            $ip = getUserIP();
+            $now = time();
+            if (!isset($_SESSION['minitel_board_last_submit'])) {
+                $_SESSION['minitel_board_last_submit'] = [];
+            }
+            $_SESSION['minitel_board_last_submit'][$ip] = $_SESSION['minitel_board_last_submit'][$ip] ?? 0;
+            if ($now - $_SESSION['minitel_board_last_submit'][$ip] < 10) {
+                $context['flash'] = 'Attendez un peu avant un nouvel envoi.';
+                $step = 'board_message';
+                $context['step'] = $step;
+                continue;
+            }
+            $_SESSION['minitel_board_last_submit'][$ip] = $now;
+
+            $name = $context['board_name'] ?? 'Minitel';
+            $saved = append_minitel_board_entry($name, $message);
+
+            $context['board_status'] = $saved ? 'Message ajoute.' : 'Echec ecriture.';
+            $step = 'board_done';
+            $context['step'] = $step;
+            continue;
+
+        case 'board_done':
+            $vdt = render_header('MESSAGES');
+            $status = $context['board_status'] ?? 'Termine.';
+            $vdt .= MiniPaviCli::writeCentered(6, $status);
+            $vdt .= MiniPaviCli::setPos(1, 10) . VDT_CLRLN;
+            $vdt .= MiniPaviCli::setPos(2, 10) . button_label('Envoi') . ' ou ' . button_label('Sommaire') . ' pour retour.';
+            $cmd = MiniPaviCli::createInputTxtCmd(2, 11, 1, MSK_ENVOI | MSK_SOMMAIRE, true, '.');
+            unset($context['board_status'], $context['board_name']);
+            $context['board_from_menu'] = true;
+            $context['step'] = 'board_view';
             break 2;
 
         case 'lore_nav':
