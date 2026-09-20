@@ -90,19 +90,41 @@ function bbcode_to_html(string $text): string
 
 
 /**
- * Sanitize user input by stripping out any HTML tags and encoding special characters to prevent XSS attacks. Using HTMLPurifier and also removing any non-ASCII characters to prevent unicode spam.
+ * Sanitize user input by stripping HTML tags/attributes and neutralizing
+ * unicode-based spam/exploit patterns, while preserving legitimate unicode text.
  * @param string $input
  * @return string
  */
 function sanitize_input(string $input): string {
     global $purifier;
 
-    // First, purify the input to remove any disallowed HTML tags and attributes
+    // 1. Purify HTML (tags, attributes, etc.)
     $purified = $purifier->purify($input);
 
-    // Then, strip out any remaining non-ASCII characters to prevent unicode spam
-    $purified = preg_replace('/[^\x00-\x7F]/', '', $purified);
-    return $purified;
+    // 2. Normalize to a consistent unicode form (prevents lookalike/combining tricks)
+    if (class_exists('Normalizer')) {
+        $normalized = \Normalizer::normalize($purified, \Normalizer::FORM_C);
+        if ($normalized !== false) {
+            $purified = $normalized;
+        }
+    }
+
+    // 3. Strip zero-width / invisible characters (common spam & exploit vector)
+    //    ZWSP, ZWNJ, ZWJ, BOM, word joiner, soft hyphen
+    $purified = preg_replace('/[\x{200B}-\x{200D}\x{FEFF}\x{2060}\x{00AD}]/u', '', $purified);
+
+    // 4. Strip bidi override/control characters (used to spoof text direction)
+    $purified = preg_replace('/[\x{202A}-\x{202E}\x{2066}-\x{2069}]/u', '', $purified);
+
+    // 5. Strip other unicode control/format characters (category Cf, Cc) except common whitespace
+    $purified = preg_replace('/[\p{Cc}\p{Cf}&&[^\n\r\t]]/u', '', $purified);
+
+    // 6. Optional: cap excessive combining marks per "base" character (anti-zalgo)
+    $purified = preg_replace_callback('/\PM\pM{4,}/u', function ($m) {
+        return mb_substr($m[0], 0, 5); // keep base char + a few marks max
+    }, $purified);
+
+    return trim($purified);
 }
 
 
