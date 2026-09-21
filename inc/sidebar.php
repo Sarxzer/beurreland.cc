@@ -85,6 +85,7 @@
             <a href="/500">Page 500</a> -->
         <a href="/contact">Contact</a>
         <a href="/guestbook">Guestbook</a>
+        <a href="/prayers">Prières</a>
         <a href="/github">Github</a>
         <a href="/panel">Panel</a>
         <a href="/minitel">Minitel</a>
